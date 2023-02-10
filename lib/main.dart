@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
+import 'package:hrm_1c/services/db_service.dart';
 
-void main() {
+void main() async {
+  // await DBService.initDB();
   runApp(const MyApp());
 }
 
