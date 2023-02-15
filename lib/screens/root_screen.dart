@@ -5,6 +5,8 @@ import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
+import 'employees/employees_screen.dart';
+
 class RootScreen extends StatelessWidget {
   RootScreen({super.key});
   final RxInt _currentIndex = 0.obs;
@@ -15,11 +17,7 @@ class RootScreen extends StatelessWidget {
         child: Text("In development"),
       ),
     ),
-    Container(
-      child: Center(
-        child: Text("In development"),
-      ),
-    ),
+    EmployeesScreen(),
     Container(
       child: Center(
         child: Text("In development"),
