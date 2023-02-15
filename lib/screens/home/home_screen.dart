@@ -16,8 +16,13 @@ class HomeScreen extends StatelessWidget {
   RxBool leaveOpen = true.obs;
   RxBool isWebViewInit = false.obs;
 
+  final _HOME_NAV_SPACE = 10;
+
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double homeNavSize = (width - _HOME_NAV_SPACE * 2 - 16 * 2) / 3;
+
     DateTime today = DateTime.now();
     final _checkInCtrl = Get.put(CheckInController());
 
@@ -78,9 +83,12 @@ class HomeScreen extends StatelessWidget {
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: WebViewWidget(
-                        controller: WebViewController()
-                          ..loadRequest(Uri.parse(
-                              "https://www.google.com/maps/@10.7815376,106.6829648,16z?hl=vi-VN"))),
+                      controller: WebViewController()
+                        ..loadRequest(
+                          Uri.parse(
+                              "https://www.google.com/maps/@10.7815376,106.6829648,16z?hl=vi-VN"),
+                        ),
+                    ),
                     // Text("Google Map display!"),
                   ),
                   Obx(() {
@@ -108,6 +116,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         HomeNavButton(
+                          size: homeNavSize,
                           icon: Icon(
                             Icons.calendar_month,
                             size: 60,
@@ -116,6 +125,7 @@ class HomeScreen extends StatelessWidget {
                           label: "Leave-day",
                         ),
                         HomeNavButton(
+                          size: homeNavSize,
                           icon: Icon(
                             Icons.calendar_month,
                             size: 60,
@@ -124,6 +134,7 @@ class HomeScreen extends StatelessWidget {
                           label: "Leave-day",
                         ),
                         HomeNavButton(
+                          size: homeNavSize,
                           icon: Icon(
                             Icons.calendar_month,
                             size: 60,

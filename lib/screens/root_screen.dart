@@ -7,6 +7,8 @@ import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
+import 'account/account_screen.dart';
+
 class RootScreen extends StatelessWidget {
   RootScreen({super.key});
   final RxInt _currentIndex = 0.obs;
@@ -27,11 +29,7 @@ class RootScreen extends StatelessWidget {
         child: Text("In development"),
       ),
     ),
-    Container(
-      child: Center(
-        child: Text("In development"),
-      ),
-    ),
+    AccountScreen(),
   ];
 
   @override
@@ -103,25 +101,15 @@ class RootScreen extends StatelessWidget {
 
   Widget TabWidget(Icon icon, String label) {
     return Tab(
-      height: 64,
-      child: Container(
-        padding: EdgeInsets.only(top: 10.0),
-        child: Column(
-          children: [
-            Container(
-                margin: const EdgeInsets.only(
-                  bottom: 4.0,
-                ),
-                child: icon),
-            Text(
-              label,
-              style: HRMTextStyles.normalText.copyWith(fontSize: 12),
-              overflow: TextOverflow.ellipsis,
-              maxLines: 2,
-              textAlign: TextAlign.center,
-            )
-          ],
-        ),
+      iconMargin: EdgeInsets.zero,
+      height: 80,
+      icon: icon,
+      child: Text(
+        label,
+        style: HRMTextStyles.normalText.copyWith(fontSize: 12),
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        textAlign: TextAlign.center,
       ),
     );
   }

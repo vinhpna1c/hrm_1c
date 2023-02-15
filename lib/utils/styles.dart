@@ -8,6 +8,7 @@ class HRMColorStyles {
   static Color unselectedBlueColor = const Color(0xFF127999);
   static Color blueShade500Color = const Color(0xFF127999);
   static Color greyColor = const Color(0xFF8D8A8A);
+  static Color greyBackgroundColor = const Color(0xFFE5E5E5);
 }
 
 class HRMTextStyles {
@@ -34,5 +35,7 @@ class HRMTextStyles {
   );
   static TextStyle h4Text =
       boldText.copyWith(color: Colors.black, fontSize: 14);
+  static TextStyle h5Text =
+      boldText.copyWith(color: Colors.black, fontSize: 12);
   static TextStyle h3Text = boldText.copyWith(fontSize: 20);
 }
