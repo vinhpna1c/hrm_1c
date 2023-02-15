@@ -1,0 +1,171 @@
+  static List<Map<String, dynamic>> employees = [
+    {
+      "Employee ID": 1,
+      "Full Name": "Bùi Kiều Trang",
+      "Date Of Birth": "12/10/2001",
+      "Gender": "Female",
+      "Phone Number": 235726523,
+      "Identification": 234254354335,
+      "Nationality": "Vietnam",
+      "Address": "Quận 9",
+      "Marital Status": "Married",
+      "Email": "trangbk@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 2,
+      "Full Name": "Nguyễn Thị Mai Hoa",
+      "Date Of Birth": "11/06/2001",
+      "Gender": "Female",
+      "Phone Number": 264328472,
+      "Identification": 172543624329,
+      "Nationality": "Vietnam",
+      "Address": "Quận Tân Bình",
+      "Marital Status": "Single",
+      "Email": "hoantm@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 3,
+      "Full Name": "Phan Nguyễn Anh Vinh",
+      "Date Of Birth": "31/05/2001",
+      "Gender": "Male",
+      "Phone Number": 216328746,
+      "Identification": 232123243345,
+      "Nationality": "Vietnam",
+      "Address": "Quận 5",
+      "Marital Status": "Married",
+      "Email": "vinhpna@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 4,
+      "Full Name": "Phạm Gia Hiển",
+      "Date Of Birth": "03/10/2000",
+      "Gender": "Male",
+      "Phone Number": 216432742,
+      "Identification": 216462327156,
+      "Nationality": "Vietnam",
+      "Address": "Quận 12",
+      "Marital Status": "Married",
+      "Email": "hienpg@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 5,
+      "Full Name": "Nguyễn Ngọc Yên",
+      "Date Of Birth": "11/02/1998",
+      "Gender": "Male",
+      "Phone Number": 324324354,
+      "Identification": 121342435453,
+      "Nationality": "Vietnam",
+      "Address": "Quận Gò Vấp",
+      "Marital Status": "Single",
+      "Email": "yennn@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 6,
+      "Full Name": "Trịnh Vân Thương",
+      "Date Of Birth": "10/02/2000",
+      "Gender": "Male",
+      "Phone Number": 214234625,
+      "Identification": 232434676786,
+      "Nationality": "Vietnam",
+      "Address": "Nhà Bè",
+      "Marital Status": "Single",
+      "Email": "thuongtv@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 7,
+      "Full Name": "Lương Duy Liêm",
+      "Date Of Birth": "16/09/1998",
+      "Gender": "Male",
+      "Phone Number": 214325435,
+      "Identification": 213245465466,
+      "Nationality": "Vietnam",
+      "Address": "Quận 9",
+      "Marital Status": "Single",
+      "Email": "liemld@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 8,
+      "Full Name": "Lê Công Minh Khôi",
+      "Date Of Birth": "08/11/2001",
+      "Gender": "Male",
+      "Phone Number": 232435443,
+      "Identification": 243545657344,
+      "Nationality": "Vietnam",
+      "Address": "Quận 7",
+      "Marital Status": "Single",
+      "Email": "khoilcm@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 9,
+      "Full Name": "Đỗ Mai Hương",
+      "Date Of Birth": "12/12/2000",
+      "Gender": "Female",
+      "Phone Number": 243432567,
+      "Identification": 264532647213,
+      "Nationality": "Vietnam",
+      "Address": "Quận 7",
+      "Marital Status": "Married",
+      "Email": "huongdm@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 10,
+      "Full Name": "Huỳnh Gia Hòa",
+      "Date Of Birth": "19/09/1997",
+      "Gender": "Male",
+      "Phone Number": 233243546,
+      "Identification": 456465765434,
+      "Nationality": "Vietnam",
+      "Address": "Đồng Nai",
+      "Marital Status": "Single",
+      "Email": "hoahg@1cinovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 11,
+      "Full Name": "Nguyễn Văn Tây",
+      "Date Of Birth": "17/03/1999",
+      "Gender": "Male",
+      "Phone Number": 237253274,
+      "Identification": 243254654324,
+      "Nationality": "Vietnam",
+      "Address": "Quận 12",
+      "Marital Status": "Married",
+      "Email": "taynv@1cinnovation.com",
+      "Status": "Active"
+    },
+    {
+      "Employee ID": 12,
+      "Full Name": "Lý Trần Thanh Thảo",
+      "Date Of Birth": "07/06/2001",
+      "Gender": "Female",
+      "Phone Number": 235432754,
+      "Identification": 236542873621,
+      "Nationality": "Vietnam",
+      "Address": "Quận 9",
+      "Marital Status": "Single",
+      "Email": "thaoltt@1cinnovation.com",
+      "Status": "Active"
+    },
+  ];
+ static void uploadEmployeeData() {
+    for (var employee in employees) {
+      Map<String, String> data = {};
+      for (var field in employee.keys.toList()) {
+        data[field] = employee[field].toString();
+      }
+      _db
+          .collection("employees")
+          .add(data)
+          .then((snapshot) => print("Added data with ID: ${snapshot.id}"));
+    }
+  }
+ 

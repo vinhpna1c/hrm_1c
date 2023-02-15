@@ -4,10 +4,12 @@ import 'package:hrm_1c/utils/styles.dart';
 class LoginButton extends StatelessWidget {
   final String text;
   final Function()? onTapFunction;
+  final bool enabled;
 
   const LoginButton({
     this.text = "",
     this.onTapFunction,
+    this.enabled = true,
     Key? key,
   }) : super(key: key);
 

@@ -4,6 +4,7 @@ import 'package:hrm_1c/components/input_widget.dart';
 import 'package:hrm_1c/components/login_button.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
+import 'package:hrm_1c/services/firebase/firebase_service.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -13,6 +14,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: no_leading_underscores_for_local_identifiers
     final _authController = Get.put(AuthController());
+
     return WillPopScope(
       onWillPop: () async {
         return false;
@@ -53,8 +55,14 @@ class LoginScreen extends StatelessWidget {
               ),
               LoginButton(
                 text: "LOGIN",
-                onTapFunction: () {
-                  Get.to(RootScreen());
+                onTapFunction: () async {
+                  int statusCode = await _authController.signIn();
+
+                  if (statusCode == 200) {
+                    Get.to(RootScreen());
+                  } else {
+                    Get.snackbar("1C:HRM", "Invalid credentials!");
+                  }
                 },
               ),
             ],
