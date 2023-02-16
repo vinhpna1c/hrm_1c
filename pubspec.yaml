@@ -43,6 +43,12 @@ dependencies:
   webview_flutter_web: ^0.2.2
   searchfield: ^0.7.5
   flutter_slidable: ^0.6.0
+  dbcrypt: ^2.0.0
+  firebase_core: ^2.5.0
+  cloud_firestore: ^4.3.2
+  dio: ^5.0.0
+  expandable: ^5.0.1
+  intl: ^0.18.0
 
 dev_dependencies:
 

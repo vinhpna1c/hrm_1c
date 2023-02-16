@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:hrm_1c/components/information_card.dart';
 import 'package:hrm_1c/models/Employee.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:hrm_1c/utils/styles.dart';
@@ -82,98 +83,69 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
   }
 
   onSearch(String search) {
-    setState(() {
-      _foundedEmployees = _employees
-          .where((employee) => employee.name.toLowerCase().contains(search))
-          .toList();
-    });
+    // setState(() {
+    //   _foundedEmployees = _employees
+    //       .where((employee) => employee.name.toLowerCase().contains(search))
+    //       .toList();
+    // });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Container(
-          padding: EdgeInsets.only(top: 20),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        blurRadius: 10,
-                        offset: Offset(0, 10),
-                      )
-                    ]),
-                child: TextField(
-                  onChanged: (value) => onSearch(value),
-                  decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: EdgeInsets.all(10),
-                      // prefix: Icon(
-                      //   Icons.search,
-                      //   color: Colors.grey.shade500,
-                      // ),
-                      hintText: "Search Employee",
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide.none)),
+    return Container(
+        color: Colors.white,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+        child: Column(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(bottom: 16.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(
+                  color: HRMColorStyles.lightGreyColor,
                 ),
               ),
-              Expanded(
-                // color: Colors.blue,
-                child: _foundedEmployees.length > 0
-                    ? ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: _foundedEmployees.length,
-                        itemBuilder: (context, index) {
-                          return Slidable(
-                            actionPane: SlidableDrawerActionPane(),
-                            actionExtentRatio: 0.25,
-                            child: SearchEmployee(
-                                employees: _foundedEmployees[index]),
-                            // actions: <Widget>[
-                            //   new IconSlideAction(
-                            //     caption: 'Archive',
-                            //     color: Colors.transparent,
-                            //     icon: Icons.archive,
-                            //     onTap: () => print("archive"),
-                            //   ),
-                            //   new IconSlideAction(
-                            //     caption: 'Share',
-                            //     color: Colors.transparent,
-                            //     icon: Icons.share,
-                            //     onTap: () => print('Share'),
-                            //   ),
-                            // ],
-                            secondaryActions: <Widget>[
-                              new IconSlideAction(
-                                caption: 'More',
-                                color: Color.fromARGB(115, 0, 0, 0),
-                                icon: Icons.more_horiz,
-                                onTap: () => print('More'),
-                              ),
-                              new IconSlideAction(
-                                caption: 'Delete',
-                                color: Color.fromARGB(115, 0, 0, 0),
-                                icon: Icons.delete,
-                                onTap: () => print('Delete'),
-                              ),
-                            ],
-                          );
-                        })
-                    : Center(
-                        child: Text(
-                        "No users found",
-                        style: TextStyle(color: Colors.white),
-                      )),
+              child: TextField(
+                onChanged: (value) => onSearch(value),
+                decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.search_rounded,
+                      color: HRMColorStyles.lightGreyColor,
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.filter_list_rounded,
+                          color: HRMColorStyles.lightGreyColor),
+                      onPressed: () {
+                        print(" showfilter");
+                      },
+                    ),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding: EdgeInsets.all(10),
+                    hintText: "Search...",
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide.none)),
               ),
-            ],
-          )),
-    );
+            ),
+            Expanded(
+              child: Ink(
+                color: Colors.white,
+                child: ListView(
+                  shrinkWrap: true,
+                  children: [
+                    InformationCard(),
+                    InformationCard(),
+                    InformationCard(),
+                    InformationCard(),
+                    InformationCard(),
+                    InformationCard()
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ));
   }
 }

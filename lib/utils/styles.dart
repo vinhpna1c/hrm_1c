@@ -8,6 +8,8 @@ class HRMColorStyles {
   static Color unselectedBlueColor = const Color(0xFF127999);
   static Color blueShade500Color = const Color(0xFF127999);
   static Color greyColor = const Color(0xFF8D8A8A);
+  static Color darkGreyColor = const Color(0xFF999999);
+  static Color lightGreyColor = const Color(0xFFC0C0C0);
   static Color greyBackgroundColor = const Color(0xFFE5E5E5);
 }
 
@@ -18,6 +20,13 @@ class HRMTextStyles {
     fontStyle: FontStyle.normal,
     fontWeight: FontWeight.w700,
     fontSize: 24,
+  );
+  static const lightText = TextStyle(
+    color: Colors.black,
+    fontFamily: "Kanit",
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.w100,
+    fontSize: 16,
   );
   static const normalText = TextStyle(
     color: Colors.white,

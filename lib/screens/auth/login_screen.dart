@@ -20,52 +20,55 @@ class LoginScreen extends StatelessWidget {
         return false;
       },
       child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                HRMColorStyles.blueColor,
-                Colors.white,
+        resizeToAvoidBottomInset: false,
+        body: SingleChildScrollView(
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  HRMColorStyles.blueColor,
+                  Colors.white,
+                ],
+              ),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 140, bottom: 60),
+                  height: 140,
+                  child: Image.asset("assets/images/logo_crop.png",
+                      fit: BoxFit.fitHeight),
+                ),
+                InputWidget(
+                  label: "Username",
+                  prefixIcon: const Icon(Icons.person),
+                  controller: _authController.usernameController,
+                ),
+                InputWidget(
+                  label: "Password",
+                  prefixIcon: const Icon(Icons.lock),
+                  isObsocured: true,
+                  controller: _authController.passwordController,
+                ),
+                LoginButton(
+                  text: "LOGIN",
+                  onTapFunction: () async {
+                    int statusCode = await _authController.signIn();
+
+                    if (statusCode == 200) {
+                      Get.to(RootScreen());
+                    } else {
+                      Get.snackbar("1C:HRM", "Invalid credentials!");
+                    }
+                  },
+                ),
               ],
             ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 140, bottom: 60),
-                height: 140,
-                child: Image.asset("assets/images/logo_crop.png",
-                    fit: BoxFit.fitHeight),
-              ),
-              InputWidget(
-                label: "Username",
-                prefixIcon: const Icon(Icons.person),
-                controller: _authController.usernameController,
-              ),
-              InputWidget(
-                label: "Password",
-                prefixIcon: const Icon(Icons.lock),
-                isObsocured: true,
-                controller: _authController.passwordController,
-              ),
-              LoginButton(
-                text: "LOGIN",
-                onTapFunction: () async {
-                  int statusCode = await _authController.signIn();
-
-                  if (statusCode == 200) {
-                    Get.to(RootScreen());
-                  } else {
-                    Get.snackbar("1C:HRM", "Invalid credentials!");
-                  }
-                },
-              ),
-            ],
           ),
         ),
       ),
