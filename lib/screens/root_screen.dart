@@ -5,6 +5,8 @@ import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/components/hrm_drawer.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
+import 'package:hrm_1c/screens/jobs/job_screen.dart';
+import 'package:hrm_1c/screens/leave_days/leave_day_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 import 'account/account_screen.dart';
@@ -15,17 +17,9 @@ class RootScreen extends StatelessWidget {
   final RxInt _currentIndex = 0.obs;
   final List<Widget> screenWidgets = [
     HomeScreen(),
-    Container(
-      child: Center(
-        child: Text("In development"),
-      ),
-    ),
+    JobScreen(),
     EmployeesScreen(),
-    Container(
-      child: Center(
-        child: Text("In development"),
-      ),
-    ),
+    LeaveDayScreen(),
     AccountScreen(),
   ];
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hrm_1c/components/information_card.dart';
+import 'package:hrm_1c/components/search_widget.dart';
 import 'package:hrm_1c/models/Employee.dart';
 import 'package:searchfield/searchfield.dart';
 import 'package:hrm_1c/utils/styles.dart';
@@ -97,38 +98,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: Column(
           children: [
-            Container(
-              margin: const EdgeInsets.only(bottom: 16.0),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(8),
-                border: Border.all(
-                  color: HRMColorStyles.lightGreyColor,
-                ),
-              ),
-              child: TextField(
-                onChanged: (value) => onSearch(value),
-                decoration: InputDecoration(
-                    prefixIcon: Icon(
-                      Icons.search_rounded,
-                      color: HRMColorStyles.lightGreyColor,
-                    ),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.filter_list_rounded,
-                          color: HRMColorStyles.lightGreyColor),
-                      onPressed: () {
-                        print(" showfilter");
-                      },
-                    ),
-                    filled: true,
-                    fillColor: Colors.white,
-                    contentPadding: EdgeInsets.all(10),
-                    hintText: "Search...",
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide.none)),
-              ),
-            ),
+            SearchWidget(),
             Expanded(
               child: Ink(
                 color: Colors.white,

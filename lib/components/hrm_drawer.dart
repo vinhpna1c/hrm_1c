@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
@@ -16,6 +17,7 @@ class HRMDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _userController = Get.put(UserController());
     return Drawer(
       width: 200,
       child: Column(
@@ -57,15 +59,17 @@ class HRMDrawer extends StatelessWidget {
                   _SIGN_OUT_HEIGHT,
               child: ListView(
                 children: [
-                  ListTile(
-                    title: Text("Change password"),
-                  ),
-                  ListTile(
-                    title: Text("Settings"),
-                  ),
-                  ListTile(
-                    title: Text("Check-in History"),
-                  ),
+                  NavigationTile(label: "Home"),
+                  _userController.accountType == AccountType.EMPLOYEE
+                      ? NavigationTile(label: "Request leave-day")
+                      : const SizedBox(),
+                  NavigationTile(label: "Change password"),
+                  _userController.accountType == AccountType.EMPLOYEE
+                      ? NavigationTile(label: "Check-in History")
+                      : const SizedBox(),
+                  _userController.accountType == AccountType.MANAGER
+                      ? NavigationTile(label: "Settings")
+                      : const SizedBox(),
                 ],
               )),
           Container(
@@ -95,6 +99,25 @@ class HRMDrawer extends StatelessWidget {
                 )),
           )
         ],
+      ),
+    );
+  }
+
+  Widget NavigationTile({String label = "", Function()? onTap}) {
+    // return InkWell(
+    //   color: Colors.lightBlue,
+    //   child: ListTile(
+    //     hoverColor: Colors.blue.shade900,
+    //     selectedColor: Colors.blue.shade900,
+    //     title: Text(label),
+    //     onTap: onTap ?? () {},
+    //   ),
+    // );
+    return Ink(
+      color: Colors.lightGreen,
+      child: ListTile(
+        title: Text('With lightGreen background'),
+        onTap: () {},
       ),
     );
   }
