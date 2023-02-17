@@ -79,15 +79,33 @@ class HomeScreen extends StatelessWidget {
                     decoration: BoxDecoration(
                         color: Colors.grey,
                         borderRadius: BorderRadius.circular(16.0)),
-                    height: 64,
+                    height: 200,
                     width: double.infinity,
                     alignment: Alignment.center,
-                    child: WebViewWidget(
-                      controller: WebViewController()
-                        ..loadRequest(
-                          Uri.parse(
-                              "https://www.google.com/maps/@10.7815376,106.6829648,16z?hl=vi-VN"),
-                        ),
+                    child: WebView(
+                      initialUrl:
+                          'https://www.google.com/maps/@10.7816212,106.6806794,17z?hl=vi',
+                      javascriptMode: JavascriptMode.unrestricted,
+                      zoomEnabled: true,
+                      onWebViewCreated: (controller) {
+                        controller.scrollBy(200, 300);
+                        // controller.scrollTo(200, 300);
+                      },
+                      onPageFinished: (url) {
+                        // String decodeURI = Uri.decodeFull(url).toString();
+                        // //check if find locarion
+                        // String decodeURL = getLocationFromMapURL(decodeURI);
+                        // if (decodeURL.contains('google') == false) {
+                        //   if (_searchController.text ==
+                        //       "https://www.google.com/maps") {
+                        //     _searchController.text = " ";
+                        //   } else {
+                        //     _searchController.text = decodeURL;
+                        //   }
+                        //   _daycareController.pickupLocation.value =
+                        //       _searchController.text;
+                        // }
+                      },
                     ),
                     // Text("Google Map display!"),
                   ),

@@ -4,7 +4,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hrm_1c/components/information_card.dart';
 import 'package:hrm_1c/components/search_widget.dart';
 import 'package:hrm_1c/models/Employee.dart';
-import 'package:searchfield/searchfield.dart';
+
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
