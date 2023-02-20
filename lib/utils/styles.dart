@@ -8,8 +8,10 @@ class HRMColorStyles {
   static Color selectedBlueColor = const Color(0xFF154A5A);
   static Color unselectedBlueColor = const Color(0xFF127999);
   static Color blueShade500Color = const Color(0xFF127999);
+  static Color blueShade800Color = const Color(0xFF194B5A);
   //grey
   static Color greyColor = const Color(0xFF8D8A8A);
+  static Color greyHintColor = const Color(0xFFA0A0A0);
   static Color darkGreyColor = const Color(0xFF999999);
   static Color lightGreyColor = const Color(0xFFC0C0C0);
   static Color greyBackgroundColor = const Color(0xFFE5E5E5);

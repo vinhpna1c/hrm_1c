@@ -2,6 +2,7 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
+import 'package:hrm_1c/components/hrm_appbar.dart';
 import 'package:hrm_1c/components/hrm_drawer.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
@@ -32,16 +33,7 @@ class RootScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBody: true,
         drawer: HRMDrawer(),
-        appBar: AppBar(
-          title: Text(
-            "1C:HRM",
-            style: HRMTextStyles.h3Text.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          backgroundColor: HRMColorStyles.darkBlueColor,
-          centerTitle: true,
-        ),
+        appBar: HRMAppBar(),
         body: TabBarView(
           children: screenWidgets,
         ),

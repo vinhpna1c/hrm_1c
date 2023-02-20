@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
+import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
+import 'package:hrm_1c/screens/root_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 import 'employee_avatar.dart';
@@ -53,25 +55,34 @@ class HRMDrawer extends StatelessWidget {
             ),
           ),
           Container(
-              color: HRMColorStyles.blueShade500Color,
-              height: MediaQuery.of(context).size.height -
-                  _HEADER_HEIGHT -
-                  _SIGN_OUT_HEIGHT,
-              child: ListView(
-                children: [
-                  NavigationTile(label: "Home"),
-                  _userController.accountType == AccountType.EMPLOYEE
-                      ? NavigationTile(label: "Request leave-day")
-                      : const SizedBox(),
-                  NavigationTile(label: "Change password"),
-                  _userController.accountType == AccountType.EMPLOYEE
-                      ? NavigationTile(label: "Check-in History")
-                      : const SizedBox(),
-                  _userController.accountType == AccountType.MANAGER
-                      ? NavigationTile(label: "Settings")
-                      : const SizedBox(),
-                ],
-              )),
+            color: HRMColorStyles.blueShade500Color,
+            height: MediaQuery.of(context).size.height -
+                _HEADER_HEIGHT -
+                _SIGN_OUT_HEIGHT,
+            child: ListView(
+              children: [
+                NavigationTile(
+                    label: "Home",
+                    onTap: () {
+                      Get.back();
+                    }),
+                _userController.accountType == AccountType.EMPLOYEE
+                    ? NavigationTile(
+                        label: "Request leave-day",
+                        onTap: () {
+                          Get.to(RequestLeaveScreen());
+                        })
+                    : const SizedBox(),
+                NavigationTile(label: "Change password"),
+                _userController.accountType == AccountType.EMPLOYEE
+                    ? NavigationTile(label: "Check-in History")
+                    : const SizedBox(),
+                _userController.accountType == AccountType.MANAGER
+                    ? NavigationTile(label: "Settings")
+                    : const SizedBox(),
+              ],
+            ),
+          ),
           Container(
             width: double.infinity,
             height: _SIGN_OUT_HEIGHT,
@@ -113,12 +124,17 @@ class HRMDrawer extends StatelessWidget {
     //     onTap: onTap ?? () {},
     //   ),
     // );
-    return Ink(
-      color: Colors.lightGreen,
-      child: ListTile(
-        title: Text('With lightGreen background'),
-        onTap: () {},
+
+    return TextButton(
+      style: TextButton.styleFrom(
+          backgroundColor: Colors.transparent,
+          alignment: Alignment.centerLeft,
+          elevation: 0.1),
+      child: Text(
+        label,
+        style: HRMTextStyles.normalText,
       ),
+      onPressed: onTap,
     );
   }
 }
