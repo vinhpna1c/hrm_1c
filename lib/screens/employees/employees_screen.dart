@@ -93,29 +93,41 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        child: Column(
-          children: [
-            SearchWidget(),
-            Expanded(
-              child: Ink(
-                color: Colors.white,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard()
-                  ],
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          mini: true,
+          onPressed: () {},
+          backgroundColor: HRMColorStyles.unselectedBlueColor,
+          child: Icon(Icons.add),
+        ),
+        body: Container(
+            color: Colors.white,
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+            child: Column(
+              children: [
+                SearchWidget(),
+                Expanded(
+                  child: Ink(
+                    color: Colors.white,
+                    child: ListView(
+                      padding: EdgeInsets.only(top: 10),
+                      shrinkWrap: true,
+                      children: [
+                        InformationCard(),
+                        InformationCard(),
+                        InformationCard(),
+                        InformationCard(),
+                        InformationCard(),
+                        InformationCard()
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ],
-        ));
+              ],
+            )),
+      ),
+    );
   }
 }

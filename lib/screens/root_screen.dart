@@ -2,7 +2,6 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
-import 'package:hrm_1c/components/hrm_appbar.dart';
 import 'package:hrm_1c/components/hrm_drawer.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
@@ -33,17 +32,7 @@ class RootScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBody: true,
         drawer: HRMDrawer(),
-        appBar: AppBar(
-      leading: leading,
-      title: Text(
-        "1C:HRM",
-        style: HRMTextStyles.h3Text.copyWith(
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      backgroundColor: HRMColorStyles.darkBlueColor,
-      centerTitle: true,
-    ),
+        // appBar: HRMAppBar(),
         body: TabBarView(
           children: screenWidgets,
         ),
@@ -53,10 +42,12 @@ class RootScreen extends StatelessWidget {
           color: Colors.white.withOpacity(0.0),
           padding: const EdgeInsets.all(16.0),
           child: Container(
-            decoration:
-                BoxDecoration(color: HRMColorStyles.unselectedBlueColor),
+            decoration: BoxDecoration(
+                color: HRMColorStyles.unselectedBlueColor,
+                borderRadius: BorderRadius.circular(10)),
             child: TabBar(
                 indicator: BoxDecoration(
+                  // borderRadius: BorderRadius.circular(20),
                   color: HRMColorStyles.selectedBlueColor,
                 ),
                 tabs: [

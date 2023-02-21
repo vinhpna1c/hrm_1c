@@ -9,65 +9,68 @@ class JobScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        color: Colors.white,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SearchWidget(),
-            Text(
-              'Jobs',
-              style: HRMTextStyles.normalText.copyWith(color: Colors.black),
-            ),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SizedBox(
-                height: 100,
-                child: Row(
-                  children: [
-                    JobItem(),
-                    JobItem(
-                      isOpen: true,
-                    ),
-                    JobItem(),
-                    JobItem(
-                      isOpen: true,
-                    ),
-                    JobItem(),
-                    JobItem(
-                      isOpen: true,
-                    ),
-                    JobItem(),
-                    JobItem(
-                      isOpen: true,
-                    ),
-                  ],
+    return SafeArea(
+      child: Container(
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SearchWidget(),
+              Text(
+                'Jobs',
+                style: HRMTextStyles.normalText.copyWith(color: Colors.black),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: SizedBox(
+                  height: 100,
+                  child: Row(
+                    children: [
+                      JobItem(),
+                      JobItem(
+                        isOpen: true,
+                      ),
+                      JobItem(),
+                      JobItem(
+                        isOpen: true,
+                      ),
+                      JobItem(),
+                      JobItem(
+                        isOpen: true,
+                      ),
+                      JobItem(),
+                      JobItem(
+                        isOpen: true,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Text(
-              'Candidates',
-              style: HRMTextStyles.normalText.copyWith(color: Colors.black),
-            ),
-            Expanded(
-              child: Container(
-                color: Colors.white,
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard(),
-                    InformationCard()
-                  ],
+              Text(
+                'Candidates',
+                style: HRMTextStyles.normalText.copyWith(color: Colors.black),
+              ),
+              Expanded(
+                child: Container(
+                  color: Colors.white,
+                  child: ListView(
+                    padding: EdgeInsets.only(top: 10),
+                    shrinkWrap: true,
+                    children: [
+                      InformationCard(),
+                      InformationCard(),
+                      InformationCard(),
+                      InformationCard(),
+                      InformationCard(),
+                      InformationCard()
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ));
+            ],
+          )),
+    );
   }
 }
 

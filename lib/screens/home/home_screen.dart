@@ -29,182 +29,185 @@ class HomeScreen extends StatelessWidget {
     String platform = Theme.of(context).platform.name;
     Widget googleDisplay;
 
-    return ListView(
-      children: [
-        SizedBox(
-          child: Stack(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 350,
-                decoration: BoxDecoration(
-                  color: HRMColorStyles.unselectedBlueColor,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(64),
-                    bottomRight: Radius.circular(64),
+    return SafeArea(
+      child: ListView(
+        children: [
+          SizedBox(
+            child: Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 350,
+                  decoration: BoxDecoration(
+                    color: HRMColorStyles.unselectedBlueColor,
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(64),
+                      bottomRight: Radius.circular(64),
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                child: Column(children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      RichText(
-                        text: TextSpan(children: [
-                          const TextSpan(
-                              text: "Hi,", style: HRMTextStyles.normalText),
-                          TextSpan(
-                              text: "\nManager", style: HRMTextStyles.boldText),
-                        ]),
-                      ),
-                      RichText(
-                        textAlign: TextAlign.end,
-                        text: TextSpan(children: [
-                          TextSpan(
-                            text: "${DateFormat.EEEE().format(today)},",
-                            style: HRMTextStyles.boldText.copyWith(),
-                          ),
-                          TextSpan(
-                              text:
-                                  "\n${DateFormat("dd-MM-yyyy").format(today)}",
-                              style: HRMTextStyles.normalText),
-                        ]),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 24),
-                    decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(16.0)),
-                    height: 200,
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    child: WebView(
-                      initialUrl:
-                          'https://www.google.com/maps/@10.7816212,106.6806794,17z?hl=vi',
-                      javascriptMode: JavascriptMode.unrestricted,
-                      zoomEnabled: true,
-                      onWebViewCreated: (controller) {
-                        controller.scrollBy(200, 300);
-                        // controller.scrollTo(200, 300);
-                      },
-                      onPageFinished: (url) {
-                        // String decodeURI = Uri.decodeFull(url).toString();
-                        // //check if find locarion
-                        // String decodeURL = getLocationFromMapURL(decodeURI);
-                        // if (decodeURL.contains('google') == false) {
-                        //   if (_searchController.text ==
-                        //       "https://www.google.com/maps") {
-                        //     _searchController.text = " ";
-                        //   } else {
-                        //     _searchController.text = decodeURL;
-                        //   }
-                        //   _daycareController.pickupLocation.value =
-                        //       _searchController.text;
-                        // }
-                      },
-                    ),
-                    // Text("Google Map display!"),
-                  ),
-                  Obx(() {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 24),
-                      child: LoginButton(
-                        text: _checkInCtrl.documentID.value.isEmpty
-                            ? "CHECK IN"
-                            : "CHECK OUT",
-                        onTapFunction: () {
-                          if (_checkInCtrl.documentID.isEmpty) {
-                            _checkInCtrl.checkIn();
-                          } else {
-                            if (_checkInCtrl.checkOutDate.value == null) {
-                              print("Check out");
-                            }
-                          }
-                        },
-                      ),
-                    );
-                  }),
-                  Container(
-                    margin: const EdgeInsets.only(top: 40, bottom: 24),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                Container(
+                  padding: EdgeInsets.all(16.0),
+                  child: Column(children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        HomeNavButton(
-                          size: homeNavSize,
-                          icon: Icon(
-                            Icons.calendar_month,
-                            size: 60,
-                            color: HRMColorStyles.lightBlueColor,
-                          ),
-                          label: "Leave-day",
+                        RichText(
+                          text: TextSpan(children: [
+                            const TextSpan(
+                                text: "Hi,", style: HRMTextStyles.normalText),
+                            TextSpan(
+                                text: "\nManager",
+                                style: HRMTextStyles.boldText),
+                          ]),
                         ),
-                        HomeNavButton(
-                          size: homeNavSize,
-                          icon: Icon(
-                            Icons.calendar_month,
-                            size: 60,
-                            color: HRMColorStyles.lightBlueColor,
-                          ),
-                          label: "Leave-day",
-                        ),
-                        HomeNavButton(
-                          size: homeNavSize,
-                          icon: Icon(
-                            Icons.calendar_month,
-                            size: 60,
-                            color: HRMColorStyles.lightBlueColor,
-                          ),
-                          label: "Leave-day",
+                        RichText(
+                          textAlign: TextAlign.end,
+                          text: TextSpan(children: [
+                            TextSpan(
+                              text: "${DateFormat.EEEE().format(today)},",
+                              style: HRMTextStyles.boldText.copyWith(),
+                            ),
+                            TextSpan(
+                                text:
+                                    "\n${DateFormat("dd-MM-yyyy").format(today)}",
+                                style: HRMTextStyles.normalText),
+                          ]),
                         ),
                       ],
                     ),
-                  ),
-                  ExpandablePanel(
-                      controller: ExpandableController(initialExpanded: true),
-                      header: RowDivider("Working on today"),
-                      theme: const ExpandableThemeData(
-                        tapBodyToCollapse: false,
-                        expandIcon: Icons.chevron_right,
+                    Container(
+                      margin: const EdgeInsets.only(top: 24),
+                      decoration: BoxDecoration(
+                          color: Colors.grey,
+                          borderRadius: BorderRadius.circular(16.0)),
+                      height: 200,
+                      width: double.infinity,
+                      alignment: Alignment.center,
+                      child: WebView(
+                        initialUrl:
+                            'https://www.google.com/maps/@10.7816212,106.6806794,17z?hl=vi',
+                        javascriptMode: JavascriptMode.unrestricted,
+                        zoomEnabled: true,
+                        onWebViewCreated: (controller) {
+                          controller.scrollBy(200, 300);
+                          // controller.scrollTo(200, 300);
+                        },
+                        onPageFinished: (url) {
+                          // String decodeURI = Uri.decodeFull(url).toString();
+                          // //check if find locarion
+                          // String decodeURL = getLocationFromMapURL(decodeURI);
+                          // if (decodeURL.contains('google') == false) {
+                          //   if (_searchController.text ==
+                          //       "https://www.google.com/maps") {
+                          //     _searchController.text = " ";
+                          //   } else {
+                          //     _searchController.text = decodeURL;
+                          //   }
+                          //   _daycareController.pickupLocation.value =
+                          //       _searchController.text;
+                          // }
+                        },
                       ),
-                      collapsed: const SizedBox(),
-                      expanded: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            ...List.generate(
-                                8,
-                                (index) => Container(
-                                    margin: EdgeInsets.only(right: 4.0),
-                                    child: EmployeeItem()))
-                          ],
+                      // Text("Google Map display!"),
+                    ),
+                    Obx(() {
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 24),
+                        child: LoginButton(
+                          text: _checkInCtrl.documentID.value.isEmpty
+                              ? "CHECK IN"
+                              : "CHECK OUT",
+                          onTapFunction: () {
+                            if (_checkInCtrl.documentID.isEmpty) {
+                              _checkInCtrl.checkIn();
+                            } else {
+                              if (_checkInCtrl.checkOutDate.value == null) {
+                                print("Check out");
+                              }
+                            }
+                          },
                         ),
-                      )),
-                  ExpandablePanel(
-                      controller: ExpandableController(initialExpanded: true),
-                      header: RowDivider("Leave requests"),
-                      theme: const ExpandableThemeData(
-                        tapBodyToCollapse: false,
-                        expandIcon: Icons.chevron_right,
+                      );
+                    }),
+                    Container(
+                      margin: const EdgeInsets.only(top: 40, bottom: 24),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          HomeNavButton(
+                            size: homeNavSize,
+                            icon: Icon(
+                              Icons.calendar_month,
+                              size: 60,
+                              color: HRMColorStyles.lightBlueColor,
+                            ),
+                            label: "Leave-day",
+                          ),
+                          HomeNavButton(
+                            size: homeNavSize,
+                            icon: Icon(
+                              Icons.calendar_month,
+                              size: 60,
+                              color: HRMColorStyles.lightBlueColor,
+                            ),
+                            label: "Leave-day",
+                          ),
+                          HomeNavButton(
+                            size: homeNavSize,
+                            icon: Icon(
+                              Icons.calendar_month,
+                              size: 60,
+                              color: HRMColorStyles.lightBlueColor,
+                            ),
+                            label: "Leave-day",
+                          ),
+                        ],
                       ),
-                      collapsed: const SizedBox(),
-                      expanded: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [],
+                    ),
+                    ExpandablePanel(
+                        controller: ExpandableController(initialExpanded: true),
+                        header: RowDivider("Working on today"),
+                        theme: const ExpandableThemeData(
+                          tapBodyToCollapse: false,
+                          expandIcon: Icons.chevron_right,
                         ),
-                      )),
-                ]),
-              ),
-            ],
+                        collapsed: const SizedBox(),
+                        expanded: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              ...List.generate(
+                                  8,
+                                  (index) => Container(
+                                      margin: EdgeInsets.only(right: 4.0),
+                                      child: EmployeeItem()))
+                            ],
+                          ),
+                        )),
+                    ExpandablePanel(
+                        controller: ExpandableController(initialExpanded: true),
+                        header: RowDivider("Leave requests"),
+                        theme: const ExpandableThemeData(
+                          tapBodyToCollapse: false,
+                          expandIcon: Icons.chevron_right,
+                        ),
+                        collapsed: const SizedBox(),
+                        expanded: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [],
+                          ),
+                        )),
+                  ]),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
