@@ -33,7 +33,17 @@ class RootScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBody: true,
         drawer: HRMDrawer(),
-        appBar: HRMAppBar(),
+        appBar: AppBar(
+      leading: leading,
+      title: Text(
+        "1C:HRM",
+        style: HRMTextStyles.h3Text.copyWith(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      backgroundColor: HRMColorStyles.darkBlueColor,
+      centerTitle: true,
+    ),
         body: TabBarView(
           children: screenWidgets,
         ),
