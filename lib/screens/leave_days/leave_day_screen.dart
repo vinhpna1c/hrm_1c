@@ -18,95 +18,97 @@ class LeaveDayScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 3,
-      child: Container(
-        color: Colors.white,
-        padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-        child: Column(
-          children: [
-            SearchWidget(),
-            Obx(
-              () => TabBar(
-                padding: EdgeInsets.all(4.0),
-                onTap: (val) {
-                  _selectedIndex.value = val;
-                },
-                indicatorColor: statusColor[_selectedIndex.value],
-                unselectedLabelStyle: HRMTextStyles.h4Text,
-                tabs: [
-                  StatusTab(
-                      isSelected: _selectedIndex.value == 0,
-                      selectedColor: statusColor[0],
-                      label: "Pending"),
-                  StatusTab(
-                      isSelected: _selectedIndex.value == 1,
-                      selectedColor: statusColor[1],
-                      label: "Approved"),
-                  StatusTab(
-                      isSelected: _selectedIndex.value == 2,
-                      selectedColor: statusColor[2],
-                      label: "Not approved"),
-                ],
+      child: SafeArea(
+        child: Container(
+          color: Colors.white,
+          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          child: Column(
+            children: [
+              SearchWidget(),
+              Obx(
+                () => TabBar(
+                  padding: EdgeInsets.all(4.0),
+                  onTap: (val) {
+                    _selectedIndex.value = val;
+                  },
+                  indicatorColor: statusColor[_selectedIndex.value],
+                  unselectedLabelStyle: HRMTextStyles.h4Text,
+                  tabs: [
+                    StatusTab(
+                        isSelected: _selectedIndex.value == 0,
+                        selectedColor: statusColor[0],
+                        label: "Pending"),
+                    StatusTab(
+                        isSelected: _selectedIndex.value == 1,
+                        selectedColor: statusColor[1],
+                        label: "Approved"),
+                    StatusTab(
+                        isSelected: _selectedIndex.value == 2,
+                        selectedColor: statusColor[2],
+                        label: "Not approved"),
+                  ],
+                ),
               ),
-            ),
-            Expanded(
-              child: TabBarView(
-                children: [
-                  //Tab pending
-                  SingleChildScrollView(
-                    child: Container(
-                      child: Column(children: [
-                        RequestCard(
-                          isPending: true,
-                        ),
-                        RequestCard(
-                          isPending: true,
-                        ),
-                        RequestCard(
-                          isPending: true,
-                        ),
-                        RequestCard(
-                          isPending: true,
-                        ),
-                        RequestCard(
-                          isPending: true,
-                        ),
-                        RequestCard(
-                          isPending: true,
-                        ),
-                        const SizedBox(
-                          height: 120,
-                        )
-                      ]),
-                    ),
-                  ),
-                  //Tab approved
-                  SingleChildScrollView(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          RequestCard(),
-                          RequestCard(),
-                          RequestCard(),
-                        ],
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    //Tab pending
+                    SingleChildScrollView(
+                      child: Container(
+                        child: Column(children: [
+                          RequestCard(
+                            isPending: true,
+                          ),
+                          RequestCard(
+                            isPending: true,
+                          ),
+                          RequestCard(
+                            isPending: true,
+                          ),
+                          RequestCard(
+                            isPending: true,
+                          ),
+                          RequestCard(
+                            isPending: true,
+                          ),
+                          RequestCard(
+                            isPending: true,
+                          ),
+                          const SizedBox(
+                            height: 120,
+                          )
+                        ]),
                       ),
                     ),
-                  ),
-                  //Tab not approved
-                  SingleChildScrollView(
-                    child: Container(
-                      child: Column(
-                        children: [
-                          RequestCard(),
-                          RequestCard(),
-                          RequestCard(),
-                        ],
+                    //Tab approved
+                    SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            RequestCard(),
+                            RequestCard(),
+                            RequestCard(),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ],
+                    //Tab not approved
+                    SingleChildScrollView(
+                      child: Container(
+                        child: Column(
+                          children: [
+                            RequestCard(),
+                            RequestCard(),
+                            RequestCard(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

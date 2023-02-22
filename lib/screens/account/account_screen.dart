@@ -12,88 +12,94 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double leaveBtnWidth = (width - _BUTTON_SPACE * 2 - 16 * 2) / 3;
-    return Container(
-      color: HRMColorStyles.greyBackgroundColor,
-      child: ListView(
-        children: [
-          ClipPath(
-            clipper: const ArcClipper(arcHeight: 50.0),
-            child: Container(
-              height: 250,
-              color: HRMColorStyles.blueShade500Color,
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  EmployeeAvatar(
-                    backgroundRadius: 70,
-                    paddingSpace: 8.0,
-                  ),
-                  Text(
-                    "Firstname Lastname",
-                    style: HRMTextStyles.boldText.copyWith(fontSize: 20),
-                  ),
-                  Text(
-                    "Job title",
-                    style: HRMTextStyles.normalText.copyWith(fontSize: 20),
-                  )
-                ],
+    return SafeArea(
+      child: Container(
+        color: HRMColorStyles.greyBackgroundColor,
+        child: ListView(
+          children: [
+            ClipPath(
+              clipper: const ArcClipper(arcHeight: 50.0),
+              child: Container(
+                height: 250,
+                color: HRMColorStyles.blueShade500Color,
+                alignment: Alignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    EmployeeAvatar(
+                      backgroundRadius: 70,
+                      paddingSpace: 8.0,
+                    ),
+                    Text(
+                      "Firstname Lastname",
+                      style: HRMTextStyles.boldText.copyWith(fontSize: 20),
+                    ),
+                    Text(
+                      "Job title",
+                      style: HRMTextStyles.normalText.copyWith(fontSize: 20),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Container(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(bottom: 16.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      LeaveWidget(
-                        width: leaveBtnWidth,
-                        icon: Icon(
-                          Icons.cases_rounded,
-                          color: HRMColorStyles.darkBlueColor,
+            Container(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        LeaveWidget(
+                          width: leaveBtnWidth,
+                          icon: Icon(
+                            Icons.cases_rounded,
+                            color: HRMColorStyles.darkBlueColor,
+                          ),
+                          content: "1/7",
+                          leaveType: "Annual leave",
                         ),
-                        content: "1/7",
-                        leaveType: "Annual leave",
-                      ),
-                      LeaveWidget(
-                        width: leaveBtnWidth,
-                        icon: Icon(
-                          Icons.sick,
-                          color: HRMColorStyles.darkBlueColor,
+                        LeaveWidget(
+                          width: leaveBtnWidth,
+                          icon: Icon(
+                            Icons.sick,
+                            color: HRMColorStyles.darkBlueColor,
+                          ),
+                          content: "2/30",
+                          leaveType: "Sick leave",
                         ),
-                        content: "2/30",
-                        leaveType: "Sick leave",
-                      ),
-                      LeaveWidget(
-                        width: leaveBtnWidth,
-                        icon: Icon(
-                          Icons.cloud,
-                          color: HRMColorStyles.darkBlueColor,
+                        LeaveWidget(
+                          width: leaveBtnWidth,
+                          icon: Icon(
+                            Icons.cloud,
+                            color: HRMColorStyles.darkBlueColor,
+                          ),
+                          content: "0",
+                          leaveType: "Unpaid leave",
                         ),
-                        content: "0",
-                        leaveType: "Unpaid leave",
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                RowInformation(fieldName: "Username", content: "manager"),
-                RowInformation(fieldName: "Positon", content: "IT Specialist"),
-                RowInformation(
-                    fieldName: "Email", content: "manager@1cinnovation.com"),
-                RowInformation(fieldName: "Phone", content: "(+84) 9 1123456"),
-                RowInformation(fieldName: "Date start", content: "19-09-2022"),
-                RowInformation(fieldName: "Working year", content: "0.4 year"),
-                RowInformation(fieldName: "Status", content: "Working"),
-                RowInformation(fieldName: "Contact", content: "Full-time"),
-                RowInformation(fieldName: "Salary", content: "************"),
-              ],
-            ),
-          )
-        ],
+                  RowInformation(fieldName: "Username", content: "manager"),
+                  RowInformation(
+                      fieldName: "Positon", content: "IT Specialist"),
+                  RowInformation(
+                      fieldName: "Email", content: "manager@1cinnovation.com"),
+                  RowInformation(
+                      fieldName: "Phone", content: "(+84) 9 1123456"),
+                  RowInformation(
+                      fieldName: "Date start", content: "19-09-2022"),
+                  RowInformation(
+                      fieldName: "Working year", content: "0.4 year"),
+                  RowInformation(fieldName: "Status", content: "Working"),
+                  RowInformation(fieldName: "Contact", content: "Full-time"),
+                  RowInformation(fieldName: "Salary", content: "************"),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
