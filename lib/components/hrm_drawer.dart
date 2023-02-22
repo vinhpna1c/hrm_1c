@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
+import 'package:hrm_1c/screens/account/account_screen.dart';
+import 'package:hrm_1c/screens/auth/change_password_screen.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
+import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 import 'employee_avatar.dart';
@@ -67,23 +70,38 @@ class HRMDrawer extends StatelessWidget {
                     label: "Home",
                     onTap: () {
                       Get.back();
-
                       Get.to(RootScreen());
                     }),
                 _userController.accountType == AccountType.EMPLOYEE
                     ? NavigationTile(
                         label: "Request leave-day",
                         onTap: () {
+                          var key = UniqueKey();
                           Get.back();
                           Get.to(RequestLeaveScreen());
                         })
                     : const SizedBox(),
-                NavigationTile(label: "Change password"),
+                NavigationTile(
+                    label: "Change password",
+                    onTap: () {
+                      Get.back();
+                      var key = UniqueKey();
+                      Get.to(ChangePasswordScreen());
+                    }),
                 _userController.accountType == AccountType.EMPLOYEE
                     ? NavigationTile(label: "Check-in History")
                     : const SizedBox(),
                 _userController.accountType == AccountType.MANAGER
                     ? NavigationTile(label: "Settings")
+                    : const SizedBox(),
+                _userController.accountType == AccountType.EMPLOYEE
+                    ? NavigationTile(
+                        label: "User Information",
+                        onTap: () {
+                          print("Go to user information");
+                          Get.back();
+                          Get.to(AccountScreen());
+                        })
                     : const SizedBox(),
               ],
             ),

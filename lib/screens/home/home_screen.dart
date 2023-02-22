@@ -179,8 +179,15 @@ class HomeScreen extends StatelessWidget {
                                           ),
                                         ),
                                       ),
-                                      Obx(
-                                        () => RichText(
+                                      TimerBuilder.periodic(
+                                          Duration(milliseconds: 500),
+                                          builder: (context) {
+                                        if (_geoController
+                                                .currentLocation.value ==
+                                            null) {
+                                          return const SizedBox();
+                                        }
+                                        return RichText(
                                           text: TextSpan(
                                             text: Geolocator.distanceBetween(
                                                     _geoController
@@ -209,8 +216,8 @@ class HomeScreen extends StatelessWidget {
                                               ),
                                             ],
                                           ),
-                                        ),
-                                      ),
+                                        );
+                                      }),
                                     ],
                                   ),
                                 ),

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/components/leave_widget.dart';
+import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
+  final isShowAppBar;
+  const AccountScreen({this.isShowAppBar = true, super.key});
 
   final _BUTTON_SPACE = 10;
 
@@ -12,8 +14,9 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double leaveBtnWidth = (width - _BUTTON_SPACE * 2 - 16 * 2) / 3;
-    return SafeArea(
-      child: Container(
+    return SingleBodyScreen(
+      showAppBar: isShowAppBar,
+      body: Container(
         color: HRMColorStyles.greyBackgroundColor,
         child: ListView(
           children: [

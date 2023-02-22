@@ -2,6 +2,7 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
+import 'package:hrm_1c/components/hrm_appbar.dart';
 import 'package:hrm_1c/components/hrm_drawer.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
@@ -18,18 +19,23 @@ class RootScreen extends StatelessWidget {
   RootScreen({super.key});
   final RxInt _currentIndex = 0.obs;
 
-  final List<Widget> screenWidgets = [
+  List<Widget> screenWidgets = [
     HomeScreen(),
     JobScreen(),
     EmployeesScreen(),
     LeaveDayScreen(),
-    AccountScreen(),
+    AccountScreen(
+      isShowAppBar: false,
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     final _userController = Get.find<UserController>();
     bool isManager = _userController.accountType == AccountType.MANAGER;
+    if (!isManager) {
+      screenWidgets = [HomeScreen()];
+    }
 
     return DefaultTabController(
       initialIndex: _currentIndex.value,
@@ -38,16 +44,7 @@ class RootScreen extends StatelessWidget {
         resizeToAvoidBottomInset: false,
         extendBody: true,
         drawer: HRMDrawer(),
-        appBar: AppBar(
-          title: Text(
-            "1C:HRM",
-            style: HRMTextStyles.h3Text.copyWith(
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          backgroundColor: HRMColorStyles.darkBlueColor,
-          centerTitle: true,
-        ),
+        appBar: HRMAppBar(),
         body: TabBarView(
           children: screenWidgets,
         ),
