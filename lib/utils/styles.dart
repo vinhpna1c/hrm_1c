@@ -55,4 +55,11 @@ class HRMTextStyles {
   static TextStyle h5Text =
       boldText.copyWith(color: Colors.black, fontSize: 12);
   static TextStyle h3Text = boldText.copyWith(fontSize: 20);
+  static const clockText = TextStyle(
+    color: Colors.black,
+    fontFamily: "Digital-7",
+    fontStyle: FontStyle.normal,
+    fontWeight: FontWeight.normal,
+    fontSize: 60,
+  );
 }

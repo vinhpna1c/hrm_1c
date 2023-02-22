@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:hrm_1c/components/input_widget.dart';
 import 'package:hrm_1c/components/login_button.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
+import 'package:hrm_1c/main.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
 import 'package:hrm_1c/services/firebase/firebase_service.dart';
 import 'package:hrm_1c/utils/styles.dart';
@@ -12,8 +13,9 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    initController();
     // ignore: no_leading_underscores_for_local_identifiers
-    final _authController = Get.put(AuthController());
+    final _authController = Get.find<AuthController>();
 
     return WillPopScope(
       onWillPop: () async {

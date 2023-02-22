@@ -48,6 +48,8 @@ dependencies:
   expandable: ^5.0.1
   intl: ^0.18.0
   geolocator: ^9.0.2
+  slide_digital_clock: ^1.0.3
+  timer_builder: ^2.0.0
 
 dev_dependencies:
 
@@ -95,6 +97,9 @@ flutter:
         - asset: assets/fonts/kanit/Kanit-Regular.ttf
         - asset: assets/fonts/kanit/Kanit-ExtraLight.ttf
           weight: 300
+    - family: Digital-7
+      fonts:
+        - asset: assets/fonts/digital/digital-7.ttf
         
   #   - family: Trajan Pro
   #     fonts:

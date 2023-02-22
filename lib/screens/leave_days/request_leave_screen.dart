@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/components/hrm_drawer.dart';
 
 import 'package:hrm_1c/utils/styles.dart';
 
@@ -12,12 +13,7 @@ class RequestLeaveScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     startDateController.text = "18-02-2023";
     return Scaffold(
-      drawer: BackButton(
-        color: Colors.white,
-        onPressed: () {
-          Get.back();
-        },
-      ),
+      drawer: HRMDrawer(),
       appBar: AppBar(
         title: Text(
           "Request leave-day",
@@ -25,12 +21,12 @@ class RequestLeaveScreen extends StatelessWidget {
         ),
         backgroundColor: HRMColorStyles.darkBlueColor,
         centerTitle: true,
-        leading: BackButton(
-          color: Colors.white,
-          onPressed: () {
-            Get.back();
-          },
-        ),
+        // leading: BackButton(
+        //   color: Colors.white,
+        //   onPressed: () {
+        //     Get.back();
+        //   },
+        // ),
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),

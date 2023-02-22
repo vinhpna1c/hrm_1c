@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
+import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/services/api/api_service.dart';
 import 'package:hrm_1c/services/firebase/firebase_service.dart';
@@ -18,14 +20,13 @@ void main() async {
 Future initBeforeRun() async {
   await ApiHandler.init();
   await FirebaseService.initFireBase();
-  try {
-    var location = await GeoController.initController();
-    print(Geolocator.distanceBetween(
-        location.latitude, location.longitude, 10.7817856, 106.6835476));
-    print(location);
-  } catch (e) {
-    print(e);
-  }
+  initController();
+}
+
+void initController() {
+  Get.put(AuthController());
+  Get.put(UserController());
+  Get.put(GeoController());
 }
 
 class MyApp extends StatelessWidget {

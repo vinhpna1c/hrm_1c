@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
@@ -20,6 +21,7 @@ class HRMDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userController = Get.put(UserController());
+    final _authController = Get.find<AuthController>();
     return Drawer(
       width: 200,
       child: Column(
@@ -65,11 +67,14 @@ class HRMDrawer extends StatelessWidget {
                     label: "Home",
                     onTap: () {
                       Get.back();
+
+                      Get.to(RootScreen());
                     }),
                 _userController.accountType == AccountType.EMPLOYEE
                     ? NavigationTile(
                         label: "Request leave-day",
                         onTap: () {
+                          Get.back();
                           Get.to(RequestLeaveScreen());
                         })
                     : const SizedBox(),
@@ -88,7 +93,8 @@ class HRMDrawer extends StatelessWidget {
             height: _SIGN_OUT_HEIGHT,
             decoration: BoxDecoration(border: Border.all(color: Colors.white)),
             child: TextButton(
-                onPressed: () {
+                onPressed: () async {
+                  await _authController.signOut();
                   Get.to(LoginScreen());
                 },
                 style: TextButton.styleFrom(
