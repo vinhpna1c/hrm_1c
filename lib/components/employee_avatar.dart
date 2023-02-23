@@ -37,7 +37,7 @@ class EmployeeAvatar extends StatelessWidget {
           child: imageURL == null
               ? Image.asset(
                   "assets/images/avatar_holder.png",
-                  fit: BoxFit.fill,
+                  fit: BoxFit.contain,
                 )
               : Image.network(
                   imageURL!,

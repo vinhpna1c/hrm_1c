@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
-import 'package:hrm_1c/models/account.dart';
-import 'package:hrm_1c/services/firebase/firebase_service.dart';
 
 import 'check_in_controller.dart';
 
@@ -11,31 +12,34 @@ class AuthController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   final _checkInController = Get.put(CheckInController());
 
+  static final authPath = "/V1/Employee";
+
   Future<int> signIn() async {
     final userController = Get.find<UserController>();
     String username = usernameController.text;
     String password = passwordController.text;
-    var account = await FirebaseService.findOne("account", {
-      "username": username,
-      "password": password,
-    });
 
-    print(account);
-    if (account.keys.isNotEmpty) {
+    var respond = await ApiHandler.postRequest(
+      authPath,
+      body: {"UserName": username, "Password": password},
+    );
+    if (respond.statusCode == 200) {
+      var respondBody = respond.data;
+      userController.identifyString = respondBody['Identifier'] ?? "";
       userController.username = username;
       userController.password = password;
-      if ((account["accountType"] ?? "")
-          .toString()
-          .toLowerCase()
-          .contains("manager")) {
+      if (await userController.isAdminAccount()) {
         userController.accountType = AccountType.MANAGER;
       } else {
         userController.accountType = AccountType.EMPLOYEE;
       }
-      _checkInController.getCheckInInformation();
+
+      await userController.getUserInformation();
+
       return 200;
     }
-    return 404;
+
+    return respond.statusCode ?? 404;
   }
 
   Future<void> signOut() async {

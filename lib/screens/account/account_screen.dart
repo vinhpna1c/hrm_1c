@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/components/leave_widget.dart';
+import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
+import 'package:intl/intl.dart';
 
 class AccountScreen extends StatelessWidget {
   final isShowAppBar;
@@ -14,6 +17,8 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double leaveBtnWidth = (width - _BUTTON_SPACE * 2 - 16 * 2) / 3;
+    final userController = Get.find<UserController>();
+    var personalInformation = userController.userInformation;
     return SingleBodyScreen(
       showAppBar: isShowAppBar,
       body: Container(
@@ -32,9 +37,10 @@ class AccountScreen extends StatelessWidget {
                     EmployeeAvatar(
                       backgroundRadius: 70,
                       paddingSpace: 8.0,
+                      imageURL: personalInformation!.URL,
                     ),
                     Text(
-                      "Firstname Lastname",
+                      personalInformation.description!,
                       style: HRMTextStyles.boldText.copyWith(fontSize: 20),
                     ),
                     Text(
@@ -60,7 +66,7 @@ class AccountScreen extends StatelessWidget {
                             Icons.cases_rounded,
                             color: HRMColorStyles.darkBlueColor,
                           ),
-                          content: "1/7",
+                          content: "${personalInformation.paidDay}/7",
                           leaveType: "Annual leave",
                         ),
                         LeaveWidget(
@@ -69,7 +75,7 @@ class AccountScreen extends StatelessWidget {
                             Icons.sick,
                             color: HRMColorStyles.darkBlueColor,
                           ),
-                          content: "2/30",
+                          content: "${personalInformation.sickLeave}/30",
                           leaveType: "Sick leave",
                         ),
                         LeaveWidget(
@@ -78,24 +84,33 @@ class AccountScreen extends StatelessWidget {
                             Icons.cloud,
                             color: HRMColorStyles.darkBlueColor,
                           ),
-                          content: "0",
+                          content: "${personalInformation.unpaidDay}",
                           leaveType: "Unpaid leave",
                         ),
                       ],
                     ),
                   ),
-                  RowInformation(fieldName: "Username", content: "manager"),
+                  RowInformation(
+                      fieldName: "Username", content: userController.username),
+                  RowInformation(
+                      fieldName: "Gender",
+                      content: personalInformation.gender!),
                   RowInformation(
                       fieldName: "Positon", content: "IT Specialist"),
                   RowInformation(
-                      fieldName: "Email", content: "manager@1cinnovation.com"),
+                      fieldName: "Email", content: personalInformation.email!),
                   RowInformation(
-                      fieldName: "Phone", content: "(+84) 9 1123456"),
+                      fieldName: "Phone",
+                      content: personalInformation!.numberPhone ?? ""),
                   RowInformation(
-                      fieldName: "Date start", content: "19-09-2022"),
+                      fieldName: "Date of birth",
+                      content: DateFormat("dd-MM-yyyy").format(
+                          personalInformation.dateOfBirth ?? DateTime.now())),
                   RowInformation(
                       fieldName: "Working year", content: "0.4 year"),
-                  RowInformation(fieldName: "Status", content: "Working"),
+                  RowInformation(
+                      fieldName: "Status",
+                      content: personalInformation.status!),
                   RowInformation(fieldName: "Contact", content: "Full-time"),
                   RowInformation(fieldName: "Salary", content: "************"),
                 ],

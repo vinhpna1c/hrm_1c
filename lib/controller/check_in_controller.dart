@@ -6,6 +6,8 @@ class CheckInController extends GetxController {
   RxString documentID = "".obs;
   Rx<DateTime?> checkInDate = Rx(null);
   Rx<DateTime?> checkOutDate = Rx(null);
+  static final allLeavePath = "/V1/AllLeave";
+  static final personalLeavePath = "/V1/PersonalLeave";
 
   Future<void> getCheckInInformation() async {
     var result = await FirebaseService.findOne(

@@ -6,7 +6,8 @@ import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
-import 'package:hrm_1c/services/api/api_service.dart';
+import 'package:hrm_1c/services/api/api_handler.dart';
+
 import 'package:hrm_1c/services/firebase/firebase_service.dart';
 
 import 'firebase_options.dart';
@@ -18,7 +19,7 @@ void main() async {
 }
 
 Future initBeforeRun() async {
-  await ApiHandler.init();
+  ApiHandler.initHandler();
   await FirebaseService.initFireBase();
   initController();
 }
