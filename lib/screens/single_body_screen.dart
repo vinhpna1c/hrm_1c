@@ -18,6 +18,7 @@ class SingleBodyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     print(title);
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       drawer: showAppBar ? HRMDrawer() : null,
       appBar: showAppBar ? HRMAppBar(title: title) : null,
       body: body,

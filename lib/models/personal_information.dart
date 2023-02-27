@@ -1,3 +1,5 @@
+import 'package:hrm_1c/utils/utils.dart';
+
 class PersonalInformation {
   String? code;
   String? description;
@@ -39,7 +41,7 @@ class PersonalInformation {
     code = json['Code'];
     description = json['Description'];
     String dob = json['DateOfBirth'].toString();
-    dateOfBirth = DateTime.tryParse(dob);
+    dateOfBirth = parseDateTimeFromStr(dob);
     print(dateOfBirth);
     gender = json['Gender'];
     numberPhone = json['NumberPhone'];

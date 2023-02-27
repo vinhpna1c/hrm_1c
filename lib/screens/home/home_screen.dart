@@ -89,42 +89,6 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // Text("Distance to check in point: 450m"),
-                    // Container(
-                    //   margin: const EdgeInsets.only(top: 24),
-                    //   decoration: BoxDecoration(
-                    //       color: Colors.grey,
-                    //       borderRadius: BorderRadius.circular(16.0)),
-                    //   height: 200,
-                    //   width: double.infinity,
-                    //   alignment: Alignment.center,
-                    //   child: WebView(
-                    //     initialUrl:
-                    //         'https://www.google.com/maps/@10.7816212,106.6806794,17z?hl=vi',
-                    //     javascriptMode: JavascriptMode.unrestricted,
-                    //     zoomEnabled: true,
-                    //     onWebViewCreated: (controller) {
-                    //       controller.scrollBy(200, 300);
-                    //       // controller.scrollTo(200, 300);
-                    //     },
-                    //     onPageFinished: (url) {
-                    //       // String decodeURI = Uri.decodeFull(url).toString();
-                    //       // //check if find locarion
-                    //       // String decodeURL = getLocationFromMapURL(decodeURI);
-                    //       // if (decodeURL.contains('google') == false) {
-                    //       //   if (_searchController.text ==
-                    //       //       "https://www.google.com/maps") {
-                    //       //     _searchController.text = " ";
-                    //       //   } else {
-                    //       //     _searchController.text = decodeURL;
-                    //       //   }
-                    //       //   _daycareController.pickupLocation.value =
-                    //       //       _searchController.text;
-                    //       // }
-                    //     },
-                    //   ),
-                    //   // Text("Google Map display!"),
-                    // ),
                     SlideDigitalClock(),
                     const SizedBox(
                       height: 60,
@@ -238,20 +202,28 @@ class HomeScreen extends StatelessWidget {
                                 text: _checkInCtrl.documentID.value.isEmpty
                                     ? "CHECK IN"
                                     : "CHECK OUT",
-                                onTapFunction: () {
+                                onTapFunction: () async {
                                   if (_checkInCtrl.documentID.isEmpty) {
-                                    _checkInCtrl.checkIn();
+                                    var res = await _checkInCtrl.checkIn();
+                                    if (res) {
+                                      Get.snackbar(
+                                          "1C:HRM", "Check in successfull");
+                                    }
                                   } else {
                                     if (_checkInCtrl.checkOutDate.value ==
                                         null) {
-                                      print("Check out");
+                                      _checkInCtrl.checkOut();
+                                      Get.snackbar(
+                                          "1C:HRM", "Check out successfull");
+                                    } else {
+                                      Get.snackbar("1C:HRM",
+                                          "You have checked out today!");
                                     }
                                   }
                                 },
                               ),
                             );
                           }),
-
                     isManager
                         ? ExpandablePanel(
                             controller:
@@ -306,6 +278,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  // ignore: non_constant_identifier_names
   Widget RowDivider(String content) {
     return Container(
       margin: const EdgeInsets.only(top: 8.0, bottom: 4.0),

@@ -1,34 +1,60 @@
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/user_controller.dart';
+import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/services/firebase/firebase_service.dart';
+import 'package:hrm_1c/utils/utils.dart';
 
 class CheckInController extends GetxController {
-  String employeeID = "00000002";
   RxString documentID = "".obs;
   Rx<DateTime?> checkInDate = Rx(null);
   Rx<DateTime?> checkOutDate = Rx(null);
-  static final allLeavePath = "/V1/AllLeave";
-  static final personalLeavePath = "/V1/PersonalLeave";
+  static const checkInPath = "/V1/EmployeeCheckIn";
+  static const checkOutPath = "/V1/EmployeeCheckOut";
+  static const allLeavePath = "/V1/AllLeave";
+  static const personalLeavePath = "/V1/PersonalLeave";
 
-  Future<void> getCheckInInformation() async {
-    var result = await FirebaseService.findOne(
-        "timeKeeping", {"Employee ID": employeeID});
+  Future<bool> checkIn() async {
+    final userController = Get.find<UserController>();
+    var respond = await ApiHandler.postRequest(checkInPath,
+        body: {"EmployeeID": userController.userInformation!.code});
 
-    if (result.keys.isNotEmpty) {
-      checkInDate.value = DateTime.tryParse(result['checkIn']);
-      checkOutDate.value = DateTime.tryParse(result['checkOut']);
-      print(checkInDate.value);
-      print(checkOutDate.value);
+    if (respond.statusCode == 200) {
+      var data = respond.data;
+      print(respond);
+      documentID.value = data['Number'].toString();
+      checkInDate.value = parseDateTimeFromStr(data['Checkin']);
+      checkOutDate.value = null;
+      if (data['Checkout'] != null) {
+        if (data['Checkout'].toString().isNotEmpty) {
+          checkOutDate.value =
+              parseDateTimeFromStr(data['Checkout'].toString());
+        }
+        print(checkOutDate.value);
+      }
+
+      return true;
     }
+    documentID.value = "";
+    checkInDate.value = null;
+    checkOutDate.value = null;
+
+    return false;
   }
 
-  Future<void> checkIn() async {
-    checkInDate.value = DateTime.now();
-    String res = await FirebaseService.addNewDocument("timeKeeping", {
-      "employeeID": employeeID,
-      "checkIn": checkInDate.value,
-      "checkOut": checkOutDate.value,
-    });
-    print(res);
-    documentID.value = res;
+  Future<bool> checkOut() async {
+    var respond = await ApiHandler.postRequest(
+      checkOutPath,
+      body: {"Number": documentID.value},
+    );
+
+    if (respond.statusCode == 200) {
+      var data = respond.data;
+      if (data.toString().toLowerCase().contains("success")) {
+        checkOutDate.value = DateTime.now();
+        return true;
+      }
+    }
+
+    return false;
   }
 }
