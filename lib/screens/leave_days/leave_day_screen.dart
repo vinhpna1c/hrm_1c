@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/search_widget.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
+import 'package:hrm_1c/models/leave_request.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 import '../../components/request_card.dart';
 
 class LeaveDayScreen extends StatelessWidget {
   LeaveDayScreen({super.key});
-  static final statusColor = [
-    HRMColorStyles.pendingColor,
-    HRMColorStyles.approveColor,
-    HRMColorStyles.denyColor,
-  ];
 
   RxInt _selectedIndex = 0.obs;
   @override
   Widget build(BuildContext context) {
+    final adminDataCtrl = Get.find<AdminDataController>();
     return DefaultTabController(
       length: 3,
       child: SafeArea(
@@ -31,21 +29,22 @@ class LeaveDayScreen extends StatelessWidget {
                   onTap: (val) {
                     _selectedIndex.value = val;
                   },
-                  indicatorColor: statusColor[_selectedIndex.value],
+                  indicatorColor:
+                      LeaveRequest.statusColors[_selectedIndex.value],
                   unselectedLabelStyle: HRMTextStyles.h4Text,
                   tabs: [
                     StatusTab(
                         isSelected: _selectedIndex.value == 0,
-                        selectedColor: statusColor[0],
+                        selectedColor: LeaveRequest.statusColors[0],
                         label: "Pending"),
                     StatusTab(
                         isSelected: _selectedIndex.value == 1,
-                        selectedColor: statusColor[1],
+                        selectedColor: LeaveRequest.statusColors[1],
                         label: "Approved"),
                     StatusTab(
                         isSelected: _selectedIndex.value == 2,
-                        selectedColor: statusColor[2],
-                        label: "Not approved"),
+                        selectedColor: LeaveRequest.statusColors[2],
+                        label: "Rejected"),
                   ],
                 ),
               ),
@@ -53,56 +52,36 @@ class LeaveDayScreen extends StatelessWidget {
                 child: TabBarView(
                   children: [
                     //Tab pending
-                    SingleChildScrollView(
-                      child: Container(
-                        child: Column(children: [
-                          RequestCard(
-                            isPending: true,
-                          ),
-                          RequestCard(
-                            isPending: true,
-                          ),
-                          RequestCard(
-                            isPending: true,
-                          ),
-                          RequestCard(
-                            isPending: true,
-                          ),
-                          RequestCard(
-                            isPending: true,
-                          ),
-                          RequestCard(
-                            isPending: true,
-                          ),
-                          const SizedBox(
-                            height: 120,
+                    ListView(
+                      children: adminDataCtrl.leaveRequests
+                          .where((lq) =>
+                              (lq.status ?? "").toLowerCase().contains("pend"))
+                          .map(
+                            (e) => RequestCard(leaveRequest: e),
                           )
-                        ]),
-                      ),
+                          .toList(),
                     ),
                     //Tab approved
-                    SingleChildScrollView(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            RequestCard(),
-                            RequestCard(),
-                            RequestCard(),
-                          ],
-                        ),
-                      ),
+                    ListView(
+                      children: adminDataCtrl.leaveRequests
+                          .where((lq) => (lq.status ?? "")
+                              .toLowerCase()
+                              .contains("approve"))
+                          .map(
+                            (e) => RequestCard(leaveRequest: e),
+                          )
+                          .toList(),
                     ),
                     //Tab not approved
-                    SingleChildScrollView(
-                      child: Container(
-                        child: Column(
-                          children: [
-                            RequestCard(),
-                            RequestCard(),
-                            RequestCard(),
-                          ],
-                        ),
-                      ),
+                    ListView(
+                      children: adminDataCtrl.leaveRequests
+                          .where((lq) => (lq.status ?? "")
+                              .toLowerCase()
+                              .contains("reject"))
+                          .map(
+                            (e) => RequestCard(leaveRequest: e),
+                          )
+                          .toList(),
                     ),
                   ],
                 ),

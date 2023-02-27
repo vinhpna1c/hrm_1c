@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
@@ -30,6 +31,8 @@ void initController() {
   Get.put(UserController());
   Get.put(GeoController());
   Get.put(LeaveDayController());
+
+  Get.put(AdminDataController());
 }
 
 class MyApp extends StatelessWidget {
