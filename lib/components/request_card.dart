@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:hrm_1c/models/leave_request.dart';
 
 import '../utils/styles.dart';
 import 'employee_avatar.dart';
 
 class RequestCard extends StatelessWidget {
-  final bool isPending;
+  final LeaveRequest leaveRequest;
   const RequestCard({
-    this.isPending = false,
+    required this.leaveRequest,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    print(leaveRequest.halfADay);
+    bool isHalfDay = (leaveRequest.halfADay ?? "").isNotEmpty;
+    var status = leaveRequest.status ?? "";
+    bool isPending = false;
+    Color statusColor = LeaveRequest.statusColors[0];
+    if (status.toLowerCase().contains("approve")) {
+      statusColor = LeaveRequest.statusColors[1];
+    }
+    if (status.toLowerCase().contains("reject")) {
+      statusColor = LeaveRequest.statusColors[2];
+    }
+    if (status.toLowerCase().contains("pend")) {
+      isPending = true;
+    }
+
     return Container(
       padding: EdgeInsets.all(8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
@@ -48,12 +64,12 @@ class RequestCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Firstname Lastname",
+                          leaveRequest.employee ?? "",
                           style: HRMTextStyles.normalText
                               .copyWith(color: Colors.black),
                         ),
                         Text(
-                          "Business leave",
+                          leaveRequest.leaveType ?? "",
                           style: HRMTextStyles.h5Text.copyWith(
                             fontWeight: FontWeight.w200,
                             color: Colors.pink,
@@ -73,10 +89,10 @@ class RequestCard extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w200),
                     ),
                     Text(
-                      "Pending",
+                      leaveRequest.status ?? '',
                       style: HRMTextStyles.h5Text.copyWith(
                         fontWeight: FontWeight.w200,
-                        color: HRMColorStyles.pendingColor,
+                        color: statusColor,
                       ),
                     )
                   ],
@@ -98,14 +114,13 @@ class RequestCard extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: "Start: ",
+                      text: isHalfDay ? "Start: " : "Date",
                       style: HRMTextStyles.h5Text.copyWith(
-                        fontWeight: FontWeight.w200,
                         color: Colors.black.withOpacity(0.6),
                       ),
                       children: [
                         TextSpan(
-                            text: "April 11, 2022 - 08:00",
+                            text: leaveRequest.fromDate.toString(),
                             style: HRMTextStyles.h5Text.copyWith(
                               fontWeight: FontWeight.w200,
                               color: Colors.black,
@@ -113,22 +128,40 @@ class RequestCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  RichText(
-                    text: TextSpan(
-                      text: "End: ",
-                      style: HRMTextStyles.h5Text.copyWith(
-                        color: Colors.black.withOpacity(0.6),
-                      ),
-                      children: [
-                        TextSpan(
-                            text: "April 11, 2022 - 16:00",
+                  isHalfDay
+                      ? RichText(
+                          text: TextSpan(
+                            text: "End: ",
                             style: HRMTextStyles.h5Text.copyWith(
-                              fontWeight: FontWeight.w200,
-                              color: Colors.black,
-                            )),
-                      ],
-                    ),
-                  ),
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                            children: [
+                              TextSpan(
+                                  text: leaveRequest.toDate.toString(),
+                                  style: HRMTextStyles.h5Text.copyWith(
+                                    fontWeight: FontWeight.w200,
+                                    color: Colors.black,
+                                  )),
+                            ],
+                          ),
+                        )
+                      : RichText(
+                          text: TextSpan(
+                            text: "Section: ",
+                            style: HRMTextStyles.h5Text.copyWith(
+                              color: Colors.black.withOpacity(0.6),
+                            ),
+                            children: [
+                              TextSpan(
+                                text: leaveRequest.halfADay ?? "",
+                                style: HRMTextStyles.h5Text.copyWith(
+                                  fontWeight: FontWeight.w200,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                 ],
               ),
               isPending

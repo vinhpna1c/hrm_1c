@@ -51,7 +51,9 @@ class PersonalInformation {
     status = json['Status'];
     paidDay = double.tryParse(json['PaidDay']) ?? 0;
     unpaidDay = double.tryParse(json['UnpaidDay']) ?? 0;
+
     sickLeave = double.tryParse(json['SickLeave']) ?? 0;
+
     URL = json['URL'];
     if (json['DependentList'] != null) {
       dependentList = <DependentList>[];

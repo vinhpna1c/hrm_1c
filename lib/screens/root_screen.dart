@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/components/hrm_appbar.dart';
 import 'package:hrm_1c/components/hrm_drawer.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
@@ -32,11 +33,13 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _userController = Get.find<UserController>();
+
     bool isManager = _userController.accountType == AccountType.MANAGER;
     if (!isManager) {
       screenWidgets = [HomeScreen()];
     }
-
+    final adminController = Get.find<AdminDataController>();
+    adminController.getAllEmployeeLeaveRequest();
     return DefaultTabController(
       initialIndex: _currentIndex.value,
       length: screenWidgets.length,

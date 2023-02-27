@@ -5,6 +5,7 @@ import 'package:hrm_1c/components/leave_widget.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
+import 'package:hrm_1c/utils/utils.dart';
 import 'package:intl/intl.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -66,7 +67,8 @@ class AccountScreen extends StatelessWidget {
                             Icons.cases_rounded,
                             color: HRMColorStyles.darkBlueColor,
                           ),
-                          content: "${personalInformation.paidDay}/7",
+                          content:
+                              "${formatDouble(userController.userInformation!.paidDay ?? 0.0)}/7",
                           leaveType: "Annual leave",
                         ),
                         LeaveWidget(
@@ -75,7 +77,8 @@ class AccountScreen extends StatelessWidget {
                             Icons.sick,
                             color: HRMColorStyles.darkBlueColor,
                           ),
-                          content: "${personalInformation.sickLeave}/30",
+                          content:
+                              "${formatDouble(userController.userInformation!.sickLeave ?? 0.0)}/30",
                           leaveType: "Sick leave",
                         ),
                         LeaveWidget(
@@ -84,7 +87,8 @@ class AccountScreen extends StatelessWidget {
                             Icons.cloud,
                             color: HRMColorStyles.darkBlueColor,
                           ),
-                          content: "${personalInformation.unpaidDay}",
+                          content: formatDouble(
+                              userController.userInformation!.unpaidDay ?? 0.0),
                           leaveType: "Unpaid leave",
                         ),
                       ],

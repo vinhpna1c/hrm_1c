@@ -5,6 +5,7 @@ import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/account/account_screen.dart';
 import 'package:hrm_1c/screens/auth/change_password_screen.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
+import 'package:hrm_1c/screens/leave_days/check_in_history.dart';
 import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
@@ -89,7 +90,12 @@ class HRMDrawer extends StatelessWidget {
                       Get.to(ChangePasswordScreen());
                     }),
                 _userController.accountType == AccountType.EMPLOYEE
-                    ? NavigationTile(label: "Check-in History")
+                    ? NavigationTile(
+                        label: "Check-in History",
+                        onTap: () {
+                          Get.back();
+                          Get.to(CheckInHistoryScreen());
+                        })
                     : const SizedBox(),
                 _userController.accountType == AccountType.MANAGER
                     ? NavigationTile(label: "Settings")
