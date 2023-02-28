@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/leave_day_controller.dart';
+import 'package:hrm_1c/models/time_keeping.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/check_in_controller.dart';
@@ -16,6 +18,7 @@ class UserController extends GetxController {
   PersonalInformation? userInformation;
 
   Future<void> getUserInformation() async {
+    final checkInCtrl = Get.find<CheckInController>();
     var respond = await ApiHandler.getRequest(AuthController.authPath, params: {
       "Token": identifyString,
     });
@@ -23,6 +26,7 @@ class UserController extends GetxController {
       print(jsonEncode(respond.data['Metadata'][0]['PersonalInformation']));
       userInformation = PersonalInformation.fromJson(
           respond.data['Metadata'][0]['PersonalInformation']);
+      checkInCtrl.timeKeeping.value = userInformation!.timeKeeping;
     }
   }
 

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
 import 'package:hrm_1c/components/hrm_appbar.dart';
 import 'package:hrm_1c/components/hrm_drawer.dart';
+import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
@@ -11,6 +13,7 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authController = Get.find<AuthController>();
     return SingleBodyScreen(
       body: Container(
         padding: const EdgeInsets.all(16.0),
@@ -20,21 +23,35 @@ class ChangePasswordScreen extends StatelessWidget {
           children: [
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               PasswordTitle(title: "Old password"),
-              PasswordTextField(hintText: "Input old password"),
+              PasswordTextField(
+                  hintText: "Input old password",
+                  controller: authController.oldPassController),
               PasswordTitle(title: "New password"),
-              PasswordTextField(hintText: "Input new password"),
+              PasswordTextField(
+                  hintText: "Input new password",
+                  controller: authController.newPassController),
               PasswordTitle(title: "Confirm password"),
-              PasswordTextField(hintText: "Input confirm password"),
+              PasswordTextField(
+                  hintText: "Input confirm password",
+                  controller: authController.renewPassController),
             ]),
             Row(
               children: [
                 Expanded(
                   flex: 3,
                   child: TextButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      var respond = await authController.changePassword();
+                      if (respond) {
+                        Get.snackbar(
+                            "1C:HRM", "Your password has been changed!");
+                      } else {
+                        Get.snackbar("1C:HRM", "Error while change password!");
+                      }
+                    },
                     style: TextButton.styleFrom(backgroundColor: Colors.white),
                     child: Text(
-                      "Save & request",
+                      "Save",
                       style: HRMTextStyles.h3Text
                           .copyWith(color: HRMColorStyles.lightBlueColor),
                     ),
@@ -64,7 +81,10 @@ class ChangePasswordScreen extends StatelessWidget {
   }
 }
 
-Widget PasswordTextField({String hintText = ""}) {
+Widget PasswordTextField({
+  String hintText = "",
+  TextEditingController? controller,
+}) {
   return TextField(
     decoration: InputDecoration(
       border: OutlineInputBorder(),
@@ -76,6 +96,7 @@ Widget PasswordTextField({String hintText = ""}) {
       filled: true,
     ),
     obscureText: true,
+    controller: controller,
   );
 }
 

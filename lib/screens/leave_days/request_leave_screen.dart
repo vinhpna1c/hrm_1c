@@ -5,6 +5,7 @@ import 'package:hrm_1c/controller/leave_day_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 
 import 'package:hrm_1c/utils/styles.dart';
+import 'package:intl/intl.dart';
 
 class RequestLeaveScreen extends StatelessWidget {
   const RequestLeaveScreen({super.key});
@@ -12,6 +13,7 @@ class RequestLeaveScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final leaveDayCtrl = Get.find<LeaveDayController>();
+
     return SingleBodyScreen(
       body: CustomScrollView(
         slivers: [
@@ -90,13 +92,84 @@ class RequestLeaveScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      TitleField(title: "Start date"),
-                      PickUpDateTextField(),
-                      TitleField(title: "End date"),
-                      PickUpDateTextField(),
-                      TitleField(title: "Reason (optional)"),
+                      Obx(() => TitleField(
+                          title: leaveDayCtrl.sectionLeave.value ==
+                                  LeaveDayController.SECTION_LEAVE_TYPES[0]
+                              ? "Start date"
+                              : "Date")),
+                      PickUpDateTextField(
+                          controller: leaveDayCtrl.startDateController,
+                          onCalendarIconTap: () async {
+                            var pickedDate = await datePicker(context);
+                            if (pickedDate != null) {
+                              leaveDayCtrl.startDate.value = pickedDate;
+                              leaveDayCtrl.startDateController.text =
+                                  DateFormat("dd-MM-yyyy").format(pickedDate);
+                            } else {
+                              leaveDayCtrl.startDate.value = null;
+                              leaveDayCtrl.startDateController.clear();
+                            }
+                          }),
+                      Obx(() => leaveDayCtrl.sectionLeave.value ==
+                              LeaveDayController.SECTION_LEAVE_TYPES[0]
+                          ? TitleField(title: "End date")
+                          : const SizedBox()),
+                      Obx(
+                        () => leaveDayCtrl.sectionLeave.value ==
+                                LeaveDayController.SECTION_LEAVE_TYPES[0]
+                            ? PickUpDateTextField(
+                                controller: leaveDayCtrl.endDateController,
+                                onCalendarIconTap: () async {
+                                  var pickedDate = await datePicker(context);
+                                  if (pickedDate != null) {
+                                    leaveDayCtrl.endDate.value = pickedDate;
+                                    leaveDayCtrl.endDateController.text =
+                                        DateFormat("dd-MM-yyyy")
+                                            .format(pickedDate);
+                                  } else {
+                                    leaveDayCtrl.endDate.value = null;
+                                    leaveDayCtrl.endDateController.clear();
+                                  }
+                                },
+                              )
+                            : Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TitleField(title: "Session:"),
+                                  SectionRadio(
+                                      value:
+                                          LeaveDayController.SESSION_TYPES[0],
+                                      groupValue: leaveDayCtrl.sessonType.value,
+                                      onChanged: (value) {
+                                        print(value);
+                                        leaveDayCtrl.sessonType.value =
+                                            value ?? '';
+                                      }),
+                                  Text("Morning",
+                                      style: HRMTextStyles.lightText
+                                          .copyWith(color: Colors.white)),
+                                  SectionRadio(
+                                    value: LeaveDayController.SESSION_TYPES[1],
+                                    groupValue: leaveDayCtrl.sessonType.value,
+                                    onChanged: (value) {
+                                      print(value);
+                                      leaveDayCtrl.sessonType.value =
+                                          value ?? '';
+                                    },
+                                  ),
+                                  Text(
+                                    "Afternoon",
+                                    style: HRMTextStyles.lightText
+                                        .copyWith(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                      ),
+                      TitleField(title: "Reason (optional)", isRequired: false),
                       TextFormField(
-                        decoration: InputDecoration(
+                        controller: leaveDayCtrl.reasonController,
+                        decoration: const InputDecoration(
                           border: OutlineInputBorder(),
                           fillColor: Colors.white,
                           filled: true,
@@ -110,7 +183,16 @@ class RequestLeaveScreen extends StatelessWidget {
                       Expanded(
                         flex: 3,
                         child: TextButton(
-                          onPressed: () {},
+                          onPressed: () async {
+                            var respond = await leaveDayCtrl.requestLeaveDay();
+                            if (respond) {
+                              Get.snackbar(
+                                  "1C:HRM", "Your request has been saved!");
+                            } else {
+                              Get.snackbar(
+                                  "1C:HRM", "Error while sending request!");
+                            }
+                          },
                           style: TextButton.styleFrom(
                               backgroundColor: Colors.white),
                           child: Text(
@@ -147,6 +229,15 @@ class RequestLeaveScreen extends StatelessWidget {
     );
   }
 
+  Future<DateTime?> datePicker(BuildContext context) async {
+    return await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 50)),
+    );
+  }
+
   Widget SectionRadio({
     String value = "",
     String groupValue = "",
@@ -161,22 +252,27 @@ class RequestLeaveScreen extends StatelessWidget {
     );
   }
 
-  Widget PickUpDateTextField() {
+  Widget PickUpDateTextField({
+    TextEditingController? controller,
+    Function()? onCalendarIconTap,
+  }) {
     return TextField(
-      enabled: false,
+      readOnly: true,
+      enabled: true,
+      controller: controller,
       decoration: InputDecoration(
           border: OutlineInputBorder(),
-          hintText: "DD-MM-YYYY (hh:mm)",
+          hintText: "DD-MM-YYYY",
           hintStyle: HRMTextStyles.lightText
               .copyWith(color: HRMColorStyles.greyHintColor),
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
           fillColor: Colors.white,
           filled: true,
           suffixIcon: IconButton(
-            icon: Icon(
+            icon: const Icon(
               Icons.calendar_month,
             ),
-            onPressed: () {},
+            onPressed: onCalendarIconTap,
           )),
     );
   }

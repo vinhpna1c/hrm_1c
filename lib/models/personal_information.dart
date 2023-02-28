@@ -1,3 +1,4 @@
+import 'package:hrm_1c/models/time_keeping.dart';
 import 'package:hrm_1c/utils/utils.dart';
 
 class PersonalInformation {
@@ -17,32 +18,31 @@ class PersonalInformation {
   double? sickLeave;
   String? URL;
   List<DependentList>? dependentList;
+  TimeKeeping? timeKeeping;
 
-  PersonalInformation({
-    this.code,
-    this.description,
-    this.dateOfBirth,
-    this.gender,
-    this.numberPhone,
-    this.identification,
-    this.nationality,
-    this.email,
-    this.address,
-    this.maritalStatus,
-    this.status,
-    this.paidDay,
-    this.unpaidDay,
-    this.sickLeave,
-    this.URL,
-    this.dependentList,
-  });
+  PersonalInformation(
+      {this.code,
+      this.description,
+      this.dateOfBirth,
+      this.gender,
+      this.numberPhone,
+      this.identification,
+      this.nationality,
+      this.email,
+      this.address,
+      this.maritalStatus,
+      this.status,
+      this.paidDay,
+      this.unpaidDay,
+      this.sickLeave,
+      this.URL,
+      this.dependentList,
+      this.timeKeeping});
 
   PersonalInformation.fromJson(Map<String, dynamic> json) {
     code = json['Code'];
     description = json['Description'];
-    String dob = json['DateOfBirth'].toString();
-    dateOfBirth = parseDateTimeFromStr(dob);
-    print(dateOfBirth);
+    dateOfBirth = parseDateTimeFromStr(json['DateOfBirth'].toString());
     gender = json['Gender'];
     numberPhone = json['NumberPhone'];
     identification = json['Identification'];
@@ -51,11 +51,9 @@ class PersonalInformation {
     address = json['Address'];
     maritalStatus = json['MaritalStatus'];
     status = json['Status'];
-    paidDay = double.tryParse(json['PaidDay']) ?? 0;
-    unpaidDay = double.tryParse(json['UnpaidDay']) ?? 0;
-
-    sickLeave = double.tryParse(json['SickLeave']) ?? 0;
-
+    paidDay = double.tryParse(json['PaidDay'].toString());
+    unpaidDay = double.tryParse(json['UnpaidDay'].toString());
+    sickLeave = double.tryParse(json['SickLeave'].toString());
     URL = json['URL'];
     if (json['DependentList'] != null) {
       dependentList = <DependentList>[];
@@ -63,6 +61,9 @@ class PersonalInformation {
         dependentList!.add(new DependentList.fromJson(v));
       });
     }
+    timeKeeping = json['TimeKeeping'] != null
+        ? new TimeKeeping.fromJson(json['TimeKeeping'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -85,6 +86,9 @@ class PersonalInformation {
     if (this.dependentList != null) {
       data['DependentList'] =
           this.dependentList!.map((v) => v.toJson()).toList();
+    }
+    if (this.timeKeeping != null) {
+      data['TimeKeeping'] = this.timeKeeping!.toJson();
     }
     return data;
   }

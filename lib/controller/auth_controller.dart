@@ -12,7 +12,12 @@ class AuthController extends GetxController {
   final TextEditingController passwordController = TextEditingController();
   final _checkInController = Get.put(CheckInController());
 
-  static final authPath = "/V1/Employee";
+  final TextEditingController oldPassController = TextEditingController();
+  final TextEditingController newPassController = TextEditingController();
+  final TextEditingController renewPassController = TextEditingController();
+
+  static const authPath = "/V1/Employee";
+  static const changePasswordPath = "/V1/ChangePassword";
 
   Future<int> signIn() async {
     final userController = Get.find<UserController>();
@@ -40,6 +45,40 @@ class AuthController extends GetxController {
     }
 
     return respond.statusCode ?? 404;
+  }
+
+  Future<bool> changePassword() async {
+    String oldPassword = oldPassController.text;
+    String newPassword = newPassController.text;
+    String renewPassword = renewPassController.text;
+
+    final userController = Get.find<UserController>();
+
+    if (newPassword != renewPassword) {
+      print("2 pass not same");
+      return false;
+    }
+    print("Ok here");
+    print(jsonEncode({
+      "UserName": userController.username,
+      "OldPassword": oldPassword,
+      "NewPassword": newPassword
+    }));
+
+    var respond = await ApiHandler.postRequest(changePasswordPath, body: {
+      "UserName": userController.username,
+      "OldPassword": oldPassword,
+      "NewPassword": newPassword
+    });
+
+    if (respond.statusCode == 200) {
+      var data = respond.data.toString();
+      if (data.toLowerCase().contains("success")) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   Future<void> signOut() async {

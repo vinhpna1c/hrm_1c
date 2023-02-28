@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
+import 'package:hrm_1c/models/time_keeping.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/services/firebase/firebase_service.dart';
 import 'package:hrm_1c/utils/utils.dart';
@@ -13,6 +14,8 @@ class CheckInController extends GetxController {
   static const allLeavePath = "/V1/AllLeave";
   static const personalLeavePath = "/V1/PersonalLeave";
 
+  Rx<TimeKeeping?> timeKeeping = Rx(null);
+
   Future<bool> checkIn() async {
     final userController = Get.find<UserController>();
     var respond = await ApiHandler.postRequest(checkInPath,
@@ -23,6 +26,8 @@ class CheckInController extends GetxController {
       print(respond);
       documentID.value = data['Number'].toString();
       checkInDate.value = parseDateTimeFromStr(data['Checkin']);
+
+      timeKeeping.value = TimeKeeping.fromJson(data);
       checkOutDate.value = null;
       if (data['Checkout'] != null) {
         if (data['Checkout'].toString().isNotEmpty) {
