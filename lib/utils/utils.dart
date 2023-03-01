@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-DateTime parseDateTimeFromStr(String dateStr,
+DateTime? parseDateTimeFromStr(String dateStr,
     {String format = "M/dd/y hh:mm:ss a"}) {
   DateTime ret = DateTime.now();
 
   try {
     ret = DateFormat(format).parse(dateStr);
   } catch (e) {
-    print("Error parsing date");
+    print("Cannot parse string!");
+    return null;
   }
   return ret;
 }

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
+import 'package:get/get.dart';
 import 'package:hrm_1c/components/information_card.dart';
 import 'package:hrm_1c/components/search_widget.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/models/Employee.dart';
 
 import 'package:hrm_1c/utils/styles.dart';
@@ -93,6 +95,7 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final adminDataCtrl = Get.find<AdminDataController>();
     return SafeArea(
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
@@ -111,17 +114,22 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
                 Expanded(
                   child: Ink(
                     color: Colors.white,
-                    child: ListView(
-                      padding: EdgeInsets.only(top: 10),
-                      shrinkWrap: true,
-                      children: [
-                        InformationCard(),
-                        InformationCard(),
-                        InformationCard(),
-                        InformationCard(),
-                        InformationCard(),
-                        InformationCard()
-                      ],
+                    child: Obx(
+                      () => RefreshIndicator(
+                        onRefresh: () async {
+                          await adminDataCtrl.getAllEmployeeList();
+                        },
+                        child: ListView(
+                          padding: EdgeInsets.only(top: 10),
+                          shrinkWrap: true,
+                          children: adminDataCtrl.employees
+                              .map(
+                                (element) => InformationCard(
+                                    employeeInformation: element),
+                              )
+                              .toList(),
+                        ),
+                      ),
                     ),
                   ),
                 ),

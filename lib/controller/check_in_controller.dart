@@ -24,24 +24,13 @@ class CheckInController extends GetxController {
     if (respond.statusCode == 200) {
       var data = respond.data;
       print(respond);
-      documentID.value = data['Number'].toString();
-      checkInDate.value = parseDateTimeFromStr(data['Checkin']);
 
       timeKeeping.value = TimeKeeping.fromJson(data);
       checkOutDate.value = null;
-      if (data['Checkout'] != null) {
-        if (data['Checkout'].toString().isNotEmpty) {
-          checkOutDate.value =
-              parseDateTimeFromStr(data['Checkout'].toString());
-        }
-        print(checkOutDate.value);
-      }
 
       return true;
     }
-    documentID.value = "";
-    checkInDate.value = null;
-    checkOutDate.value = null;
+    timeKeeping.value = TimeKeeping();
 
     return false;
   }
@@ -49,13 +38,16 @@ class CheckInController extends GetxController {
   Future<bool> checkOut() async {
     var respond = await ApiHandler.postRequest(
       checkOutPath,
-      body: {"Number": documentID.value},
+      body: {"Number": timeKeeping.value!.number},
     );
+    final userController = Get.find<UserController>();
 
     if (respond.statusCode == 200) {
       var data = respond.data;
       if (data.toString().toLowerCase().contains("success")) {
-        checkOutDate.value = DateTime.now();
+        userController.getUserInformation().then((_) {
+          timeKeeping.value = userController.userInformation!.timeKeeping;
+        });
         return true;
       }
     }

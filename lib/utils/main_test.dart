@@ -5,7 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 void main(List<String> args) async {
-  var d = DateFormat("M/dd/y hh:mm:ss a").parse("5/31/2001 12:00:00 AM");
+  var d = DateFormat("d/DD/y hh:mm:ss a").parse("2/20/2023 3:17:31 PM");
   print(d.day);
   print(d.month);
   // print(await db.serverStatus());

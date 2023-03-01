@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 
@@ -31,12 +32,14 @@ class AuthController extends GetxController {
     if (respond.statusCode == 200) {
       var respondBody = respond.data;
       userController.identifyString = respondBody['Identifier'] ?? "";
+      String accountType = respondBody['AccountType'] ?? "";
       userController.username = username;
       userController.password = password;
-      if (await userController.isAdminAccount()) {
-        userController.accountType = AccountType.MANAGER;
+      if (accountType.toLowerCase().contains("admin")) {
+        userController.accountType = AccountType.ADMINISTRATOR;
+        initAdminData();
       } else {
-        userController.accountType = AccountType.EMPLOYEE;
+        userController.accountType = AccountType.STAFF;
       }
 
       await userController.getUserInformation();
@@ -45,6 +48,12 @@ class AuthController extends GetxController {
     }
 
     return respond.statusCode ?? 404;
+  }
+
+  Future<void> initAdminData() async {
+    final adminDataCtrl = Get.put(AdminDataController());
+    await adminDataCtrl.getAllEmployeeList();
+    await adminDataCtrl.getAllEmployeeLeaveRequest();
   }
 
   Future<bool> changePassword() async {

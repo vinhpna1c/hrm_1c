@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/models/leave_request.dart';
 
 import '../utils/styles.dart';
@@ -13,7 +15,6 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(leaveRequest.halfADay);
     bool isHalfDay = (leaveRequest.halfADay ?? "").isNotEmpty;
     var status = leaveRequest.status ?? "";
     bool isPending = false;
@@ -28,6 +29,9 @@ class RequestCard extends StatelessWidget {
       isPending = true;
     }
 
+    print(leaveRequest.halfADay);
+    String halfADayStr = leaveRequest.halfADay ?? "";
+    print("Half a day srt: " + halfADayStr);
     return Container(
       padding: EdgeInsets.all(8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
@@ -153,7 +157,9 @@ class RequestCard extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: leaveRequest.halfADay ?? "",
+                                text: halfADayStr.toLowerCase().contains("mor")
+                                    ? "Morning"
+                                    : "Afternoon",
                                 style: HRMTextStyles.h5Text.copyWith(
                                   fontWeight: FontWeight.w200,
                                   color: Colors.black,

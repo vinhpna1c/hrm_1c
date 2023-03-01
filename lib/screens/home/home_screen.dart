@@ -28,18 +28,12 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _userController = Get.find<UserController>();
-    final _geoController = Get.put(GeoController());
-    final _checkInCtrl = Get.put(CheckInController());
-    bool isManager = _userController.accountType == AccountType.MANAGER;
-    double width = MediaQuery.of(context).size.width;
-    double homeNavSize = (width - _HOME_NAV_SPACE * 2 - 16 * 2) / 3;
-    var currentLocation = _geoController.currentLocation.value!;
-    print("Position update: " + currentLocation.toString());
-
+    final userController = Get.find<UserController>();
+    final geoController = Get.put(GeoController());
+    final checkInCtrl = Get.put(CheckInController());
+    bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     DateTime today = DateTime.now();
-
-    String platform = Theme.of(context).platform.name;
+    print(checkInCtrl.timeKeeping.value!.toJson());
 
     return Container(
       color: Colors.white,
@@ -70,7 +64,8 @@ class HomeScreen extends StatelessWidget {
                             const TextSpan(
                                 text: "Hi,", style: HRMTextStyles.normalText),
                             TextSpan(
-                                text: "\nManager",
+                                text:
+                                    "\n${(userController.userInformation!.description ?? "").split(" ").last}",
                                 style: HRMTextStyles.boldText),
                           ]),
                         ),
@@ -146,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                                       TimerBuilder.periodic(
                                           Duration(milliseconds: 500),
                                           builder: (context) {
-                                        if (_geoController
+                                        if (geoController
                                                 .currentLocation.value ==
                                             null) {
                                           return const SizedBox();
@@ -154,18 +149,18 @@ class HomeScreen extends StatelessWidget {
                                         return RichText(
                                           text: TextSpan(
                                             text: Geolocator.distanceBetween(
-                                                    _geoController
+                                                    geoController
                                                         .currentLocation
                                                         .value!
                                                         .latitude,
-                                                    _geoController
+                                                    geoController
                                                         .currentLocation
                                                         .value!
                                                         .longitude,
-                                                    _geoController
+                                                    geoController
                                                         .checkInLocation
                                                         .latitude,
-                                                    _geoController
+                                                    geoController
                                                         .checkInLocation
                                                         .longitude)
                                                 .toStringAsFixed(0),
@@ -199,20 +194,25 @@ class HomeScreen extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.only(top: 24),
                               child: LoginButton(
-                                text: _checkInCtrl.documentID.value.isEmpty
+                                text: checkInCtrl.timeKeeping.value!.number ==
+                                        null
                                     ? "CHECK IN"
                                     : "CHECK OUT",
                                 onTapFunction: () async {
-                                  if (_checkInCtrl.documentID.isEmpty) {
-                                    var res = await _checkInCtrl.checkIn();
+                                  if ((checkInCtrl.timeKeeping.value!.number ==
+                                          null) ||
+                                      (checkInCtrl.timeKeeping.value!.number!
+                                          .isEmpty)) {
+                                    var res = await checkInCtrl.checkIn();
                                     if (res) {
                                       Get.snackbar(
                                           "1C:HRM", "Check in successfull");
                                     }
                                   } else {
-                                    if (_checkInCtrl.checkOutDate.value ==
+                                    if (checkInCtrl
+                                            .timeKeeping.value!.checkout ==
                                         null) {
-                                      _checkInCtrl.checkOut();
+                                      checkInCtrl.checkOut();
                                       Get.snackbar(
                                           "1C:HRM", "Check out successfull");
                                     } else {

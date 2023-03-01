@@ -36,15 +36,15 @@ class EmployeeAvatar extends StatelessWidget {
           width: size - paddingSpace,
           child: imageURL == null
               ? Image.asset(
-                  "assets/images/avatar_holder.png",
+                  "assets/images/person_holder.png",
                   fit: BoxFit.contain,
                 )
               : Image.network(
                   imageURL!,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.contain,
                   errorBuilder: ((context, error, stackTrace) => Image.asset(
-                        "assets/images/avatar_holder.png",
-                        fit: BoxFit.fill,
+                        "assets/images/person_holder.png",
+                        fit: BoxFit.contain,
                       )),
                 ),
         ),

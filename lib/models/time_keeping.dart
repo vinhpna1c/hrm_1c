@@ -1,15 +1,17 @@
+import 'package:hrm_1c/utils/utils.dart';
+
 class TimeKeeping {
   String? number;
-  String? checkin;
-  String? checkout;
+  DateTime? checkin;
+  DateTime? checkout;
   String? status;
 
   TimeKeeping({this.number, this.checkin, this.checkout, this.status});
 
   TimeKeeping.fromJson(Map<String, dynamic> json) {
     number = json['Number'];
-    checkin = json['Checkin'];
-    checkout = json['Checkout'];
+    checkin = parseDateTimeFromStr(json['Checkin'].toString());
+    checkout = parseDateTimeFromStr(json['Checkout'].toString());
     status = json['Status'];
   }
 

@@ -10,7 +10,8 @@ import '../../components/request_card.dart';
 class LeaveDayScreen extends StatelessWidget {
   LeaveDayScreen({super.key});
 
-  RxInt _selectedIndex = 0.obs;
+  final RxInt _selectedIndex = 0.obs;
+  static final tabs = ["Pending", "Approve", "Reject"];
   @override
   Widget build(BuildContext context) {
     final adminDataCtrl = Get.find<AdminDataController>();
@@ -19,7 +20,7 @@ class LeaveDayScreen extends StatelessWidget {
       child: SafeArea(
         child: Container(
           color: Colors.white,
-          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
           child: Column(
             children: [
               SearchWidget(),
@@ -51,37 +52,24 @@ class LeaveDayScreen extends StatelessWidget {
               Expanded(
                 child: TabBarView(
                   children: [
-                    //Tab pending
-                    ListView(
-                      children: adminDataCtrl.leaveRequests
-                          .where((lq) =>
-                              (lq.status ?? "").toLowerCase().contains("pend"))
-                          .map(
-                            (e) => RequestCard(leaveRequest: e),
-                          )
-                          .toList(),
-                    ),
-                    //Tab approved
-                    ListView(
-                      children: adminDataCtrl.leaveRequests
-                          .where((lq) => (lq.status ?? "")
-                              .toLowerCase()
-                              .contains("approve"))
-                          .map(
-                            (e) => RequestCard(leaveRequest: e),
-                          )
-                          .toList(),
-                    ),
-                    //Tab not approved
-                    ListView(
-                      children: adminDataCtrl.leaveRequests
-                          .where((lq) => (lq.status ?? "")
-                              .toLowerCase()
-                              .contains("reject"))
-                          .map(
-                            (e) => RequestCard(leaveRequest: e),
-                          )
-                          .toList(),
+                    ...tabs.map(
+                      (tab) => RefreshIndicator(
+                        onRefresh: () async {
+                          await adminDataCtrl.getAllEmployeeLeaveRequest();
+                        },
+                        child: Obx(
+                          () => ListView(
+                            children: adminDataCtrl.leaveRequests
+                                .where((lq) => (lq.status ?? "")
+                                    .toLowerCase()
+                                    .contains(tab.toLowerCase()))
+                                .map(
+                                  (e) => RequestCard(leaveRequest: e),
+                                )
+                                .toList(),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),

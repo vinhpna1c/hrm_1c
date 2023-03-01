@@ -34,12 +34,12 @@ class RootScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _userController = Get.find<UserController>();
 
-    bool isManager = _userController.accountType == AccountType.MANAGER;
+    bool isManager = _userController.accountType == AccountType.ADMINISTRATOR;
     if (!isManager) {
       screenWidgets = [HomeScreen()];
     }
     final adminController = Get.find<AdminDataController>();
-    adminController.getAllEmployeeLeaveRequest();
+
     return DefaultTabController(
       initialIndex: _currentIndex.value,
       length: screenWidgets.length,

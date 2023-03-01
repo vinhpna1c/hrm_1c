@@ -58,12 +58,12 @@ class JobScreen extends StatelessWidget {
                     padding: EdgeInsets.only(top: 10),
                     shrinkWrap: true,
                     children: [
-                      InformationCard(),
-                      InformationCard(),
-                      InformationCard(),
-                      InformationCard(),
-                      InformationCard(),
-                      InformationCard()
+                      // InformationCard(),
+                      // InformationCard(),
+                      // InformationCard(),
+                      // InformationCard(),
+                      // InformationCard(),
+                      // InformationCard()
                     ],
                   ),
                 ),

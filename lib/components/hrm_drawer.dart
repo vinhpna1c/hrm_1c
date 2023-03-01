@@ -73,7 +73,7 @@ class HRMDrawer extends StatelessWidget {
                       Get.back();
                       Get.to(RootScreen());
                     }),
-                _userController.accountType == AccountType.EMPLOYEE
+                _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
                         label: "Request leave-day",
                         onTap: () {
@@ -89,7 +89,7 @@ class HRMDrawer extends StatelessWidget {
                       var key = UniqueKey();
                       Get.to(ChangePasswordScreen());
                     }),
-                _userController.accountType == AccountType.EMPLOYEE
+                _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
                         label: "Check-in History",
                         onTap: () {
@@ -97,10 +97,10 @@ class HRMDrawer extends StatelessWidget {
                           Get.to(CheckInHistoryScreen());
                         })
                     : const SizedBox(),
-                _userController.accountType == AccountType.MANAGER
+                _userController.accountType == AccountType.ADMINISTRATOR
                     ? NavigationTile(label: "Settings")
                     : const SizedBox(),
-                _userController.accountType == AccountType.EMPLOYEE
+                _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
                         label: "User Information",
                         onTap: () {

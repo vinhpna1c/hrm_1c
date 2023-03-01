@@ -8,13 +8,13 @@ import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/check_in_controller.dart';
 import 'package:hrm_1c/models/personal_information.dart';
 
-enum AccountType { MANAGER, EMPLOYEE }
+enum AccountType { ADMINISTRATOR, STAFF }
 
 class UserController extends GetxController {
   String identifyString = "87bd2ef0-b196-11ed-b0ed-00155dda4405";
   String username = "";
   String password = "";
-  AccountType accountType = AccountType.EMPLOYEE;
+  AccountType accountType = AccountType.STAFF;
   PersonalInformation? userInformation;
 
   Future<void> getUserInformation() async {
@@ -23,9 +23,9 @@ class UserController extends GetxController {
       "Token": identifyString,
     });
     if (respond.statusCode == 200) {
-      print(jsonEncode(respond.data['Metadata'][0]['PersonalInformation']));
       userInformation = PersonalInformation.fromJson(
           respond.data['Metadata'][0]['PersonalInformation']);
+      print(userInformation!.toJson());
       checkInCtrl.timeKeeping.value = userInformation!.timeKeeping;
     }
   }
@@ -52,7 +52,7 @@ class UserController extends GetxController {
     identifyString = "";
     username = "";
     password = "";
-    accountType = AccountType.EMPLOYEE;
+    accountType = AccountType.STAFF;
     super.onClose();
   }
 }

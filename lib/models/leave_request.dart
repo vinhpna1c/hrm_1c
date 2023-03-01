@@ -1,23 +1,24 @@
 import 'package:hrm_1c/utils/styles.dart';
+import 'package:hrm_1c/utils/utils.dart';
 
 class LeaveRequest {
-  String? number;
-  String? date;
-  String? employee;
-  String? fromDate;
-  String? toDate;
-  String? reason;
-  String? leaveType;
-  String? status;
-  String? numberDays;
-  String? section;
-  String? halfADay;
-
   static final statusColors = [
     HRMColorStyles.pendingColor,
     HRMColorStyles.approveColor,
     HRMColorStyles.denyColor,
   ];
+
+  String? number;
+  DateTime? date;
+  String? employee;
+  DateTime? fromDate;
+  DateTime? toDate;
+  String? reason;
+  String? leaveType;
+  String? numberDays;
+  String? section;
+  String? halfADay;
+  String? status;
 
   LeaveRequest(
       {this.number,
@@ -27,23 +28,23 @@ class LeaveRequest {
       this.toDate,
       this.reason,
       this.leaveType,
-      this.status,
       this.numberDays,
       this.section,
-      this.halfADay});
+      this.halfADay,
+      this.status});
 
   LeaveRequest.fromJson(Map<String, dynamic> json) {
     number = json['Number'];
-    date = json['Date'];
+    date = parseDateTimeFromStr(json['Date'].toString());
     employee = json['Employee'];
-    fromDate = json['FromDate'];
-    toDate = json['ToDate'];
+    fromDate = parseDateTimeFromStr(json['FromDate'].toString());
+    toDate = parseDateTimeFromStr(json['ToDate'].toString());
     reason = json['Reason'];
     leaveType = json['LeaveType'];
-    status = json['Status'];
     numberDays = json['NumberDays'];
     section = json['Section'];
     halfADay = json['HalfADay'];
+    status = json['Status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -55,10 +56,10 @@ class LeaveRequest {
     data['ToDate'] = this.toDate;
     data['Reason'] = this.reason;
     data['LeaveType'] = this.leaveType;
-    data['Status'] = this.status;
     data['NumberDays'] = this.numberDays;
     data['Section'] = this.section;
     data['HalfADay'] = this.halfADay;
+    data['Status'] = this.status;
     return data;
   }
 }
