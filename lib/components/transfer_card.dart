@@ -1,22 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:hrm_1c/controller/admin_data_controller.dart';
+import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/models/leave_request.dart';
+import 'package:hrm_1c/models/transfer_shift_request.dart';
+import 'package:hrm_1c/utils/styles.dart';
+import 'package:intl/intl.dart';
 
-import '../utils/styles.dart';
-import 'employee_avatar.dart';
-
-class RequestCard extends StatelessWidget {
-  final LeaveRequest leaveRequest;
-  const RequestCard({
-    required this.leaveRequest,
-    super.key,
-  });
+class TransferCard extends StatelessWidget {
+  final TransferShiftRequest request;
+  const TransferCard({required this.request, super.key});
 
   @override
   Widget build(BuildContext context) {
-    bool isHalfDay = (leaveRequest.halfADay ?? "").isNotEmpty;
-    var status = leaveRequest.status ?? "";
+    bool isHalfDay = false;
+    DateFormat df = DateFormat("yyyy-MM-dd");
+    var status = request.status ?? "";
     bool isPending = false;
     Color statusColor = LeaveRequest.statusColors[0];
     if (status.toLowerCase().contains("approve")) {
@@ -29,9 +26,15 @@ class RequestCard extends StatelessWidget {
       isPending = true;
     }
 
-    print(leaveRequest.halfADay);
-    String halfADayStr = leaveRequest.halfADay ?? "";
-    print("Half a day srt: " + halfADayStr);
+    String newShift = "";
+    print(request.transferShift);
+    newShift = request.transferShift != null
+        ? "${df.format(request.transferShift!)} - ${request.sectionTransfer ?? ""}"
+        : "1";
+
+    newShift += request.transferShift2 != null
+        ? "\n${df.format(request.transferShift2!)} - ${request.sectionTransfer2 ?? ""}"
+        : "";
     return Container(
       padding: EdgeInsets.all(8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
@@ -61,7 +64,7 @@ class RequestCard extends StatelessWidget {
                       child: EmployeeAvatar(
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
-                        imageURL: leaveRequest.picture,
+                        imageURL: request.picture,
                       ),
                     ),
                     Column(
@@ -69,12 +72,12 @@ class RequestCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          leaveRequest.employee ?? "",
+                          request.employee ?? "",
                           style: HRMTextStyles.normalText
                               .copyWith(color: Colors.black),
                         ),
                         Text(
-                          leaveRequest.leaveType ?? "",
+                          "Transfer shift",
                           style: HRMTextStyles.h5Text.copyWith(
                             fontWeight: FontWeight.w200,
                             color: Colors.pink,
@@ -94,7 +97,7 @@ class RequestCard extends StatelessWidget {
                           .copyWith(fontWeight: FontWeight.w200),
                     ),
                     Text(
-                      leaveRequest.status ?? '',
+                      status,
                       style: HRMTextStyles.h5Text.copyWith(
                         fontWeight: FontWeight.w200,
                         color: statusColor,
@@ -119,13 +122,15 @@ class RequestCard extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: isHalfDay ? "Start: " : "Date",
+                      text: "Main shift: ",
                       style: HRMTextStyles.h5Text.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
                       children: [
                         TextSpan(
-                            text: leaveRequest.fromDate.toString(),
+                            text: request.shiftMain != null
+                                ? "${df.format(request.shiftMain!)} - ${request.sectionMain ?? ""}"
+                                : "",
                             style: HRMTextStyles.h5Text.copyWith(
                               fontWeight: FontWeight.w200,
                               color: Colors.black,
@@ -133,42 +138,24 @@ class RequestCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  isHalfDay
-                      ? RichText(
-                          text: TextSpan(
-                            text: "End: ",
-                            style: HRMTextStyles.h5Text.copyWith(
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                            children: [
-                              TextSpan(
-                                  text: leaveRequest.toDate.toString(),
-                                  style: HRMTextStyles.h5Text.copyWith(
-                                    fontWeight: FontWeight.w200,
-                                    color: Colors.black,
-                                  )),
-                            ],
-                          ),
-                        )
-                      : RichText(
-                          text: TextSpan(
-                            text: "Section: ",
-                            style: HRMTextStyles.h5Text.copyWith(
-                              color: Colors.black.withOpacity(0.6),
-                            ),
-                            children: [
-                              TextSpan(
-                                text: halfADayStr.toLowerCase().contains("mor")
-                                    ? "Morning"
-                                    : "Afternoon",
-                                style: HRMTextStyles.h5Text.copyWith(
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: "New shift: ",
+                          style: HRMTextStyles.h5Text.copyWith(
+                            color: Colors.black.withOpacity(0.6),
                           ),
                         ),
+                      ),
+                      Text(newShift,
+                          style: HRMTextStyles.h5Text.copyWith(
+                            fontWeight: FontWeight.w200,
+                            color: Colors.black,
+                          )),
+                    ],
+                  )
                 ],
               ),
               isPending

@@ -10,6 +10,7 @@ class LeaveRequest {
 
   String? number;
   DateTime? date;
+  String? employeeID;
   String? employee;
   DateTime? fromDate;
   DateTime? toDate;
@@ -19,10 +20,12 @@ class LeaveRequest {
   String? section;
   String? halfADay;
   String? status;
+  String? picture;
 
   LeaveRequest(
       {this.number,
       this.date,
+      this.employeeID,
       this.employee,
       this.fromDate,
       this.toDate,
@@ -31,11 +34,13 @@ class LeaveRequest {
       this.numberDays,
       this.section,
       this.halfADay,
-      this.status});
+      this.status,
+      this.picture});
 
   LeaveRequest.fromJson(Map<String, dynamic> json) {
     number = json['Number'];
     date = parseDateTimeFromStr(json['Date'].toString());
+    employeeID = json['EmployeeID'];
     employee = json['Employee'];
     fromDate = parseDateTimeFromStr(json['FromDate'].toString());
     toDate = parseDateTimeFromStr(json['ToDate'].toString());
@@ -45,12 +50,14 @@ class LeaveRequest {
     section = json['Section'];
     halfADay = json['HalfADay'];
     status = json['Status'];
+    picture = json['Picture'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['Number'] = this.number;
     data['Date'] = this.date;
+    data['EmployeeID'] = this.employeeID;
     data['Employee'] = this.employee;
     data['FromDate'] = this.fromDate;
     data['ToDate'] = this.toDate;
@@ -60,6 +67,7 @@ class LeaveRequest {
     data['Section'] = this.section;
     data['HalfADay'] = this.halfADay;
     data['Status'] = this.status;
+    data['Picture'] = this.picture;
     return data;
   }
 }

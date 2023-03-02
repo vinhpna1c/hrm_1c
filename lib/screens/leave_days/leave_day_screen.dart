@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/search_widget.dart';
+import 'package:hrm_1c/components/transfer_card.dart';
 import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/models/leave_request.dart';
+import 'package:hrm_1c/models/transfer_shift_request.dart';
+import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 import '../../components/request_card.dart';
@@ -12,6 +15,8 @@ class LeaveDayScreen extends StatelessWidget {
 
   final RxInt _selectedIndex = 0.obs;
   static final tabs = ["Pending", "Approve", "Reject"];
+  static final REQUEST_TYPES = ["All", "Leave-day", "Transfer shift"];
+  final RxString requestType = "All".obs;
   @override
   Widget build(BuildContext context) {
     final adminDataCtrl = Get.find<AdminDataController>();
@@ -23,7 +28,46 @@ class LeaveDayScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
           child: Column(
             children: [
-              SearchWidget(),
+              const SearchWidget(),
+              Obx(
+                () => Container(
+                  // color: Colors.yellow,
+                  width: double.infinity,
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    alignment: WrapAlignment.start,
+                    children: [
+                      Text(
+                        "Type",
+                        style: HRMTextStyles.normalText.copyWith(
+                          color: Colors.black,
+                        ),
+                      ),
+                      ...REQUEST_TYPES.map(
+                        (type) => Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SectionRadio(
+                              value: type,
+                              groupValue: requestType.value,
+                              onChanged: (value) {
+                                if (value != null) {
+                                  requestType.value = value;
+                                }
+                              },
+                            ),
+                            Text(
+                              type,
+                              style: HRMTextStyles.h4Text
+                                  .copyWith(fontWeight: FontWeight.w200),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Obx(
                 () => TabBar(
                   padding: EdgeInsets.all(4.0),
@@ -55,19 +99,33 @@ class LeaveDayScreen extends StatelessWidget {
                     ...tabs.map(
                       (tab) => RefreshIndicator(
                         onRefresh: () async {
-                          await adminDataCtrl.getAllEmployeeLeaveRequest();
+                          await adminDataCtrl.getAllLeaveRequest();
+                          await adminDataCtrl.getAllTransferRequest();
                         },
                         child: Obx(
-                          () => ListView(
-                            children: adminDataCtrl.leaveRequests
+                          () => ListView(children: [
+                            ...adminDataCtrl.leaveRequests
                                 .where((lq) => (lq.status ?? "")
                                     .toLowerCase()
                                     .contains(tab.toLowerCase()))
                                 .map(
                                   (e) => RequestCard(leaveRequest: e),
-                                )
-                                .toList(),
-                          ),
+                                ),
+                            ...adminDataCtrl.transferRequests
+                                .where((tq) => (tq.status ?? "")
+                                    .toLowerCase()
+                                    .contains(tab.toLowerCase()))
+                                .map(
+                                  (e) => TransferCard(request: e),
+                                ),
+                            // ...adminDataCtrl.leaveRequests
+                            //     .where((lq) => (lq.status ?? "")
+                            //         .toLowerCase()
+                            //         .contains(tab.toLowerCase()))
+                            //     .map(
+                            //       (e) => RequestCard(leaveRequest: e),
+                            //     ),
+                          ]),
                         ),
                       ),
                     ),

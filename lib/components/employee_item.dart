@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
+import 'package:hrm_1c/models/personal_information.dart';
 
 class EmployeeItem extends StatelessWidget {
+  final PersonalInformation? employee;
   const EmployeeItem({
     Key? key,
+    this.employee,
   }) : super(key: key);
 
   @override
@@ -17,9 +20,10 @@ class EmployeeItem extends StatelessWidget {
         children: [
           EmployeeAvatar(
             backgroundRadius: 32,
+            imageURL: employee != null ? employee!.URL : null,
           ),
           Text(
-            "Employee name",
+            employee != null ? employee!.description ?? "" : "",
             maxLines: 2,
             textAlign: TextAlign.center,
           )

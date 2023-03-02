@@ -4,6 +4,7 @@ import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hrm_1c/components/slide_digital_clock.dart';
+import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
@@ -31,6 +32,7 @@ class HomeScreen extends StatelessWidget {
     final userController = Get.find<UserController>();
     final geoController = Get.put(GeoController());
     final checkInCtrl = Get.put(CheckInController());
+    final adminDataCtrl = Get.find<AdminDataController>();
     bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     DateTime today = DateTime.now();
     print(checkInCtrl.timeKeeping.value!.toJson());
@@ -240,10 +242,14 @@ class HomeScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ...List.generate(
-                                      8,
-                                      (index) => Container(
-                                          margin: EdgeInsets.only(right: 4.0),
-                                          child: EmployeeItem()))
+                                    adminDataCtrl.employees.length,
+                                    (index) => Container(
+                                        margin: EdgeInsets.only(right: 4.0),
+                                        child: EmployeeItem(
+                                          employee:
+                                              adminDataCtrl.employees[index],
+                                        )),
+                                  )
                                 ],
                               ),
                             ),

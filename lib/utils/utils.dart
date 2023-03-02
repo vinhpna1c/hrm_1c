@@ -24,3 +24,8 @@ String formatDouble(double d) {
   }
   return d.toStringAsFixed(1);
 }
+
+DateTime getFirstDayOfWeek(DateTime milestoneTime) {
+  return milestoneTime
+      .subtract(Duration(days: milestoneTime.weekday - DateTime.monday));
+}

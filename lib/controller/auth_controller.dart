@@ -52,8 +52,9 @@ class AuthController extends GetxController {
 
   Future<void> initAdminData() async {
     final adminDataCtrl = Get.put(AdminDataController());
+    await adminDataCtrl.getAllLeaveRequest();
     await adminDataCtrl.getAllEmployeeList();
-    await adminDataCtrl.getAllEmployeeLeaveRequest();
+    await adminDataCtrl.getAllTransferRequest();
   }
 
   Future<bool> changePassword() async {

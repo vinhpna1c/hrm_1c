@@ -237,45 +237,31 @@ class RequestLeaveScreen extends StatelessWidget {
       lastDate: DateTime.now().add(const Duration(days: 365 * 50)),
     );
   }
+}
 
-  Widget SectionRadio({
-    String value = "",
-    String groupValue = "",
-    required void Function(String?) onChanged,
-  }) {
-    return Radio(
-      value: value,
-      groupValue: groupValue,
-      onChanged: onChanged,
-      fillColor: MaterialStateColor.resolveWith(
-          (states) => HRMColorStyles.lightBlueColor),
-    );
-  }
-
-  Widget PickUpDateTextField({
-    TextEditingController? controller,
-    Function()? onCalendarIconTap,
-  }) {
-    return TextField(
-      readOnly: true,
-      enabled: true,
-      controller: controller,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: "DD-MM-YYYY",
-          hintStyle: HRMTextStyles.lightText
-              .copyWith(color: HRMColorStyles.greyHintColor),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
-          fillColor: Colors.white,
-          filled: true,
-          suffixIcon: IconButton(
-            icon: const Icon(
-              Icons.calendar_month,
-            ),
-            onPressed: onCalendarIconTap,
-          )),
-    );
-  }
+Widget PickUpDateTextField({
+  TextEditingController? controller,
+  Function()? onCalendarIconTap,
+}) {
+  return TextField(
+    readOnly: true,
+    enabled: true,
+    controller: controller,
+    decoration: InputDecoration(
+        border: OutlineInputBorder(),
+        hintText: "DD-MM-YYYY",
+        hintStyle: HRMTextStyles.lightText
+            .copyWith(color: HRMColorStyles.greyHintColor),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+        fillColor: Colors.white,
+        filled: true,
+        suffixIcon: IconButton(
+          icon: const Icon(
+            Icons.calendar_month,
+          ),
+          onPressed: onCalendarIconTap,
+        )),
+  );
 }
 
 // ignore: non_constant_identifier_names
@@ -297,6 +283,24 @@ Widget TitleField({
           )
         ],
       ),
+    ),
+  );
+}
+
+Widget SectionRadio({
+  String value = "",
+  String groupValue = "",
+  required void Function(String?) onChanged,
+}) {
+  return Container(
+    child: Radio(
+      value: value,
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      groupValue: groupValue,
+      onChanged: onChanged,
+      visualDensity: VisualDensity(vertical: 0, horizontal: 0),
+      fillColor: MaterialStateColor.resolveWith(
+          (states) => HRMColorStyles.lightBlueColor),
     ),
   );
 }
