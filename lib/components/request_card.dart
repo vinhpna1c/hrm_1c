@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/admin_data_controller.dart';
+import 'package:hrm_1c/controller/leave_day_controller.dart';
 import 'package:hrm_1c/models/leave_request.dart';
+import 'package:intl/intl.dart';
 
 import '../utils/styles.dart';
 import 'employee_avatar.dart';
 
 class RequestCard extends StatelessWidget {
   final LeaveRequest leaveRequest;
+  final Function? onPostFunction;
   const RequestCard({
     required this.leaveRequest,
+    this.onPostFunction,
     super.key,
   });
 
@@ -17,6 +21,7 @@ class RequestCard extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isHalfDay = (leaveRequest.halfADay ?? "").isNotEmpty;
     var status = leaveRequest.status ?? "";
+    final leaveCtrl = Get.find<LeaveDayController>();
     bool isPending = false;
     Color statusColor = LeaveRequest.statusColors[0];
     if (status.toLowerCase().contains("approve")) {
@@ -28,10 +33,11 @@ class RequestCard extends StatelessWidget {
     if (status.toLowerCase().contains("pend")) {
       isPending = true;
     }
+    var halfADayStr = leaveRequest.halfADay ?? "";
+    DateFormat df = DateFormat("yyyy-MM-dd");
+    int dayDiff =
+        DateTime.now().difference(leaveRequest.date ?? DateTime.now()).inDays;
 
-    print(leaveRequest.halfADay);
-    String halfADayStr = leaveRequest.halfADay ?? "";
-    print("Half a day srt: " + halfADayStr);
     return Container(
       padding: EdgeInsets.all(8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
@@ -77,7 +83,7 @@ class RequestCard extends StatelessWidget {
                           leaveRequest.leaveType ?? "",
                           style: HRMTextStyles.h5Text.copyWith(
                             fontWeight: FontWeight.w200,
-                            color: Colors.pink,
+                            color: HRMColorStyles.blueColor,
                           ),
                         ),
                       ],
@@ -89,7 +95,7 @@ class RequestCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "1 day ago",
+                      dayDiff == 0 ? "Today" : "$dayDiff day(s) ago",
                       style: HRMTextStyles.h5Text
                           .copyWith(fontWeight: FontWeight.w200),
                     ),
@@ -112,6 +118,7 @@ class RequestCard extends StatelessWidget {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +132,9 @@ class RequestCard extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                            text: leaveRequest.fromDate.toString(),
+                            text: leaveRequest.fromDate != null
+                                ? df.format(leaveRequest.fromDate!)
+                                : "",
                             style: HRMTextStyles.h5Text.copyWith(
                               fontWeight: FontWeight.w200,
                               color: Colors.black,
@@ -142,7 +151,9 @@ class RequestCard extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                  text: leaveRequest.toDate.toString(),
+                                  text: leaveRequest.fromDate != null
+                                      ? df.format(leaveRequest.toDate!)
+                                      : "",
                                   style: HRMTextStyles.h5Text.copyWith(
                                     fontWeight: FontWeight.w200,
                                     color: Colors.black,
@@ -169,6 +180,23 @@ class RequestCard extends StatelessWidget {
                             ],
                           ),
                         ),
+                  RichText(
+                    text: TextSpan(
+                      text: "Reason: ",
+                      style: HRMTextStyles.h5Text.copyWith(
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                      children: [
+                        TextSpan(
+                          text: leaveRequest.reason ?? "",
+                          style: HRMTextStyles.h5Text.copyWith(
+                            fontWeight: FontWeight.w200,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               isPending
@@ -177,7 +205,14 @@ class RequestCard extends StatelessWidget {
                         TextButton(
                           style: TextButton.styleFrom(
                               side: BorderSide(color: Colors.grey.shade200)),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await leaveCtrl
+                                .approveLeaveDay(leaveRequest.number ?? "");
+
+                            if (onPostFunction != null) {
+                              onPostFunction!();
+                            }
+                          },
                           child: Text(
                             "Approve",
                             style: HRMTextStyles.normalText.copyWith(
@@ -192,7 +227,13 @@ class RequestCard extends StatelessWidget {
                               backgroundColor: HRMColorStyles.darkBlueColor,
                               foregroundColor: Colors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              await leaveCtrl
+                                  .rejectLeaveDay(leaveRequest.number ?? "");
+                              if (onPostFunction != null) {
+                                onPostFunction!();
+                              }
+                            },
                             child: Text(
                               "Deny",
                               style: HRMTextStyles.normalText,

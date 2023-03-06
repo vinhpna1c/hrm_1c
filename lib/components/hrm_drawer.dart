@@ -7,6 +7,7 @@ import 'package:hrm_1c/screens/auth/change_password_screen.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/leave_days/check_in_history.dart';
 import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
+import 'package:hrm_1c/screens/leave_days/request_transfer_shift_screen.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
@@ -80,6 +81,15 @@ class HRMDrawer extends StatelessWidget {
                           var key = UniqueKey();
                           Get.back();
                           Get.to(RequestLeaveScreen());
+                        })
+                    : const SizedBox(),
+                _userController.accountType == AccountType.STAFF
+                    ? NavigationTile(
+                        label: "Request transfer-shift",
+                        onTap: () {
+                          var key = UniqueKey();
+                          Get.back();
+                          Get.to(RequestTransferShiftScreen());
                         })
                     : const SizedBox(),
                 NavigationTile(

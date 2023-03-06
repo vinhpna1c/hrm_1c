@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/search_widget.dart';
@@ -17,9 +19,11 @@ class LeaveDayScreen extends StatelessWidget {
   static final tabs = ["Pending", "Approve", "Reject"];
   static final REQUEST_TYPES = ["All", "Leave-day", "Transfer shift"];
   final RxString requestType = "All".obs;
+
   @override
   Widget build(BuildContext context) {
     final adminDataCtrl = Get.find<AdminDataController>();
+
     return DefaultTabController(
       length: 3,
       child: SafeArea(
@@ -109,22 +113,41 @@ class LeaveDayScreen extends StatelessWidget {
                                     .toLowerCase()
                                     .contains(tab.toLowerCase()))
                                 .map(
-                                  (e) => RequestCard(leaveRequest: e),
+                                  (e) => (requestType.value
+                                              .toLowerCase()
+                                              .contains('all') ||
+                                          requestType.value
+                                              .toLowerCase()
+                                              .contains('leave'))
+                                      ? RequestCard(
+                                          leaveRequest: e,
+                                          onPostFunction: () {
+                                            print("load dât");
+                                            adminDataCtrl.getAllLeaveRequest();
+                                          },
+                                        )
+                                      : const SizedBox(),
                                 ),
                             ...adminDataCtrl.transferRequests
                                 .where((tq) => (tq.status ?? "")
                                     .toLowerCase()
                                     .contains(tab.toLowerCase()))
                                 .map(
-                                  (e) => TransferCard(request: e),
+                                  (e) => (requestType.value
+                                              .toLowerCase()
+                                              .contains('all') ||
+                                          requestType.value
+                                              .toLowerCase()
+                                              .contains('transfer'))
+                                      ? TransferCard(
+                                          request: e,
+                                          onPostFunction: () {
+                                            adminDataCtrl
+                                                .getAllTransferRequest();
+                                          },
+                                        )
+                                      : const SizedBox(),
                                 ),
-                            // ...adminDataCtrl.leaveRequests
-                            //     .where((lq) => (lq.status ?? "")
-                            //         .toLowerCase()
-                            //         .contains(tab.toLowerCase()))
-                            //     .map(
-                            //       (e) => RequestCard(leaveRequest: e),
-                            //     ),
                           ]),
                         ),
                       ),

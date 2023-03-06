@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/models/personal_information.dart';
@@ -23,6 +25,11 @@ class AdminDataController extends GetxController {
     endTime ??= startTime.add(const Duration(days: 7));
     DateFormat df = DateFormat("yyyyMMdd");
     if (userController.accountType == AccountType.ADMINISTRATOR) {
+      print(jsonEncode({
+        "Token": userController.identifyString,
+        "FromDate": df.format(startTime),
+        "ToDate": df.format(endTime),
+      }));
       var respond = await ApiHandler.getRequest("/V1/AllLeave", params: {
         "Token": userController.identifyString,
         "FromDate": df.format(startTime),
@@ -34,6 +41,7 @@ class AdminDataController extends GetxController {
         for (var req in data) {
           leaveRequests.add(LeaveRequest.fromJson(req));
         }
+        print("Leave request get: ${leaveRequests.length}");
       }
     }
   }
@@ -60,6 +68,11 @@ class AdminDataController extends GetxController {
     endTime ??= startTime.add(const Duration(days: 7));
     DateFormat df = DateFormat("yyyyMMdd");
     if (userController.accountType == AccountType.ADMINISTRATOR) {
+      print(jsonEncode({
+        "Token": userController.identifyString,
+        "FromDate": df.format(startTime),
+        "ToDate": df.format(endTime),
+      }));
       var respond = await ApiHandler.getRequest(allTransferShiftPath, params: {
         "Token": userController.identifyString,
         "FromDate": df.format(startTime),
@@ -72,6 +85,7 @@ class AdminDataController extends GetxController {
         for (var req in data) {
           transferRequests.add(TransferShiftRequest.fromJson(req));
         }
+        print("Transfer request get: ${transferRequests.length}");
       }
     }
   }

@@ -63,4 +63,52 @@ class LeaveDayController extends GetxController {
     }
     return false;
   }
+
+  Future<bool> approveLeaveDay(String requestNumber) async {
+    var respond = await ApiHandler.postRequest("/V1/ApproveLeaveDay",
+        body: {"Number": requestNumber});
+    if (respond.statusCode == 200) {
+      var data = respond.data.toString();
+      if (data.toLowerCase().contains("success")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> rejectLeaveDay(String requestNumber) async {
+    var respond = await ApiHandler.postRequest("/V1/RejectLeaveDay",
+        body: {"Number": requestNumber});
+    if (respond.statusCode == 200) {
+      var data = respond.data.toString();
+      if (data.toLowerCase().contains("success")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> approveTransferShift(String requestNumber) async {
+    var respond = await ApiHandler.postRequest("/V1/ApproveTransferShift",
+        body: {"Number": requestNumber});
+    if (respond.statusCode == 200) {
+      var data = respond.data.toString();
+      if (data.toLowerCase().contains("success")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  Future<bool> rejectTransferShift(String requestNumber) async {
+    var respond = await ApiHandler.postRequest("/V1/RejectTransferShift",
+        body: {"Number": requestNumber});
+    if (respond.statusCode == 200) {
+      var data = respond.data.toString();
+      if (data.toLowerCase().contains("success")) {
+        return true;
+      }
+    }
+    return false;
+  }
 }

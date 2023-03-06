@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/admin_data_controller.dart';
+import 'package:hrm_1c/controller/staff_data_controller.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 
@@ -40,6 +41,7 @@ class AuthController extends GetxController {
         initAdminData();
       } else {
         userController.accountType = AccountType.STAFF;
+        initStaffData();
       }
 
       await userController.getUserInformation();
@@ -55,6 +57,11 @@ class AuthController extends GetxController {
     await adminDataCtrl.getAllLeaveRequest();
     await adminDataCtrl.getAllEmployeeList();
     await adminDataCtrl.getAllTransferRequest();
+  }
+
+  Future<void> initStaffData() async {
+    final staffDataCtrl = Get.put(StaffDataController());
+    staffDataCtrl.getContract();
   }
 
   Future<bool> changePassword() async {

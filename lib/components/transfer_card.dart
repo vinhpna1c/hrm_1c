@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
+import 'package:hrm_1c/controller/leave_day_controller.dart';
 import 'package:hrm_1c/models/leave_request.dart';
 import 'package:hrm_1c/models/transfer_shift_request.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:intl/intl.dart';
 
 class TransferCard extends StatelessWidget {
+  final Function? onPostFunction;
   final TransferShiftRequest request;
-  const TransferCard({required this.request, super.key});
+  const TransferCard({required this.request, this.onPostFunction, super.key});
 
   @override
   Widget build(BuildContext context) {
+    final leaveCtrl = Get.find<LeaveDayController>();
     bool isHalfDay = false;
     DateFormat df = DateFormat("yyyy-MM-dd");
     var status = request.status ?? "";
@@ -25,6 +29,8 @@ class TransferCard extends StatelessWidget {
     if (status.toLowerCase().contains("pend")) {
       isPending = true;
     }
+    int dayDiff =
+        DateTime.now().difference(request.date ?? DateTime.now()).inDays;
 
     String newShift = "";
     print(request.transferShift);
@@ -80,7 +86,7 @@ class TransferCard extends StatelessWidget {
                           "Transfer shift",
                           style: HRMTextStyles.h5Text.copyWith(
                             fontWeight: FontWeight.w200,
-                            color: Colors.pink,
+                            color: Colors.orange,
                           ),
                         ),
                       ],
@@ -92,7 +98,7 @@ class TransferCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      "1 day ago",
+                      dayDiff == 0 ? "Today" : "$dayDiff day(s) ago",
                       style: HRMTextStyles.h5Text
                           .copyWith(fontWeight: FontWeight.w200),
                     ),
@@ -164,7 +170,13 @@ class TransferCard extends StatelessWidget {
                         TextButton(
                           style: TextButton.styleFrom(
                               side: BorderSide(color: Colors.grey.shade200)),
-                          onPressed: () {},
+                          onPressed: () async {
+                            await leaveCtrl
+                                .approveTransferShift(request.number ?? "");
+                            if (onPostFunction != null) {
+                              onPostFunction!();
+                            }
+                          },
                           child: Text(
                             "Approve",
                             style: HRMTextStyles.normalText.copyWith(
@@ -179,7 +191,13 @@ class TransferCard extends StatelessWidget {
                               backgroundColor: HRMColorStyles.darkBlueColor,
                               foregroundColor: Colors.white,
                             ),
-                            onPressed: () {},
+                            onPressed: () async {
+                              await leaveCtrl
+                                  .rejectTransferShift(request.number ?? "");
+                              if (onPostFunction != null) {
+                                onPostFunction!();
+                              }
+                            },
                             child: Text(
                               "Deny",
                               style: HRMTextStyles.normalText,
