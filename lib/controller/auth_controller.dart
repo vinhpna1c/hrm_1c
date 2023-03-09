@@ -61,7 +61,7 @@ class AuthController extends GetxController {
 
   Future<void> initStaffData() async {
     final staffDataCtrl = Get.put(StaffDataController());
-    staffDataCtrl.getContract();
+    await staffDataCtrl.getContract();
   }
 
   Future<bool> changePassword() async {

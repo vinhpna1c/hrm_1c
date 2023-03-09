@@ -16,12 +16,13 @@ class StaffDataController extends GetxController {
 
   Future<void> getContract() async {
     final userCtrl = Get.find<UserController>();
-    var respond = await ApiHandler.postRequest(
+    var respond = await ApiHandler.getRequest(
       shiftPath,
       params: {"Token": userCtrl.identifyString},
     );
     if (respond.statusCode == 200) {
       var data = respond.data;
+      print(data);
       contract.value = Contract.fromJson(data['Contract'][0]);
     }
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hrm_1c/controller/transfer_shift_controller.dart';
 import 'package:hrm_1c/models/contract.dart';
 
-class ShiftTable extends StatelessWidget {
+class ShiftTable extends StatefulWidget {
   final List<TimeSheet>? timeSheets;
   static final DAYS_IN_WEEK = [
     "Monday",
@@ -18,63 +20,90 @@ class ShiftTable extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    Map<String, List<Widget>> shiftsInWeek = {};
-    //generate map
-    for (var day in DAYS_IN_WEEK) {
-      shiftsInWeek[day] = [
-        ShiftTableCell(child: Text(day), aligment: Alignment.centerLeft),
-        ShiftTableCell(),
-        ShiftTableCell(),
-      ];
-    }
+  State<ShiftTable> createState() => _ShiftTableState();
+}
 
-    if (timeSheets != null) {
-      for (var timeSheet in timeSheets!) {
-        if (shiftsInWeek[timeSheet.workDate ?? ""] != null) {
-          if ((timeSheet.section ?? "").toLowerCase().contains('morning')) {
-            shiftsInWeek[timeSheet.workDate ?? ""]![1] =
-                ShiftTableCell(cellColor: Colors.green);
-          } else if ((timeSheet.section ?? "")
-              .toLowerCase()
-              .contains('afternoon')) {
-            shiftsInWeek[timeSheet.workDate ?? ""]![2] =
-                ShiftTableCell(cellColor: Colors.green);
-          }
-        }
-      }
-    }
-    return Table(
-      border: TableBorder.all(color: Colors.grey),
-      defaultColumnWidth: FixedColumnWidth(80),
-      children: [
-        TableRow(
+class _ShiftTableState extends State<ShiftTable> {
+  final transferShiftCtrl = Get.put(TransferShiftController());
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    transferShiftCtrl.setTimeSheets(widget.timeSheets);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        print("Success");
+      },
+      child: Container(
+        width: 240,
+        height: 500,
+        child: GridView.count(
+          childAspectRatio: 2,
+          shrinkWrap: true,
+          crossAxisCount: 3, // number of columns
           children: [
             ShiftTableCell(),
             ShiftTableCell(child: Text("Morning")),
             ShiftTableCell(child: Text("Afternoon")),
+            // ...ShiftTable.DAYS_IN_WEEK.map((e) => )
           ],
         ),
-        ...shiftsInWeek.keys.map(
-          (e) => TableRow(
-            children: shiftsInWeek[e],
-          ),
-        )
-      ],
+      ),
     );
+    // DataTable(
+    //   // border: TableBorder.all(color: Colors.grey),
+    //   columnSpacing: 1.0,
+    //   dataRowHeight: 40,
+
+    //   columns: [
+    //     DataColumn(
+    //       label: Center(child: Text("")),
+    //     ),
+    //     DataColumn(
+    //       label: Text("Morning"),
+    //     ),
+    //     DataColumn(
+    //       label: Text("Afternoon"),
+    //     ),
+    //   ],
+    //   rows: [
+    //     ...transferShiftCtrl.requestMap.keys.map(
+    //       (e) => DataRow(cells: [
+    //         ShiftTableCell(child: Text(e)),
+    //         ...List.generate(
+    //           transferShiftCtrl.requestMap[e]!.length,
+    //           (index) => ShiftTableCell(
+    //               onTap: () {
+    //                 transferShiftCtrl.setCellSelected(e, index);
+    //               },
+    //               cellColor: TransferShiftStatusColor[
+    //                   transferShiftCtrl.requestMap[e]![index].index]),
+    //         ),
+    //       ]),
+    //     )
+    //   ],
+    // );
   }
 }
 
 Widget ShiftTableCell(
     {Widget? child,
     Alignment aligment = Alignment.center,
-    Color cellColor = Colors.white}) {
-  return TableCell(
-    child: Container(
-      alignment: aligment,
+    Color cellColor = Colors.white,
+    Function? onTap}) {
+  return Container(
+    // margin: EdgeInsets.all(2.0),
+    decoration: BoxDecoration(
       color: cellColor,
-      height: 40,
-      child: child,
+      border: Border.all(color: Colors.grey.shade500, width: 0.5),
     ),
+    alignment: aligment,
+    width: 80,
+    height: 40,
+    child: child,
   );
 }
