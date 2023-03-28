@@ -2,8 +2,8 @@ import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.da
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_avatar.dart';
-import 'package:hrm_1c/components/hrm_appbar.dart';
-import 'package:hrm_1c/components/hrm_drawer.dart';
+import 'package:hrm_1c/components/headers/hrm_appbar.dart';
+import 'package:hrm_1c/components/headers/hrm_drawer.dart';
 import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
@@ -57,7 +57,7 @@ class RootScreen extends StatelessWidget {
             ? Container(
                 color: Colors.white.withOpacity(0.0),
                 padding: const EdgeInsets.all(16.0),
-                 child: Container(
+                child: Container(
                   decoration:
                       BoxDecoration(color: HRMColorStyles.unselectedBlueColor),
                   child: TabBar(

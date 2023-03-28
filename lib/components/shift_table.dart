@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/components/shift_table_cell.dart';
 import 'package:hrm_1c/controller/transfer_shift_controller.dart';
 import 'package:hrm_1c/models/contract.dart';
 
-import '../screens/leave_days/request_information_transfer_shift_screen.dart';
+enum DAYS_IN_WEEK {
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+  Sunday
+}
 
 class ShiftTable extends StatefulWidget {
   final List<TimeSheet>? timeSheets;
-  final DAYS_IN_WEEK = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-  ];
-  ShiftTable({
+  // static final DAYS_IN_WEEK = [
+  //   "Monday",
+  //   "Tuesday",
+  //   "Wednesday",
+  //   "Thursday",
+  //   "Friday",
+  //   "Saturday",
+  //   "Sunday"
+  // ];
+  const ShiftTable({
     super.key,
     this.timeSheets,
   });
@@ -36,13 +45,42 @@ class _ShiftTableState extends State<ShiftTable> {
 
   @override
   Widget build(BuildContext context) {
-    List<int> arr = checkShift();
+    List<Widget> tableCells = [];
+    //add row by row in table
+
+    for (var day in DAYS_IN_WEEK.values) {
+      //add first cell
+      tableCells.add(ShiftTableCell(child: Text(day.name)));
+      //add 2 sessions in day
+      tableCells.add(ShiftTableCell());
+      tableCells.add(ShiftTableCell());
+    }
+
+    //update display by timeSheets
+    for (var timeSheet in widget.timeSheets ?? <TimeSheet>[]) {
+      // ignore: prefer_interpolation_to_compose_strings
+      int index =
+          DAYS_IN_WEEK.values.byName(timeSheet.workDate ?? "").index * 3;
+      //check morning or afternoon
+      if ((timeSheet.section ?? "").toLowerCase().contains("morning")) {
+        index += 1;
+      } else {
+        index += 2;
+      }
+      //update display in timesheet
+      tableCells[index] = ShiftTableCell(
+          child: Icon(
+            Icons.check_rounded,
+          ),
+          cellColor: ShiftTableCell.WORKING_COLOR);
+    }
+
     return GestureDetector(
       onTap: () {
         print("Success");
       },
       child: Container(
-        width: 360,
+        width: 240,
         height: 500,
         child: GridView.count(
           childAspectRatio: 2,
@@ -50,29 +88,14 @@ class _ShiftTableState extends State<ShiftTable> {
           crossAxisCount: 3, // number of columns
           children: [
             ShiftTableCell(),
-            ShiftTableCell(text: "Morning"),
-            ShiftTableCell(text: "Afternoon"),
-            ShiftTableCell(text: "Monday"),
-            ShiftTableCell(check: arr[0]),
-            ShiftTableCell(check: arr[1]),
-            ShiftTableCell(text: "Tuesday"),
-            ShiftTableCell(check: arr[2]),
-            ShiftTableCell(check: arr[3]),
-            ShiftTableCell(text: "Wednesday"),
-            ShiftTableCell(check: arr[4]),
-            ShiftTableCell(check: arr[5]),
-            ShiftTableCell(text: "Thursday"),
-            ShiftTableCell(check: arr[6]),
-            ShiftTableCell(check: arr[7]),
-            ShiftTableCell(text: "Friday"),
-            ShiftTableCell(check: arr[8]),
-            ShiftTableCell(check: arr[9]),
-
-            // ...ShiftTable.DAYS_IN_WEEK.map((e) => )
+            ShiftTableCell(child: Text("Morning")),
+            ShiftTableCell(child: Text("Afternoon")),
+            ...tableCells,
           ],
         ),
       ),
     );
+
     // DataTable(
     //   // border: TableBorder.all(color: Colors.grey),
     //   columnSpacing: 1.0,
@@ -107,49 +130,4 @@ class _ShiftTableState extends State<ShiftTable> {
     //   ],
     // );
   }
-  List<int> checkShift() {
-    List<int> arr = [0,0,0,0,0,0,0,0,0,0,0,0];
-    for (var i=0; i < widget.timeSheets!.length; i++){
-      int n = widget.DAYS_IN_WEEK.indexOf(widget.timeSheets![i].workDate!);
-      if (widget.timeSheets![i].section! == "Morning") {
-        arr[n*2] = 1;
-      } else {
-        arr[n * 2 + 1] = 1;
-      }
-    }
-    return arr;
-  }
-}
-
-
-
-Widget ShiftTableCell(
-    {String? text,
-    Alignment aligment = Alignment.center,
-    Color cellColor = Colors.white,
-    Function? onTap,
-    int? check}) {
-  return GestureDetector(
-    onTap: () async {
-      if (check == 1) {
-        Get.to(RequestInformationTransferShiftScreen());
-      }
-    },
-    child: Container(
-      // margin: EdgeInsets.all(2.0),
-      decoration: BoxDecoration(
-        color: check == 1 ? Color(0xFFF0FFF0) : cellColor,
-        border: Border.all(color: Colors.grey.shade500, width: 0.5),
-      ),
-      alignment: aligment,
-      width: 120,
-      height: 30,
-      child: text != null ? Text(
-        text ?? "",
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-        ),
-      ) : check == 1 ? Icon(Icons.check) : null,
-    ),
-  );
 }

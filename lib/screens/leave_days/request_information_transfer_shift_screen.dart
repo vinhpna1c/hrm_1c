@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_1c/components/hrm_drawer.dart';
+import 'package:hrm_1c/components/headers/hrm_drawer.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
 import 'package:hrm_1c/controller/transfer_shift_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
@@ -33,8 +33,7 @@ class RequestInformationTransferShiftScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      TitleField(
-                          title: "Main shift"),
+                      TitleField(title: "Main shift"),
                       PickUpDateTextField(
                           controller: transferShiftCtrl.mainShiftController,
                           onCalendarIconTap: () async {
@@ -48,50 +47,51 @@ class RequestInformationTransferShiftScreen extends StatelessWidget {
                               transferShiftCtrl.mainShiftController.clear();
                             }
                           }),
-                      Obx (() => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SectionRadio(
-                              value:
-                              TransferShiftController.SECTION_TYPES[0],
-                              groupValue: transferShiftCtrl.sectionMain.value,
-                              onChanged: (value) {
-                                print(value);
-                                transferShiftCtrl.sectionMain.value = value ?? '';
-                              }),
-                          Text("Morning",
+                      Obx(
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SectionRadio(
+                                value: TransferShiftController.SECTION_TYPES[0],
+                                groupValue: transferShiftCtrl.sectionMain.value,
+                                onChanged: (value) {
+                                  print(value);
+                                  transferShiftCtrl.sectionMain.value =
+                                      value ?? '';
+                                }),
+                            Text("Morning",
+                                style: HRMTextStyles.lightText
+                                    .copyWith(color: Colors.white)),
+                            SectionRadio(
+                                value: TransferShiftController.SECTION_TYPES[1],
+                                groupValue: transferShiftCtrl.sectionMain.value,
+                                onChanged: (value) {
+                                  print(value);
+                                  transferShiftCtrl.sectionMain.value =
+                                      value ?? '';
+                                }),
+                            Text(
+                              "Afternoon",
                               style: HRMTextStyles.lightText
-                                  .copyWith(color: Colors.white)),
-                          SectionRadio(
-                            value:
-                            TransferShiftController.SECTION_TYPES[1],
-                              groupValue: transferShiftCtrl.sectionMain.value,
-                              onChanged: (value) {
-                                print(value);
-                                transferShiftCtrl.sectionMain.value = value ?? '';
-                              }),
-                          Text(
-                            "Afternoon",
-                            style: HRMTextStyles.lightText
-                                .copyWith(color: Colors.white),
-                          ),
-                          SectionRadio(
-                              value:
-                              TransferShiftController.SECTION_TYPES[2],
-                              groupValue: transferShiftCtrl.sectionMain.value,
-                              onChanged: (value) {
-                                print(value);
-                                transferShiftCtrl.sectionMain.value = value ?? '';
-                              }),
-                          Text(
-                            "Full day",
-                            style: HRMTextStyles.lightText
-                                .copyWith(color: Colors.white),
-                          ),
-                        ],
-                      ),),
-
+                                  .copyWith(color: Colors.white),
+                            ),
+                            SectionRadio(
+                                value: TransferShiftController.SECTION_TYPES[2],
+                                groupValue: transferShiftCtrl.sectionMain.value,
+                                onChanged: (value) {
+                                  print(value);
+                                  transferShiftCtrl.sectionMain.value =
+                                      value ?? '';
+                                }),
+                            Text(
+                              "Full day",
+                              style: HRMTextStyles.lightText
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
 
                       TitleField(title: "Transfer shift"),
                       PickUpDateTextField(
@@ -99,7 +99,8 @@ class RequestInformationTransferShiftScreen extends StatelessWidget {
                           onCalendarIconTap: () async {
                             var pickedDate = await datePicker(context);
                             if (pickedDate != null) {
-                              transferShiftCtrl.transferShift.value = pickedDate;
+                              transferShiftCtrl.transferShift.value =
+                                  pickedDate;
                               transferShiftCtrl.transferShiftController.text =
                                   DateFormat("dd-MM-yyyy").format(pickedDate);
                             } else {
@@ -107,123 +108,177 @@ class RequestInformationTransferShiftScreen extends StatelessWidget {
                               transferShiftCtrl.transferShiftController.clear();
                             }
                           }),
-                      Obx (() => Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SectionRadio(
-                              value:
-                              TransferShiftController.SECTION_TYPES[0],
-                              groupValue: transferShiftCtrl.sectionTransfer.value,
-                              onChanged: (value) {
-                                print(value);
-                                transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                (transferShiftCtrl.sectionMain.value == "Full day" && transferShiftCtrl.sectionTransfer.value == "Morning") ||
-                                    (transferShiftCtrl.sectionMain.value == "Full day" && transferShiftCtrl.sectionTransfer.value == "Afternoon") ?
-                                check = "1".obs  : check = "0".obs;
-
-                              }),
-                          Text("Morning",
+                      Obx(
+                        () => Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SectionRadio(
+                                value: TransferShiftController.SECTION_TYPES[0],
+                                groupValue:
+                                    transferShiftCtrl.sectionTransfer.value,
+                                onChanged: (value) {
+                                  print(value);
+                                  transferShiftCtrl.sectionTransfer.value =
+                                      value ?? '';
+                                  transferShiftCtrl.sectionTransfer.value =
+                                      value ?? '';
+                                  (transferShiftCtrl.sectionMain.value ==
+                                                  "Full day" &&
+                                              transferShiftCtrl
+                                                      .sectionTransfer.value ==
+                                                  "Morning") ||
+                                          (transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Full day" &&
+                                              transferShiftCtrl
+                                                      .sectionTransfer.value ==
+                                                  "Afternoon")
+                                      ? check = "1".obs
+                                      : check = "0".obs;
+                                }),
+                            Text("Morning",
+                                style: HRMTextStyles.lightText
+                                    .copyWith(color: Colors.white)),
+                            SectionRadio(
+                                value: TransferShiftController.SECTION_TYPES[1],
+                                groupValue:
+                                    transferShiftCtrl.sectionTransfer.value,
+                                onChanged: (value) {
+                                  print(value);
+                                  transferShiftCtrl.sectionTransfer.value =
+                                      value ?? '';
+                                  transferShiftCtrl.sectionTransfer.value =
+                                      value ?? '';
+                                  (transferShiftCtrl.sectionMain.value ==
+                                                  "Full day" &&
+                                              transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Morning") ||
+                                          (transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Full day" &&
+                                              transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Afternoon")
+                                      ? check = "1".obs
+                                      : check = "0".obs;
+                                }),
+                            Text(
+                              "Afternoon",
                               style: HRMTextStyles.lightText
-                                  .copyWith(color: Colors.white)),
-                          SectionRadio(
-                              value:
-                              TransferShiftController.SECTION_TYPES[1],
-                              groupValue: transferShiftCtrl.sectionTransfer.value,
-                              onChanged: (value) {
-                                print(value);
-                                transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                (transferShiftCtrl.sectionMain.value == "Full day" && transferShiftCtrl.sectionMain.value == "Morning") ||
-                                    (transferShiftCtrl.sectionMain.value == "Full day" && transferShiftCtrl.sectionMain.value == "Afternoon") ?
-                                check = "1".obs  : check = "0".obs;
-                              }),
-                          Text(
-                            "Afternoon",
-                            style: HRMTextStyles.lightText
-                                .copyWith(color: Colors.white),
-                          ),
-                          SectionRadio(
-                              value:
-                              TransferShiftController.SECTION_TYPES[2],
-                              groupValue: transferShiftCtrl.sectionTransfer.value,
-                              onChanged: (value) {
-                                print(value);
-                                transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                (transferShiftCtrl.sectionMain.value == "Full day" && transferShiftCtrl.sectionMain.value == "Morning") ||
-                                    (transferShiftCtrl.sectionMain.value == "Full day" && transferShiftCtrl.sectionMain.value == "Afternoon") ?
-                                check = "1".obs  : check = "0".obs;
-                              }),
-                          Text(
-                            "Full day",
-                            style: HRMTextStyles.lightText
-                                .copyWith(color: Colors.white),
-                          ),
-                        ],
-                      ),),
+                                  .copyWith(color: Colors.white),
+                            ),
+                            SectionRadio(
+                                value: TransferShiftController.SECTION_TYPES[2],
+                                groupValue:
+                                    transferShiftCtrl.sectionTransfer.value,
+                                onChanged: (value) {
+                                  print(value);
+                                  transferShiftCtrl.sectionTransfer.value =
+                                      value ?? '';
+                                  (transferShiftCtrl.sectionMain.value ==
+                                                  "Full day" &&
+                                              transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Morning") ||
+                                          (transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Full day" &&
+                                              transferShiftCtrl
+                                                      .sectionMain.value ==
+                                                  "Afternoon")
+                                      ? check = "1".obs
+                                      : check = "0".obs;
+                                }),
+                            Text(
+                              "Full day",
+                              style: HRMTextStyles.lightText
+                                  .copyWith(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                      check == "1".obs ? Column(
-                        children: [
-                          TitleField(title: "Transfer shift 2"),
-                          PickUpDateTextField(
-                              controller: transferShiftCtrl.transferShiftController,
-                              onCalendarIconTap: () async {
-                                var pickedDate = await datePicker(context);
-                                if (pickedDate != null) {
-                                  transferShiftCtrl.transferShift.value = pickedDate;
-                                  transferShiftCtrl.transferShiftController.text =
-                                      DateFormat("dd-MM-yyyy").format(pickedDate);
-                                } else {
-                                  transferShiftCtrl.transferShift.value = null;
-                                  transferShiftCtrl.transferShiftController.clear();
-                                }
-                              }),
-                          Obx (() => Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              SectionRadio(
-                                  value:
-                                  TransferShiftController.SECTION_TYPES[0],
-                                  groupValue: transferShiftCtrl.sectionTransfer.value,
-                                  onChanged: (value) {
-                                    print(value);
-                                    transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                  }),
-                              Text("Morning",
-                                  style: HRMTextStyles.lightText
-                                      .copyWith(color: Colors.white)),
-                              SectionRadio(
-                                  value:
-                                  TransferShiftController.SECTION_TYPES[1],
-                                  groupValue: transferShiftCtrl.sectionTransfer.value,
-                                  onChanged: (value) {
-                                    print(value);
-                                    transferShiftCtrl.sectionTransfer.value = value ?? '';
-                                  }),
-                              Text(
-                                "Afternoon",
-                                style: HRMTextStyles.lightText
-                                    .copyWith(color: Colors.white),
-                              ),
-                              SectionRadio(
-                                  value:
-                                  TransferShiftController.SECTION_TYPES[2],
-                                  groupValue: transferShiftCtrl.sectionMain.value,
-                                  onChanged: (value) {
-                                    print(value);
-                                    transferShiftCtrl.sectionMain.value = value ?? '';
-                                  }),
-                              Text(
-                                "Full day",
-                                style: HRMTextStyles.lightText
-                                    .copyWith(color: Colors.white),
-                              ),
-                            ],
-                          ),),
-                        ],
-                      ) : const SizedBox(),
+                      check == "1".obs
+                          ? Column(
+                              children: [
+                                TitleField(title: "Transfer shift 2"),
+                                PickUpDateTextField(
+                                    controller: transferShiftCtrl
+                                        .transferShiftController,
+                                    onCalendarIconTap: () async {
+                                      var pickedDate =
+                                          await datePicker(context);
+                                      if (pickedDate != null) {
+                                        transferShiftCtrl.transferShift.value =
+                                            pickedDate;
+                                        transferShiftCtrl
+                                                .transferShiftController.text =
+                                            DateFormat("dd-MM-yyyy")
+                                                .format(pickedDate);
+                                      } else {
+                                        transferShiftCtrl.transferShift.value =
+                                            null;
+                                        transferShiftCtrl
+                                            .transferShiftController
+                                            .clear();
+                                      }
+                                    }),
+                                Obx(
+                                  () => Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SectionRadio(
+                                          value: TransferShiftController
+                                              .SECTION_TYPES[0],
+                                          groupValue: transferShiftCtrl
+                                              .sectionTransfer.value,
+                                          onChanged: (value) {
+                                            print(value);
+                                            transferShiftCtrl.sectionTransfer
+                                                .value = value ?? '';
+                                          }),
+                                      Text("Morning",
+                                          style: HRMTextStyles.lightText
+                                              .copyWith(color: Colors.white)),
+                                      SectionRadio(
+                                          value: TransferShiftController
+                                              .SECTION_TYPES[1],
+                                          groupValue: transferShiftCtrl
+                                              .sectionTransfer.value,
+                                          onChanged: (value) {
+                                            print(value);
+                                            transferShiftCtrl.sectionTransfer
+                                                .value = value ?? '';
+                                          }),
+                                      Text(
+                                        "Afternoon",
+                                        style: HRMTextStyles.lightText
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                      SectionRadio(
+                                          value: TransferShiftController
+                                              .SECTION_TYPES[2],
+                                          groupValue: transferShiftCtrl
+                                              .sectionMain.value,
+                                          onChanged: (value) {
+                                            print(value);
+                                            transferShiftCtrl.sectionMain
+                                                .value = value ?? '';
+                                          }),
+                                      Text(
+                                        "Full day",
+                                        style: HRMTextStyles.lightText
+                                            .copyWith(color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            )
+                          : const SizedBox(),
                       // Container(
                       //   padding: EdgeInsets.symmetric(horizontal: 16.0),
                       //   decoration: BoxDecoration(
@@ -287,8 +342,6 @@ class RequestInformationTransferShiftScreen extends StatelessWidget {
                       //     ],
                       //   ),
                       // ),
-
-
 
                       TitleField(title: "Reason (optional)", isRequired: false),
                       TextFormField(
@@ -435,7 +488,7 @@ Widget SectionRadio({
       onChanged: onChanged,
       visualDensity: VisualDensity(vertical: 0, horizontal: 0),
       fillColor: MaterialStateColor.resolveWith(
-              (states) => HRMColorStyles.lightBlueColor),
+          (states) => HRMColorStyles.lightBlueColor),
     ),
   );
 }

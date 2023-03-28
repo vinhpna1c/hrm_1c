@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
+import 'package:hrm_1c/controller/configuration_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
@@ -32,6 +33,7 @@ void initController() {
   Get.put(GeoController());
   Get.put(LeaveDayController());
   Get.put(AdminDataController());
+  Get.put(ConfigurationController());
 }
 
 class MyApp extends StatelessWidget {

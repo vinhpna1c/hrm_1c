@@ -9,10 +9,11 @@ import 'package:hrm_1c/screens/leave_days/check_in_history.dart';
 import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
 import 'package:hrm_1c/screens/leave_days/request_transfer_shift_screen.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
+import 'package:hrm_1c/screens/settings.dart/setting_screen.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
-import 'employee_avatar.dart';
+import '../employee_avatar.dart';
 
 class HRMDrawer extends StatelessWidget {
   const HRMDrawer({
@@ -54,11 +55,11 @@ class HRMDrawer extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                   ),
                 ),
-                Text(
-                  _userController.userInformation!.position!,
-                  style: HRMTextStyles.h3Text
-                      .copyWith(fontWeight: FontWeight.w100),
-                ),
+                // Text(
+                //   _userController.userInformation!.position!,
+                //   style: HRMTextStyles.h3Text
+                //       .copyWith(fontWeight: FontWeight.w100),
+                // ),
               ],
             ),
           ),
@@ -98,18 +99,23 @@ class HRMDrawer extends StatelessWidget {
                     onTap: () {
                       Get.back();
                       var key = UniqueKey();
-                      Get.to(ChangePasswordScreen());
+                      Get.to(const ChangePasswordScreen());
                     }),
                 _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
                         label: "Check-in History",
                         onTap: () {
                           Get.back();
-                          Get.to(CheckInHistoryScreen());
+                          Get.to(const CheckInHistoryScreen());
                         })
                     : const SizedBox(),
                 _userController.accountType == AccountType.ADMINISTRATOR
-                    ? NavigationTile(label: "Settings")
+                    ? NavigationTile(
+                        label: "Settings",
+                        onTap: () {
+                          Get.back();
+                          Get.to(SettingScreen());
+                        })
                     : const SizedBox(),
                 _userController.accountType == AccountType.STAFF
                     ? NavigationTile(

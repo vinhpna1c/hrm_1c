@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_1c/components/hrm_drawer.dart';
+import 'package:hrm_1c/components/headers/hrm_drawer.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 
@@ -185,16 +185,14 @@ class RequestLeaveScreen extends StatelessWidget {
                         child: TextButton(
                           onPressed: () async {
                             if (leaveDayCtrl.leaveType == Rx(null)) {
-                              Get.snackbar(
-                                  "1C:HRM", "Leave type is required");
+                              Get.snackbar("1C:HRM", "Leave type is required");
                             } else if (leaveDayCtrl.startDate == Rx(null)) {
-                              Get.snackbar(
-                                  "1C:HRM", "Start date is required");
+                              Get.snackbar("1C:HRM", "Start date is required");
                             } else if (leaveDayCtrl.endDate == Rx(null)) {
-                              Get.snackbar(
-                                  "1C:HRM", "End date is required");
+                              Get.snackbar("1C:HRM", "End date is required");
                             } else {
-                              var respond = await leaveDayCtrl.requestLeaveDay();
+                              var respond =
+                                  await leaveDayCtrl.requestLeaveDay();
                               if (respond) {
                                 Get.snackbar(
                                     "1C:HRM", "Your request has been saved!");

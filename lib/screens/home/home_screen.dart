@@ -9,7 +9,7 @@ import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:slide_digital_clock/slide_digital_clock.dart';
 import 'package:timer_builder/timer_builder.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/employee_item.dart';
 import 'package:hrm_1c/components/home_nav_button.dart';
@@ -38,7 +38,8 @@ class HomeScreen extends StatelessWidget {
     //bool isCheckedOut = checkInCtrl.timeKeeping.value== null ?  true :
     // checkInCtrl.timeKeeping.value!.number==null?true: false;
 
-    bool isCheckedOut = checkInCtrl.timeKeeping.value!.number == null ?  true : false;
+    bool isCheckedOut =
+        checkInCtrl.timeKeeping.value!.number == null ? true : false;
 
     //print(checkInCtrl.timeKeeping.value!.toJson());
 
@@ -72,7 +73,7 @@ class HomeScreen extends StatelessWidget {
                                 text: "Hi,", style: HRMTextStyles.normalText),
                             TextSpan(
                                 text:
-                                   "\n${(userController.userInformation!.description ?? "").split(" ").last}",
+                                    "\n${(userController.userInformation!.description ?? "").split(" ").last}",
                                 style: HRMTextStyles.boldText),
                           ]),
                         ),
@@ -208,27 +209,21 @@ class HomeScreen extends StatelessWidget {
                                     : "CHECK OUT",
                                 onTapFunction: () async {
                                   if (Geolocator.distanceBetween(
-                                      geoController
-                                          .currentLocation
-                                          .value!
-                                          .latitude,
-                                      geoController
-                                          .currentLocation
-                                          .value!
-                                          .longitude,
-                                      geoController
-                                          .checkInLocation
-                                          .latitude,
-                                      geoController
-                                          .checkInLocation
-                                          .longitude) > 300) {
-                                    Get.snackbar(
-                                        "1C:HRM", "Your location is too far from the company");
-                                  }
-                                  else {
-                                    if ((checkInCtrl.timeKeeping.value!
-                                        .number ==
-                                        null) ||
+                                          geoController
+                                              .currentLocation.value!.latitude,
+                                          geoController
+                                              .currentLocation.value!.longitude,
+                                          geoController
+                                              .checkInLocation.latitude,
+                                          geoController
+                                              .checkInLocation.longitude) >
+                                      300) {
+                                    Get.snackbar("1C:HRM",
+                                        "Your location is too far from the company");
+                                  } else {
+                                    if ((checkInCtrl
+                                                .timeKeeping.value!.number ==
+                                            null) ||
                                         (checkInCtrl.timeKeeping.value!.number!
                                             .isEmpty)) {
                                       var res = await checkInCtrl.checkIn();
@@ -238,13 +233,13 @@ class HomeScreen extends StatelessWidget {
                                       }
                                     } else {
                                       if (checkInCtrl
-                                          .timeKeeping.value!.checkout ==
+                                              .timeKeeping.value!.checkout ==
                                           null) {
                                         var res = await checkInCtrl.checkOut();
                                         if (res) {
                                           isCheckedOut = false;
-                                          Get.snackbar(
-                                              "1C:HRM", "Check out successfull");
+                                          Get.snackbar("1C:HRM",
+                                              "Check out successfull");
                                         }
                                       }
                                     }
