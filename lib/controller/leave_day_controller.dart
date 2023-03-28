@@ -54,7 +54,7 @@ class LeaveDayController extends GetxController {
       "Reason": reasonController.text,
     };
 
-    var respond = await ApiHandler.postRequest(requestLeavePath, body: data);
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, requestLeavePath, body: data);
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
       if (data.toLowerCase().contains("success")) {
@@ -65,7 +65,8 @@ class LeaveDayController extends GetxController {
   }
 
   Future<bool> approveLeaveDay(String requestNumber) async {
-    var respond = await ApiHandler.postRequest("/V1/ApproveLeaveDay",
+    final userController = Get.find<UserController>();
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/ApproveLeaveDay",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
@@ -77,7 +78,8 @@ class LeaveDayController extends GetxController {
   }
 
   Future<bool> rejectLeaveDay(String requestNumber) async {
-    var respond = await ApiHandler.postRequest("/V1/RejectLeaveDay",
+    final userController = Get.find<UserController>();
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/RejectLeaveDay",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
@@ -89,7 +91,8 @@ class LeaveDayController extends GetxController {
   }
 
   Future<bool> approveTransferShift(String requestNumber) async {
-    var respond = await ApiHandler.postRequest("/V1/ApproveTransferShift",
+    final userController = Get.find<UserController>();
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/ApproveTransferShift",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
@@ -101,7 +104,8 @@ class LeaveDayController extends GetxController {
   }
 
   Future<bool> rejectTransferShift(String requestNumber) async {
-    var respond = await ApiHandler.postRequest("/V1/RejectTransferShift",
+    final userController = Get.find<UserController>();
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/RejectTransferShift",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();

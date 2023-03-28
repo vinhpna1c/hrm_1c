@@ -3,9 +3,11 @@ import 'package:get/get.dart';
 import 'package:hrm_1c/controller/transfer_shift_controller.dart';
 import 'package:hrm_1c/models/contract.dart';
 
+import '../screens/leave_days/request_information_transfer_shift_screen.dart';
+
 class ShiftTable extends StatefulWidget {
   final List<TimeSheet>? timeSheets;
-  static final DAYS_IN_WEEK = [
+  final DAYS_IN_WEEK = [
     "Monday",
     "Tuesday",
     "Wednesday",
@@ -14,7 +16,7 @@ class ShiftTable extends StatefulWidget {
     "Saturday",
     "Sunday"
   ];
-  const ShiftTable({
+  ShiftTable({
     super.key,
     this.timeSheets,
   });
@@ -34,12 +36,13 @@ class _ShiftTableState extends State<ShiftTable> {
 
   @override
   Widget build(BuildContext context) {
+    List<int> arr = checkShift();
     return GestureDetector(
       onTap: () {
         print("Success");
       },
       child: Container(
-        width: 240,
+        width: 360,
         height: 500,
         child: GridView.count(
           childAspectRatio: 2,
@@ -47,8 +50,24 @@ class _ShiftTableState extends State<ShiftTable> {
           crossAxisCount: 3, // number of columns
           children: [
             ShiftTableCell(),
-            ShiftTableCell(child: Text("Morning")),
-            ShiftTableCell(child: Text("Afternoon")),
+            ShiftTableCell(text: "Morning"),
+            ShiftTableCell(text: "Afternoon"),
+            ShiftTableCell(text: "Monday"),
+            ShiftTableCell(check: arr[0]),
+            ShiftTableCell(check: arr[1]),
+            ShiftTableCell(text: "Tuesday"),
+            ShiftTableCell(check: arr[2]),
+            ShiftTableCell(check: arr[3]),
+            ShiftTableCell(text: "Wednesday"),
+            ShiftTableCell(check: arr[4]),
+            ShiftTableCell(check: arr[5]),
+            ShiftTableCell(text: "Thursday"),
+            ShiftTableCell(check: arr[6]),
+            ShiftTableCell(check: arr[7]),
+            ShiftTableCell(text: "Friday"),
+            ShiftTableCell(check: arr[8]),
+            ShiftTableCell(check: arr[9]),
+
             // ...ShiftTable.DAYS_IN_WEEK.map((e) => )
           ],
         ),
@@ -88,22 +107,49 @@ class _ShiftTableState extends State<ShiftTable> {
     //   ],
     // );
   }
+  List<int> checkShift() {
+    List<int> arr = [0,0,0,0,0,0,0,0,0,0,0,0];
+    for (var i=0; i < widget.timeSheets!.length; i++){
+      int n = widget.DAYS_IN_WEEK.indexOf(widget.timeSheets![i].workDate!);
+      if (widget.timeSheets![i].section! == "Morning") {
+        arr[n*2] = 1;
+      } else {
+        arr[n * 2 + 1] = 1;
+      }
+    }
+    return arr;
+  }
 }
 
+
+
 Widget ShiftTableCell(
-    {Widget? child,
+    {String? text,
     Alignment aligment = Alignment.center,
     Color cellColor = Colors.white,
-    Function? onTap}) {
-  return Container(
-    // margin: EdgeInsets.all(2.0),
-    decoration: BoxDecoration(
-      color: cellColor,
-      border: Border.all(color: Colors.grey.shade500, width: 0.5),
+    Function? onTap,
+    int? check}) {
+  return GestureDetector(
+    onTap: () async {
+      if (check == 1) {
+        Get.to(RequestInformationTransferShiftScreen());
+      }
+    },
+    child: Container(
+      // margin: EdgeInsets.all(2.0),
+      decoration: BoxDecoration(
+        color: check == 1 ? Color(0xFFF0FFF0) : cellColor,
+        border: Border.all(color: Colors.grey.shade500, width: 0.5),
+      ),
+      alignment: aligment,
+      width: 120,
+      height: 30,
+      child: text != null ? Text(
+        text ?? "",
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+        ),
+      ) : check == 1 ? Icon(Icons.check) : null,
     ),
-    alignment: aligment,
-    width: 80,
-    height: 40,
-    child: child,
   );
 }

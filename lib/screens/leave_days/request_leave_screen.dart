@@ -184,13 +184,24 @@ class RequestLeaveScreen extends StatelessWidget {
                         flex: 3,
                         child: TextButton(
                           onPressed: () async {
-                            var respond = await leaveDayCtrl.requestLeaveDay();
-                            if (respond) {
+                            if (leaveDayCtrl.leaveType == Rx(null)) {
                               Get.snackbar(
-                                  "1C:HRM", "Your request has been saved!");
+                                  "1C:HRM", "Leave type is required");
+                            } else if (leaveDayCtrl.startDate == Rx(null)) {
+                              Get.snackbar(
+                                  "1C:HRM", "Start date is required");
+                            } else if (leaveDayCtrl.endDate == Rx(null)) {
+                              Get.snackbar(
+                                  "1C:HRM", "End date is required");
                             } else {
-                              Get.snackbar(
-                                  "1C:HRM", "Error while sending request!");
+                              var respond = await leaveDayCtrl.requestLeaveDay();
+                              if (respond) {
+                                Get.snackbar(
+                                    "1C:HRM", "Your request has been saved!");
+                              } else {
+                                Get.snackbar(
+                                    "1C:HRM", "Error while sending request!");
+                              }
                             }
                           },
                           style: TextButton.styleFrom(

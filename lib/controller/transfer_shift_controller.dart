@@ -30,6 +30,19 @@ class TransferShiftController extends GetxController {
     "Sunday"
   ];
 
+  static const SECTION_TYPES = ["Morning", "Afternoon", "Full day"];
+
+  final TextEditingController mainShiftController = TextEditingController();
+  final TextEditingController transferShiftController = TextEditingController();
+  final TextEditingController reasonController = TextEditingController();
+
+  Rx<DateTime?> mainShift = Rx(null);
+  Rx<DateTime?> transferShift = Rx(null);
+  RxString sectionMain = "".obs;
+  RxString sectionTransfer = "".obs;
+  // Rx<String?> leaveType = Rx(null);
+  // RxString sessonType = "".obs;
+
   RxMap<String, List<TransferShiftStatus>> requestMap =
       <String, List<TransferShiftStatus>>{}.obs;
 

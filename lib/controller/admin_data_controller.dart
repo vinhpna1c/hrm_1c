@@ -25,12 +25,12 @@ class AdminDataController extends GetxController {
     endTime ??= startTime.add(const Duration(days: 7));
     DateFormat df = DateFormat("yyyyMMdd");
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      print(jsonEncode({
-        "Token": userController.identifyString,
-        "FromDate": df.format(startTime),
-        "ToDate": df.format(endTime),
-      }));
-      var respond = await ApiHandler.getRequest("/V1/AllLeave", params: {
+      // print(jsonEncode({
+      //   "Token": userController.identifyString,
+      //   "FromDate": df.format(startTime),
+      //   "ToDate": df.format(endTime),
+      // }));
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/AllLeave", params: {
         "Token": userController.identifyString,
         "FromDate": df.format(startTime),
         "ToDate": df.format(endTime),
@@ -49,7 +49,7 @@ class AdminDataController extends GetxController {
   Future<void> getAllEmployeeList() async {
     final userController = Get.find<UserController>();
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      var respond = await ApiHandler.getRequest(allEmployeePath,
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,allEmployeePath,
           params: {"Token": userController.identifyString});
       if (respond.statusCode == 200) {
         employees.clear();
@@ -73,7 +73,7 @@ class AdminDataController extends GetxController {
         "FromDate": df.format(startTime),
         "ToDate": df.format(endTime),
       }));
-      var respond = await ApiHandler.getRequest(allTransferShiftPath, params: {
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,allTransferShiftPath, params: {
         "Token": userController.identifyString,
         "FromDate": df.format(startTime),
         "ToDate": df.format(endTime),

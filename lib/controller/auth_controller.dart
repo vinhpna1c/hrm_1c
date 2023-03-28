@@ -26,13 +26,12 @@ class AuthController extends GetxController {
     String username = usernameController.text;
     String password = passwordController.text;
 
-    var respond = await ApiHandler.postRequest(
+    var respond = await ApiHandler.postRequest(username, password,
       authPath,
-      body: {"UserName": username, "Password": password},
     );
     if (respond.statusCode == 200) {
       var respondBody = respond.data;
-      userController.identifyString = respondBody['Identifier'] ?? "";
+      //userController.identifyString = respondBody['Identifier'] ?? "";
       String accountType = respondBody['AccountType'] ?? "";
       userController.username = username;
       userController.password = password;
@@ -82,7 +81,7 @@ class AuthController extends GetxController {
       "NewPassword": newPassword
     }));
 
-    var respond = await ApiHandler.postRequest(changePasswordPath, body: {
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, changePasswordPath, body: {
       "UserName": userController.username,
       "OldPassword": oldPassword,
       "NewPassword": newPassword

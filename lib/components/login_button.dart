@@ -16,13 +16,20 @@ class LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTapFunction,
+      onTap:(){
+        if(enabled==false){
+          return;
+        }
+        if(onTapFunction!=null){
+          onTapFunction!.call();
+        }
+      },
       child: Container(
         width: double.infinity,
         height: 64,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: HRMColorStyles.lightBlueColor,
+            color: enabled? HRMColorStyles.lightBlueColor:Colors.grey.shade500,
             borderRadius: BorderRadius.circular(8.0),
             boxShadow: [
               BoxShadow(

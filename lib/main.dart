@@ -31,7 +31,6 @@ void initController() {
   Get.put(UserController());
   Get.put(GeoController());
   Get.put(LeaveDayController());
-
   Get.put(AdminDataController());
 }
 

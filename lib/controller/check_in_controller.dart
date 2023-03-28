@@ -18,12 +18,13 @@ class CheckInController extends GetxController {
 
   Future<bool> checkIn() async {
     final userController = Get.find<UserController>();
-    var respond = await ApiHandler.postRequest(checkInPath,
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, checkInPath,
         body: {"EmployeeID": userController.userInformation!.code});
 
     if (respond.statusCode == 200) {
       var data = respond.data;
       print(respond);
+
 
       timeKeeping.value = TimeKeeping.fromJson(data);
       checkOutDate.value = null;
@@ -36,11 +37,11 @@ class CheckInController extends GetxController {
   }
 
   Future<bool> checkOut() async {
-    var respond = await ApiHandler.postRequest(
+    final userController = Get.find<UserController>();
+    var respond = await ApiHandler.postRequest(userController.username, userController.password,
       checkOutPath,
       body: {"Number": timeKeeping.value!.number},
     );
-    final userController = Get.find<UserController>();
 
     if (respond.statusCode == 200) {
       var data = respond.data;

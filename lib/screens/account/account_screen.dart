@@ -45,7 +45,7 @@ class AccountScreen extends StatelessWidget {
                       style: HRMTextStyles.boldText.copyWith(fontSize: 20),
                     ),
                     Text(
-                      "Job title",
+                      personalInformation.position!,
                       style: HRMTextStyles.normalText.copyWith(fontSize: 20),
                     )
                   ],
@@ -100,7 +100,7 @@ class AccountScreen extends StatelessWidget {
                       fieldName: "Gender",
                       content: personalInformation.gender!),
                   RowInformation(
-                      fieldName: "Positon", content: "IT Specialist"),
+                      fieldName: "Positon", content: personalInformation.position!),
                   RowInformation(
                       fieldName: "Email", content: personalInformation.email!),
                   RowInformation(
@@ -115,7 +115,7 @@ class AccountScreen extends StatelessWidget {
                   RowInformation(
                       fieldName: "Status",
                       content: personalInformation.status!),
-                  RowInformation(fieldName: "Contact", content: "Full-time"),
+                  RowInformation(fieldName: "Contact", content: personalInformation.contractType!),
                   RowInformation(fieldName: "Salary", content: "************"),
                 ],
               ),

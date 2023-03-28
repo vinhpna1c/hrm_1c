@@ -35,7 +35,12 @@ class HomeScreen extends StatelessWidget {
     final adminDataCtrl = Get.find<AdminDataController>();
     bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     DateTime today = DateTime.now();
-    print(checkInCtrl.timeKeeping.value!.toJson());
+    //bool isCheckedOut = checkInCtrl.timeKeeping.value== null ?  true :
+    // checkInCtrl.timeKeeping.value!.number==null?true: false;
+
+    bool isCheckedOut = checkInCtrl.timeKeeping.value!.number == null ?  true : false;
+
+    //print(checkInCtrl.timeKeeping.value!.toJson());
 
     return Container(
       color: Colors.white,
@@ -67,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                                 text: "Hi,", style: HRMTextStyles.normalText),
                             TextSpan(
                                 text:
-                                    "\n${(userController.userInformation!.description ?? "").split(" ").last}",
+                                   "\n${(userController.userInformation!.description ?? "").split(" ").last}",
                                 style: HRMTextStyles.boldText),
                           ]),
                         ),
@@ -196,30 +201,52 @@ class HomeScreen extends StatelessWidget {
                             return Padding(
                               padding: const EdgeInsets.only(top: 24),
                               child: LoginButton(
+                                enabled: isCheckedOut,
                                 text: checkInCtrl.timeKeeping.value!.number ==
                                         null
                                     ? "CHECK IN"
                                     : "CHECK OUT",
                                 onTapFunction: () async {
-                                  if ((checkInCtrl.timeKeeping.value!.number ==
-                                          null) ||
-                                      (checkInCtrl.timeKeeping.value!.number!
-                                          .isEmpty)) {
-                                    var res = await checkInCtrl.checkIn();
-                                    if (res) {
-                                      Get.snackbar(
-                                          "1C:HRM", "Check in successfull");
-                                    }
-                                  } else {
-                                    if (checkInCtrl
-                                            .timeKeeping.value!.checkout ==
-                                        null) {
-                                      checkInCtrl.checkOut();
-                                      Get.snackbar(
-                                          "1C:HRM", "Check out successfull");
+                                  if (Geolocator.distanceBetween(
+                                      geoController
+                                          .currentLocation
+                                          .value!
+                                          .latitude,
+                                      geoController
+                                          .currentLocation
+                                          .value!
+                                          .longitude,
+                                      geoController
+                                          .checkInLocation
+                                          .latitude,
+                                      geoController
+                                          .checkInLocation
+                                          .longitude) > 300) {
+                                    Get.snackbar(
+                                        "1C:HRM", "Your location is too far from the company");
+                                  }
+                                  else {
+                                    if ((checkInCtrl.timeKeeping.value!
+                                        .number ==
+                                        null) ||
+                                        (checkInCtrl.timeKeeping.value!.number!
+                                            .isEmpty)) {
+                                      var res = await checkInCtrl.checkIn();
+                                      if (res) {
+                                        Get.snackbar(
+                                            "1C:HRM", "Check in successfull");
+                                      }
                                     } else {
-                                      Get.snackbar("1C:HRM",
-                                          "You have checked out today!");
+                                      if (checkInCtrl
+                                          .timeKeeping.value!.checkout ==
+                                          null) {
+                                        var res = await checkInCtrl.checkOut();
+                                        if (res) {
+                                          isCheckedOut = false;
+                                          Get.snackbar(
+                                              "1C:HRM", "Check out successfull");
+                                        }
+                                      }
                                     }
                                   }
                                 },

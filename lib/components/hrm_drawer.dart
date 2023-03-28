@@ -45,16 +45,17 @@ class HRMDrawer extends StatelessWidget {
                   child: EmployeeAvatar(
                     backgroundRadius: 54,
                     paddingSpace: 8.0,
+                    imageURL: _userController.userInformation!.URL!,
                   ),
                 ),
                 Text(
-                  "Employee name",
+                  _userController.userInformation!.description!,
                   style: HRMTextStyles.h3Text.copyWith(
                     fontWeight: FontWeight.w400,
                   ),
                 ),
                 Text(
-                  "Job title",
+                  _userController.userInformation!.position!,
                   style: HRMTextStyles.h3Text
                       .copyWith(fontWeight: FontWeight.w100),
                 ),

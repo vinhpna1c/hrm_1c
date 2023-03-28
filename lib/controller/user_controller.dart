@@ -19,9 +19,7 @@ class UserController extends GetxController {
 
   Future<void> getUserInformation() async {
     final checkInCtrl = Get.find<CheckInController>();
-    var respond = await ApiHandler.getRequest(AuthController.authPath, params: {
-      "Token": identifyString,
-    });
+    var respond = await ApiHandler.getRequest(username, password,"/V1/Information");
     if (respond.statusCode == 200) {
       userInformation = PersonalInformation.fromJson(
           respond.data['Metadata'][0]['PersonalInformation']);
@@ -34,7 +32,7 @@ class UserController extends GetxController {
   //ensure check account is valid
   Future<bool> isAdminAccount() async {
     var respond =
-        await ApiHandler.postRequest(CheckInController.allLeavePath, body: {
+        await ApiHandler.postRequest(username, password, CheckInController.allLeavePath, body: {
       "UserName": username,
       "Password": password,
     });

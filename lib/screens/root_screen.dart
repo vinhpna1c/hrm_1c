@@ -38,7 +38,7 @@ class RootScreen extends StatelessWidget {
     if (!isManager) {
       screenWidgets = [HomeScreen()];
     }
-    final adminController = Get.find<AdminDataController>();
+    //final adminController = Get.find<AdminDataController>();
 
     return DefaultTabController(
       initialIndex: _currentIndex.value,
@@ -57,7 +57,7 @@ class RootScreen extends StatelessWidget {
             ? Container(
                 color: Colors.white.withOpacity(0.0),
                 padding: const EdgeInsets.all(16.0),
-                child: Container(
+                 child: Container(
                   decoration:
                       BoxDecoration(color: HRMColorStyles.unselectedBlueColor),
                   child: TabBar(
