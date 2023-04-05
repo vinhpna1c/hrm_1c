@@ -80,7 +80,7 @@ class _ShiftTableState extends State<ShiftTable> {
         print("Success");
       },
       child: Container(
-        width: 240,
+        width: 330,
         height: 500,
         child: GridView.count(
           childAspectRatio: 2,

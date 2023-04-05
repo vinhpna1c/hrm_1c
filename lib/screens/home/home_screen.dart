@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
     final geoController = Get.put(GeoController());
+    geoController.GetCheckInLocation();
     final checkInCtrl = Get.put(CheckInController());
     final adminDataCtrl = Get.find<AdminDataController>();
     bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
@@ -166,10 +167,8 @@ class HomeScreen extends StatelessWidget {
                                                         .value!
                                                         .longitude,
                                                     geoController
-                                                        .checkInLocation
                                                         .latitude,
                                                     geoController
-                                                        .checkInLocation
                                                         .longitude)
                                                 .toStringAsFixed(0),
                                             style: HRMTextStyles.boldText
@@ -214,10 +213,10 @@ class HomeScreen extends StatelessWidget {
                                           geoController
                                               .currentLocation.value!.longitude,
                                           geoController
-                                              .checkInLocation.latitude,
+                                              .latitude,
                                           geoController
-                                              .checkInLocation.longitude) >
-                                      300) {
+                                              .longitude) >
+                                      geoController.checkInRadius) {
                                     Get.snackbar("1C:HRM",
                                         "Your location is too far from the company");
                                   } else {

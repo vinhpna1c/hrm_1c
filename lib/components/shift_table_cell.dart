@@ -30,7 +30,7 @@ class ShiftTableCell extends StatelessWidget {
         border: Border.all(color: Colors.grey.shade500, width: 0.5),
       ),
       alignment: aligment,
-      width: 80,
+      width: 110,
       height: 40,
       child: child,
     );
