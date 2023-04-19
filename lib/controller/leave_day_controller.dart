@@ -6,6 +6,8 @@ import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:intl/intl.dart';
 
+import '../utils/utils.dart';
+
 class LeaveDayController extends GetxController {
   // ignore: constant_identifier_names
   static const LEAVE_TYPES = [
@@ -30,6 +32,8 @@ class LeaveDayController extends GetxController {
   Rx<String?> leaveType = Rx(null);
   RxString sessonType = "".obs;
 
+  RxList<DateTime> leaveDays = <DateTime>[].obs;
+
   static const requestLeavePath = "/V1/RequestLeave";
 
   @override
@@ -39,6 +43,31 @@ class LeaveDayController extends GetxController {
     leaveType.value = null;
     sessonType.value = SESSION_TYPES[0];
     super.onInit();
+  }
+
+  Future<void> getPersonalLeaveDay() async {
+    final userController = Get.find<UserController>();
+    DateFormat df = DateFormat("yyyyMMdd");
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/PersonalLeave", params: {
+        "Token": userController.identifyString,
+        "FromDate": df.format(DateTime(2023,1,1)),
+        "ToDate": df.format(DateTime(2023,12,31)),
+      });
+      if (respond.statusCode == 200) {
+        leaveDays.clear();
+        var data = respond.data["PersonalLeave"] ?? [];
+        for (var req in data) {
+          if (req['Status'] == "Approve") {
+            DateTime startdate = parseDateTimeFromStr(req['FromDate']!.toString(),format: 'dd.MM.yyyy hh:mm:ss')!;
+            DateTime enddate = parseDateTimeFromStr(req['ToDate']!.toString(),format: 'dd.MM.yyyy hh:mm:ss')!;
+            while (startdate.isBefore(enddate.add(Duration(days: 1)))) {
+              leaveDays.add(startdate);
+              startdate  = startdate.add(Duration(days: 1));
+            }
+          }
+        }
+      }
+      print(leaveDays.length);
   }
 
   Future<bool> requestLeaveDay() async {

@@ -7,6 +7,7 @@ import 'package:hrm_1c/screens/auth/change_password_screen.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/leave_days/check_in_history.dart';
 import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
+import 'package:hrm_1c/screens/leave_days/request_status.dart';
 import 'package:hrm_1c/screens/leave_days/request_transfer_shift_screen.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
 import 'package:hrm_1c/screens/settings.dart/setting_screen.dart';
@@ -94,20 +95,21 @@ class HRMDrawer extends StatelessWidget {
                           Get.to(RequestTransferShiftScreen());
                         })
                     : const SizedBox(),
-                NavigationTile(
-                    label: "Change password",
-                    onTap: () {
-                      Get.back();
-                      var key = UniqueKey();
-                      Get.to(const ChangePasswordScreen());
-                    }),
                 _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
-                        label: "Check-in History",
-                        onTap: () {
-                          Get.back();
-                          Get.to(const CheckInHistoryScreen());
-                        })
+                    label: "Check-in History",
+                    onTap: () {
+                      Get.back();
+                      Get.to(CheckInHistoryScreen());
+                    })
+                    : const SizedBox(),
+                _userController.accountType == AccountType.STAFF
+                    ? NavigationTile(
+                    label: "Request Status",
+                    onTap: () {
+                      Get.back();
+                      Get.to(RequestStatus());
+                    })
                     : const SizedBox(),
                 _userController.accountType == AccountType.ADMINISTRATOR
                     ? NavigationTile(
@@ -126,6 +128,13 @@ class HRMDrawer extends StatelessWidget {
                           Get.to(AccountScreen());
                         })
                     : const SizedBox(),
+                NavigationTile(
+                    label: "Change password",
+                    onTap: () {
+                      Get.back();
+                      var key = UniqueKey();
+                      Get.to(const ChangePasswordScreen());
+                    }),
               ],
             ),
           ),

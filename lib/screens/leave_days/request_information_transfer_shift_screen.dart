@@ -425,7 +425,14 @@ class RequestInformationTransferShiftScreen extends StatelessWidget {
       lastDate: DateTime.now().add(const Duration(days: 365 * 50)),
     );
   }
+  Future<void> getTransferShiftInformation() async {
+    final transferShiftCtrl = Get.find<TransferShiftController>();
+    for (var day in transferShiftCtrl.cellTypes) {
+
+    }
+  }
 }
+
 
 Widget PickUpDateTextField({
   TextEditingController? controller,

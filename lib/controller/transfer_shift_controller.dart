@@ -2,7 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/models/contract.dart';
+import 'package:intl/intl.dart';
+
+import '../services/api/api_handler.dart';
 
 enum TransferShiftStatus {
   UNSELECTED_SHIFT,
@@ -36,10 +40,17 @@ class TransferShiftController extends GetxController {
   final TextEditingController transferShiftController = TextEditingController();
   final TextEditingController reasonController = TextEditingController();
 
+  static const requestTransferShiftPath = "/V1/RequestTransferShift";
+
+  Rx<DateTime> firstDay = DateTime.now().obs;
+
   Rx<DateTime?> mainShift = Rx(null);
   Rx<DateTime?> transferShift = Rx(null);
+  Rx<DateTime?> transferShift1 = Rx(null);
   RxString sectionMain = "".obs;
   RxString sectionTransfer = "".obs;
+  RxString sectionTransfer1 = "".obs;
+  List<RxInt> cellTypes = [];
   // Rx<String?> leaveType = Rx(null);
   // RxString sessonType = "".obs;
 
@@ -79,4 +90,28 @@ class TransferShiftController extends GetxController {
   void setCellSelected(String day, int index) {
     print(day + "-" + index.toString());
   }
+
+  Future<bool> requestTransferShift() async {
+    final userController = Get.find<UserController>();
+    Map<String, dynamic> data = {
+      "ShiftMain": DateFormat("yyyyMMdd").format(mainShift.value ?? DateTime.now()),
+      "SectionMain": sectionMain.value,
+      "TransferShift": DateFormat("yyyyMMdd").format(transferShift.value ?? DateTime.now()),
+      "SectionTransfer": sectionTransfer.value,
+      "TransferShift2": DateFormat("yyyyMMdd").format(transferShift1.value ?? DateTime.now()),
+      "SectionTransfer2": sectionTransfer1.value,
+      "Description": reasonController.text,
+    };
+
+    var respond = await ApiHandler.postRequest(userController.username, userController.password, requestTransferShiftPath, body: data);
+    if (respond.statusCode == 200) {
+      var data = respond.data.toString();
+      if (data.toLowerCase().contains("success")) {
+        return true;
+      }
+    }
+    print(data);
+    return false;
+  }
+
 }
