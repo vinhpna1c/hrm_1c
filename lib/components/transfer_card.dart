@@ -29,9 +29,9 @@ class TransferCard extends StatelessWidget {
     if (status.toLowerCase().contains("pend")) {
       isPending = true;
     }
-    int dayDiff =
-        DateTime.now().difference(request.date ?? DateTime.now()).inDays;
 
+    int dayDiff =
+        DateTime.now().difference(DateTime(request.date!.year,request.date!.month, request.date!.day,0,0,0,0,0) ?? DateTime.now()).inDays;
     String newShift = "";
     print(request.transferShift);
     newShift = request.transferShift != null
@@ -126,25 +126,28 @@ class TransferCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  RichText(
-                    text: TextSpan(
-                      text: "Main shift: ",
-                      style: HRMTextStyles.h5Text.copyWith(
-                        color: Colors.black.withOpacity(0.6),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: "Main shift: ",
+                          style: HRMTextStyles.h5Text.copyWith(
+                            color: Colors.black.withOpacity(0.6),
+                          ),
+                        ),
                       ),
-                      children: [
-                        TextSpan(
-                            text: request.shiftMain != null
-                                ? "${df.format(request.shiftMain!)} - ${request.sectionMain ?? ""}"
-                                : "",
-                            style: HRMTextStyles.h5Text.copyWith(
-                              fontWeight: FontWeight.w200,
-                              color: Colors.black,
-                            )),
-                      ],
-                    ),
+                      Text(
+                          request.shiftMain != null
+                              ? "${df.format(request.shiftMain!)} - ${request.sectionMain ?? ""}"
+                              : "",
+                          style: HRMTextStyles.h5Text.copyWith(
+                            fontWeight: FontWeight.w200,
+                            color: Colors.black,
+                          )),
+                    ],
                   ),
-                  Row(
+                  Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RichText(

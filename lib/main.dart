@@ -13,6 +13,7 @@ import 'package:hrm_1c/services/api/api_handler.dart';
 
 import 'package:hrm_1c/services/firebase/firebase_service.dart';
 
+import 'controller/transfer_shift_controller.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -32,6 +33,7 @@ void initController() {
   Get.put(UserController());
   Get.put(GeoController());
   Get.put(LeaveDayController());
+  Get.put(TransferShiftController());
   Get.put(AdminDataController());
   Get.put(ConfigurationController());
 }

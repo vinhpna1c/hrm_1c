@@ -7,12 +7,15 @@ import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:intl/intl.dart';
 
+import '../../controller/user_controller.dart';
+
 class RequestLeaveScreen extends StatelessWidget {
   const RequestLeaveScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final leaveDayCtrl = Get.find<LeaveDayController>();
+    final userCtrl = Get.find<UserController>();
 
     return SingleBodyScreen(
       body: CustomScrollView(
@@ -200,6 +203,11 @@ class RequestLeaveScreen extends StatelessWidget {
                                 Get.snackbar(
                                     "1C:HRM", "Error while sending request!");
                               }
+                            }
+                            if (leaveDayCtrl.leaveType.value == "Annual Leave" && userCtrl.userInformation!.paidDay! == 0) {
+                              Get.snackbar(
+                                  "1C:HRM", "Your remaining paid day is 0, change to another leave type");
+                              leaveDayCtrl.leaveType.value = "Unpaid Leave";
                             }
                           },
                           style: TextButton.styleFrom(

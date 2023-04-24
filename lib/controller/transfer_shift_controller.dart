@@ -6,7 +6,9 @@ import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/models/contract.dart';
 import 'package:intl/intl.dart';
 
+import '../models/transfer_shift_request.dart';
 import '../services/api/api_handler.dart';
+import '../utils/utils.dart';
 
 enum TransferShiftStatus {
   UNSELECTED_SHIFT,
@@ -54,6 +56,10 @@ class TransferShiftController extends GetxController {
   // Rx<String?> leaveType = Rx(null);
   // RxString sessonType = "".obs;
 
+  //RxList<DateTime> transferDays = <DateTime>[].obs;
+
+  RxList<TransferShiftRequest> transferRequests = <TransferShiftRequest>[].obs;
+
   RxMap<String, List<TransferShiftStatus>> requestMap =
       <String, List<TransferShiftStatus>>{}.obs;
 
@@ -67,6 +73,24 @@ class TransferShiftController extends GetxController {
       ];
     }
     super.onInit();
+  }
+
+  Future<void> getPersonalTransferShift() async {
+    final userController = Get.find<UserController>();
+    DateFormat df = DateFormat("yyyyMMdd");
+    var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/PersonalLeave", params: {
+      "Token": userController.identifyString,
+      "FromDate": df.format(DateTime(2023,1,1)),
+      "ToDate": df.format(DateTime(2023,12,31)),
+    });
+    if (respond.statusCode == 200) {
+      transferRequests.clear();
+      var data = respond.data["PersonalTransferShift"] ?? [];
+      for (var req in data) {
+        transferRequests.add(TransferShiftRequest.fromJson(req));
+      }
+    }
+    print(transferRequests.length);
   }
 
   void setTimeSheets(List<TimeSheet>? timeSheets) {

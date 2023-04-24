@@ -9,8 +9,12 @@ DateTime? parseDateTimeFromStr(String dateStr,
   try {
     ret = DateFormat(format).parse(dateStr);
   } catch (e) {
-    print("Cannot parse string!");
-    return null;
+    try{
+      ret = DateFormat("dd.MM.yyyy hh:mm:ss").parse(dateStr);
+    } catch (e) {
+      print("Cannot parse string!");
+      return null;
+    }
   }
   return ret;
 }

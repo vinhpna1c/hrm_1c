@@ -6,6 +6,7 @@ import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:intl/intl.dart';
 
+import '../models/leave_request.dart';
 import '../utils/utils.dart';
 
 class LeaveDayController extends GetxController {
@@ -34,6 +35,8 @@ class LeaveDayController extends GetxController {
 
   RxList<DateTime> leaveDays = <DateTime>[].obs;
 
+  RxList<LeaveRequest> leaveRequests = <LeaveRequest>[].obs;
+
   static const requestLeavePath = "/V1/RequestLeave";
 
   @override
@@ -55,6 +58,7 @@ class LeaveDayController extends GetxController {
       });
       if (respond.statusCode == 200) {
         leaveDays.clear();
+        leaveRequests.clear();
         var data = respond.data["PersonalLeave"] ?? [];
         for (var req in data) {
           if (req['Status'] == "Approve") {
@@ -65,6 +69,7 @@ class LeaveDayController extends GetxController {
               startdate  = startdate.add(Duration(days: 1));
             }
           }
+          leaveRequests.add(LeaveRequest.fromJson(req));
         }
       }
       print(leaveDays.length);

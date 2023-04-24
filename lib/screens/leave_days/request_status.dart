@@ -5,8 +5,11 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
+import 'package:hrm_1c/controller/transfer_shift_controller.dart';
 import 'package:hrm_1c/screens/leave_days/request_information_transfer_shift_screen.dart';
 
+import '../../components/personal_leave_card.dart';
+import '../../components/personal_transfer_card.dart';
 import '../../components/request_card.dart';
 import '../../components/search_widget.dart';
 import '../../components/transfer_card.dart';
@@ -26,8 +29,11 @@ class RequestStatus extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final adminDataCtrl = Get.find<AdminDataController>();
+    //final adminDataCtrl = Get.find<AdminDataController>();
     final leaveDayCtrl = Get.find<LeaveDayController>();
+    final transferShiftCtrl = Get.find<TransferShiftController>();
+    leaveDayCtrl.getPersonalLeaveDay();
+    transferShiftCtrl.getPersonalTransferShift();
 
     return SingleBodyScreen(
       body: DefaultTabController(
@@ -110,12 +116,12 @@ class RequestStatus extends StatelessWidget {
                       ...tabs.map(
                             (tab) => RefreshIndicator(
                           onRefresh: () async {
-                            await adminDataCtrl.getAllLeaveRequest();
-                            await adminDataCtrl.getAllTransferRequest();
+                            await leaveDayCtrl.getPersonalLeaveDay();
+                            await transferShiftCtrl.getPersonalTransferShift();
                           },
                           child: Obx(
                                 () => ListView(children: [
-                              ...adminDataCtrl.leaveRequests
+                              ...leaveDayCtrl.leaveRequests
                                   .where((lq) => (lq.status ?? "")
                                   .toLowerCase()
                                   .contains(tab.toLowerCase()))
@@ -126,16 +132,15 @@ class RequestStatus extends StatelessWidget {
                                     requestType.value
                                         .toLowerCase()
                                         .contains('leave'))
-                                    ? RequestCard(
+                                    ? PersonalLeaveCard(
                                   leaveRequest: e,
                                   onPostFunction: () {
-                                    print("load dât");
-                                    adminDataCtrl.getAllLeaveRequest();
+                                    leaveDayCtrl.getPersonalLeaveDay();
                                   },
                                 )
                                     : const SizedBox(),
                               ),
-                              ...adminDataCtrl.transferRequests
+                              ...transferShiftCtrl.transferRequests
                                   .where((tq) => (tq.status ?? "")
                                   .toLowerCase()
                                   .contains(tab.toLowerCase()))
@@ -146,11 +151,10 @@ class RequestStatus extends StatelessWidget {
                                     requestType.value
                                         .toLowerCase()
                                         .contains('transfer'))
-                                    ? TransferCard(
-                                  request: e,
+                                    ? PersonalTransferCard(
+                                      transferRequest: e,
                                   onPostFunction: () {
-                                    adminDataCtrl
-                                        .getAllTransferRequest();
+                                    transferShiftCtrl.getPersonalTransferShift();
                                   },
                                 )
                                     : const SizedBox(),

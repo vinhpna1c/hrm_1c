@@ -36,8 +36,7 @@ class RequestCard extends StatelessWidget {
     var halfADayStr = leaveRequest.halfADay ?? "";
     DateFormat df = DateFormat("yyyy-MM-dd");
     int dayDiff =
-        DateTime.now().difference(leaveRequest.date ?? DateTime.now()).inDays;
-
+        DateTime.now().difference(DateTime(leaveRequest.date!.year,leaveRequest.date!.month, leaveRequest.date!.day,0,0,0,0,0) ?? DateTime.now()).inDays;
     return Container(
       padding: EdgeInsets.all(8.0),
       margin: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),

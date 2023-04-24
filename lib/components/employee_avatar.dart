@@ -29,26 +29,45 @@ class EmployeeAvatar extends StatelessWidget {
           )
         ],
       ),
-      child: ClipOval(
-//TODO: replace with image url late
-        child: SizedBox(
-          height: size - paddingSpace,
-          width: size - paddingSpace,
-          child: imageURL == null
-              ? Image.asset(
-                  "assets/images/person_holder.png",
-                  fit: BoxFit.contain,
-                )
-              : Image.network(
-                  imageURL!,
-                  fit: BoxFit.fill,
-                  errorBuilder: ((context, error, stackTrace) => Image.asset(
-                        "assets/images/person_holder.png",
-                        fit: BoxFit.contain,
-                      )),
-                ),
+//       child: ClipOval(
+// //TODO: replace with image url late
+//         child: SizedBox(
+//           height: size - paddingSpace,
+//           width: size - paddingSpace,
+//           child: imageURL == null
+//               ? Image.asset(
+//                   "assets/images/person_holder.png",
+//                   fit: BoxFit.contain,
+//                 )
+//               : Image.network(
+//                   imageURL!,
+//                   fit: BoxFit.fill,
+//                   errorBuilder: ((context, error, stackTrace) => Image.asset(
+//                         "assets/images/person_holder.png",
+//                         fit: BoxFit.contain,
+//                       )),
+//                 ),
+//         ),
+//       ),
+    child: SizedBox(
+      child: CircleAvatar(
+        backgroundColor: Color(0xfff3e0a6),
+        radius: 30.0,
+        backgroundImage: NetworkImage(imageURL ?? ""),
+        child: Align(
+          alignment: Alignment.bottomRight,
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 8.0,
+            child: Icon(
+              Icons.circle_rounded,
+              size: 12,
+              color: Colors.green,
+            ),
+          ),
         ),
       ),
+    ),
     );
   }
 }
