@@ -53,12 +53,13 @@ dependencies:
   table_calendar: ^3.0.9
   flutter_webview_pro: ^3.0.1+4
   flutter_calendar_carousel: ^2.4.2
+  change_app_package_name: ^1.1.0
 
 dev_dependencies:
 
   flutter_test:
     sdk: flutter
-  
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -81,7 +82,7 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
-    - assets/icons/
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

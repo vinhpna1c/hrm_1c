@@ -56,7 +56,7 @@ class RootScreen extends StatelessWidget {
         bottomNavigationBar: isManager
             ? Container(
                 color: Colors.white.withOpacity(0.0),
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(4.0),
                 child: Container(
                   decoration:
                       BoxDecoration(color: HRMColorStyles.unselectedBlueColor),
@@ -72,12 +72,12 @@ class RootScreen extends StatelessWidget {
                           ),
                           "Home",
                         ),
-                        TabWidget(
-                            Icon(
-                              Icons.document_scanner_outlined,
-                              color: Colors.white,
-                            ),
-                            "Jobs"),
+                        // TabWidget(
+                        //     Icon(
+                        //       Icons.document_scanner_outlined,
+                        //       color: Colors.white,
+                        //     ),
+                        //     "Jobs"),
                         TabWidget(
                             Icon(
                               Icons.people,
