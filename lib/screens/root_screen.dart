@@ -1,21 +1,17 @@
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/components/headers/hrm_appbar.dart';
 import 'package:hrm_1c/components/headers/hrm_drawer.dart';
-import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
-import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
-import 'package:hrm_1c/screens/jobs/job_screen.dart';
 import 'package:hrm_1c/screens/leave_days/leave_day_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 
 import 'account/account_screen.dart';
 import 'employees/employees_screen.dart';
 
+// ignore: must_be_immutable
 class RootScreen extends StatelessWidget {
   RootScreen({super.key});
   final RxInt _currentIndex = 0.obs;
@@ -35,6 +31,7 @@ class RootScreen extends StatelessWidget {
 
     bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     if (!isManager) {
+      Get.find<GeoController>().initLocationService();
       screenWidgets = [HomeScreen()];
     }
     //final adminController = Get.find<AdminDataController>();
@@ -45,7 +42,7 @@ class RootScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBody: true,
-        drawer: HRMDrawer(),
+        drawer: const HRMDrawer(),
         appBar: HRMAppBar(),
         body: TabBarView(
           children: screenWidgets,

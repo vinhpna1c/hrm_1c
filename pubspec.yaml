@@ -39,7 +39,6 @@ dependencies:
   get: ^4.6.5
   mongo_dart: ^0.8.2
   floating_bottom_navigation_bar: ^1.5.2
- 
   flutter_slidable: ^0.6.0
   dbcrypt: ^2.0.0
   firebase_core: ^2.5.0

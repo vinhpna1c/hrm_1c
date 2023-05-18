@@ -18,31 +18,43 @@ import 'package:hrm_1c/controller/check_in_controller.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:intl/intl.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   RxBool workingOpen = true.obs;
   RxBool leaveOpen = true.obs;
   RxBool isWebViewInit = false.obs;
 
-  final _HOME_NAV_SPACE = 10;
+  //screen controllers
+  late final UserController userController;
+  late final GeoController geoController;
+  late final CheckInController checkInCtrl;
+  late final AdminDataController adminDataCtrl;
+  late final bool isManager;
+
+  @override
+  void initState() {
+    userController = Get.find<UserController>();
+    geoController = Get.find<GeoController>();
+
+    checkInCtrl = Get.find<CheckInController>();
+    adminDataCtrl = Get.find<AdminDataController>();
+
+    isManager = userController.accountType == AccountType.ADMINISTRATOR;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userController = Get.find<UserController>();
-    final geoController = Get.put(GeoController());
-    geoController.GetCheckInLocation();
-    final checkInCtrl = Get.put(CheckInController());
-    final adminDataCtrl = Get.find<AdminDataController>();
-    bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     DateTime today = DateTime.now();
-    //bool isCheckedOut = checkInCtrl.timeKeeping.value== null ?  true :
-    // checkInCtrl.timeKeeping.value!.number==null?true: false;
-
     bool isCheckedOut =
         checkInCtrl.timeKeeping.value!.number == null ? true : false;
-
-    //print(checkInCtrl.timeKeeping.value!.toJson());
 
     return Container(
       color: Colors.white,
@@ -166,10 +178,8 @@ class HomeScreen extends StatelessWidget {
                                                         .currentLocation
                                                         .value!
                                                         .longitude,
-                                                    geoController
-                                                        .latitude,
-                                                    geoController
-                                                        .longitude)
+                                                    geoController.latitude,
+                                                    geoController.longitude)
                                                 .toStringAsFixed(0),
                                             style: HRMTextStyles.boldText
                                                 .copyWith(color: Colors.green),
@@ -187,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                                     ],
                                   ),
                                 ),
-                                Icon(
+                                const Icon(
                                   Icons.location_on,
                                   size: 60,
                                   color: Colors.red,
@@ -212,10 +222,8 @@ class HomeScreen extends StatelessWidget {
                                               .currentLocation.value!.latitude,
                                           geoController
                                               .currentLocation.value!.longitude,
-                                          geoController
-                                              .latitude,
-                                          geoController
-                                              .longitude) >
+                                          geoController.latitude,
+                                          geoController.longitude) >
                                       geoController.checkInRadius) {
                                     Get.snackbar("1C:HRM",
                                         "Your location is too far from the company");
@@ -265,7 +273,8 @@ class HomeScreen extends StatelessWidget {
                                   ...List.generate(
                                     adminDataCtrl.employees.length,
                                     (index) => Container(
-                                        margin: EdgeInsets.only(right: 4.0),
+                                        margin:
+                                            const EdgeInsets.only(right: 4.0),
                                         child: EmployeeItem(
                                           employee:
                                               adminDataCtrl.employees[index],

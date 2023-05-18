@@ -1,36 +1,20 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
-import 'package:hrm_1c/models/configuration.dart';
-
 import '../services/api/api_handler.dart';
 
 class GeoController extends GetxController {
   // ignore: cast_from_null_always_fails
   Rx<Position?> currentLocation = Rx<Position?>(null);
-  // final checkInLocation = const Position(
-  //     altitude: 0.0,
-  //     longitude: 106.680834,
-  //     accuracy: 0.0,
-  //     heading: 0.0,
-  //     latitude: 10.7818393,
-  //     speed: 0.0,
-  //     speedAccuracy: 0.0,
-  //     timestamp: null);
 
   double checkInRadius = 0.0;
   double longitude = 0.0;
   double latitude = 0.0;
 
   late StreamSubscription<Position> _locationStream;
-  @override
-  Future<void> onInit() async {
-    initController()
-        .then((value) => print("Init geo controller " + value.toString()));
-    super.onInit();
-  }
 
   @override
   void onClose() {
@@ -39,17 +23,21 @@ class GeoController extends GetxController {
     super.onClose();
   }
 
-  Future<bool> initController() async {
+  Future<bool> initLocationService() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
     if (!serviceEnabled) {
       throw Exception("Location services are disabled.");
     }
     permission = await Geolocator.checkPermission();
 
     if (permission == LocationPermission.denied) {
+      //show information about location permission
+      await showLocationInformation();
+
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         throw Exception('Location permissions are denied');
@@ -72,9 +60,11 @@ class GeoController extends GetxController {
 
   Future<void> GetCheckInLocation() async {
     final userController = Get.find<UserController>();
-    String username =  userController.username;
+    String username = userController.username;
     String password = userController.password;
-    var respond = await ApiHandler.getRequest(username, password,
+    var respond = await ApiHandler.getRequest(
+      username,
+      password,
       "/V1/Configuration",
     );
     if (respond.statusCode == 200) {
@@ -85,5 +75,23 @@ class GeoController extends GetxController {
         latitude = req['Latitude'];
       }
     }
+  }
+
+  Future<void> showLocationInformation() async {
+    await Get.dialog(
+      AlertDialog(
+        title: const Text("Location Permission request"),
+        content: const Text(
+            '''This app will use your location position for functionality.\nYour data will be keep secret and using internally.\nIf your decision is changed when using, please check app permission in settings on your device to change permission. Some functionality will be not usable based on your permission.'''),
+        actions: [
+          TextButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: Text("Ok, I understand!")),
+        ],
+      ),
+      barrierDismissible: true,
+    );
   }
 }

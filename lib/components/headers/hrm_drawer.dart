@@ -47,7 +47,9 @@ class HRMDrawer extends StatelessWidget {
                   child: EmployeeAvatar(
                     backgroundRadius: 54,
                     paddingSpace: 8.0,
-                    imageURL: _userController.userInformation!.URL!,
+                    imageURL: _userController.userInformation != null
+                        ? _userController.userInformation!.URL!
+                        : "",
                   ),
                 ),
                 Text(
@@ -97,19 +99,19 @@ class HRMDrawer extends StatelessWidget {
                     : const SizedBox(),
                 _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
-                    label: "Check-in History",
-                    onTap: () {
-                      Get.back();
-                      Get.to(CheckInHistoryScreen());
-                    })
+                        label: "Check-in History",
+                        onTap: () {
+                          Get.back();
+                          Get.to(CheckInHistoryScreen());
+                        })
                     : const SizedBox(),
                 _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
-                    label: "Request Status",
-                    onTap: () {
-                      Get.back();
-                      Get.to(RequestStatus());
-                    })
+                        label: "Request Status",
+                        onTap: () {
+                          Get.back();
+                          Get.to(RequestStatus());
+                        })
                     : const SizedBox(),
                 _userController.accountType == AccountType.ADMINISTRATOR
                     ? NavigationTile(

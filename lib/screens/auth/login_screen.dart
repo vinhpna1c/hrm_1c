@@ -3,9 +3,10 @@ import 'package:get/get.dart';
 import 'package:hrm_1c/components/input_widget.dart';
 import 'package:hrm_1c/components/login_button.dart';
 import 'package:hrm_1c/controller/auth_controller.dart';
+
 import 'package:hrm_1c/main.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
-import 'package:hrm_1c/services/firebase/firebase_service.dart';
+
 import 'package:hrm_1c/utils/styles.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -24,6 +25,7 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
+          physics: const ClampingScrollPhysics(),
           child: Container(
             width: double.infinity,
             decoration: BoxDecoration(
@@ -69,6 +71,7 @@ class LoginScreen extends StatelessWidget {
                     }
                   },
                 ),
+                SizedBox(height: MediaQuery.of(context).viewInsets.bottom + 20),
               ],
             ),
           ),
