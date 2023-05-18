@@ -22,7 +22,6 @@ class RootScreen extends StatelessWidget {
 
   List<Widget> screenWidgets = [
     HomeScreen(),
-    JobScreen(),
     EmployeesScreen(),
     LeaveDayScreen(),
     AccountScreen(
@@ -32,9 +31,9 @@ class RootScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _userController = Get.find<UserController>();
+    final userController = Get.find<UserController>();
 
-    bool isManager = _userController.accountType == AccountType.ADMINISTRATOR;
+    bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     if (!isManager) {
       screenWidgets = [HomeScreen()];
     }
