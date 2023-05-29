@@ -1,15 +1,10 @@
-import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hrm_1c/components/employee_avatar.dart';
 import 'package:hrm_1c/components/headers/hrm_appbar.dart';
 import 'package:hrm_1c/components/headers/hrm_drawer.dart';
-import 'package:hrm_1c/controller/admin_data_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
-import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
-import 'package:hrm_1c/screens/jobs/job_screen.dart';
 import 'package:hrm_1c/screens/leave_days/leave_day_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -17,13 +12,14 @@ import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 import 'account/account_screen.dart';
 import 'employees/employees_screen.dart';
 
+// ignore: must_be_immutable
 class RootScreen extends StatelessWidget {
   RootScreen({super.key});
   final RxInt _currentIndex = 0.obs;
 
   List<Widget> screenWidgets = [
     HomeScreen(),
-    //JobScreen(),
+
     EmployeesScreen(),
     LeaveDayScreen(),
     AccountScreen(
@@ -33,10 +29,11 @@ class RootScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _userController = Get.find<UserController>();
+    final userController = Get.find<UserController>();
 
-    bool isManager = _userController.accountType == AccountType.ADMINISTRATOR;
+    bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     if (!isManager) {
+      Get.find<GeoController>().initLocationService();
       screenWidgets = [HomeScreen()];
     }
     //final adminController = Get.find<AdminDataController>();
@@ -47,7 +44,7 @@ class RootScreen extends StatelessWidget {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         extendBody: true,
-        drawer: HRMDrawer(),
+        drawer: const HRMDrawer(),
         appBar: HRMAppBar(),
         body: TabBarView(
           children: screenWidgets,

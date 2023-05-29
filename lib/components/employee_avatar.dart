@@ -51,6 +51,7 @@ class EmployeeAvatar extends StatelessWidget {
 //                 ),
 //         ),
 //       ),
+
     child: SizedBox(
       child: CircleAvatar(
         backgroundColor: Color(0xfff3e0a6),
@@ -68,8 +69,8 @@ class EmployeeAvatar extends StatelessWidget {
             ),
           ),
         ) : SizedBox(),
+
       ),
-    ),
     );
   }
 }
