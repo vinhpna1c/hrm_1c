@@ -56,6 +56,7 @@ class AuthController extends GetxController {
     await adminDataCtrl.getAllLeaveRequest();
     await adminDataCtrl.getAllEmployeeList();
     await adminDataCtrl.getAllTransferRequest();
+    await adminDataCtrl.getWorkingEmployeeToDayList();
   }
 
   Future<void> initStaffData() async {

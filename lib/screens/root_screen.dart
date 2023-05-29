@@ -12,6 +12,7 @@ import 'package:hrm_1c/screens/home/home_screen.dart';
 import 'package:hrm_1c/screens/jobs/job_screen.dart';
 import 'package:hrm_1c/screens/leave_days/leave_day_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import 'account/account_screen.dart';
 import 'employees/employees_screen.dart';
@@ -22,7 +23,7 @@ class RootScreen extends StatelessWidget {
 
   List<Widget> screenWidgets = [
     HomeScreen(),
-    JobScreen(),
+    //JobScreen(),
     EmployeesScreen(),
     LeaveDayScreen(),
     AccountScreen(
@@ -54,68 +55,71 @@ class RootScreen extends StatelessWidget {
         // screenWidgets[_currentIndex.value],
 
         bottomNavigationBar: isManager
-            ? Container(
-                color: Colors.white.withOpacity(0.0),
-                padding: const EdgeInsets.all(4.0),
-                child: Container(
-                  decoration:
-                      BoxDecoration(color: HRMColorStyles.unselectedBlueColor),
-                  child: TabBar(
-                      indicator: BoxDecoration(
-                        color: HRMColorStyles.selectedBlueColor,
-                      ),
-                      tabs: [
-                        TabWidget(
-                          Icon(
-                            Icons.home,
-                            color: Colors.white,
-                          ),
-                          "Home",
-                        ),
-                        // TabWidget(
-                        //     Icon(
-                        //       Icons.document_scanner_outlined,
-                        //       color: Colors.white,
-                        //     ),
-                        //     "Jobs"),
-                        TabWidget(
-                            Icon(
-                              Icons.people,
-                              color: Colors.white,
-                            ),
-                            "Employee"),
-                        TabWidget(
-                            Icon(
-                              Icons.calendar_today_rounded,
-                              color: Colors.white,
-                            ),
-                            "Leave-day"),
-                        TabWidget(
-                            Icon(
-                              Icons.person_pin,
-                              color: Colors.white,
-                            ),
-                            "Account"),
-                      ]),
-                ),
-              )
+            ?
+        NavigationBarWidget()
             : const SizedBox(),
       ),
     );
   }
+}
 
-  Widget TabWidget(Icon icon, String label) {
-    return Tab(
-      iconMargin: EdgeInsets.zero,
-      height: 80,
-      icon: icon,
-      child: Text(
-        label,
-        style: HRMTextStyles.normalText.copyWith(fontSize: 12),
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
-        textAlign: TextAlign.center,
+Widget NavigationBarWidget() {
+  return Container(
+    color: Colors.white.withOpacity(0.0),
+    //padding: const EdgeInsets.all(4.0),
+    child: Container(
+      decoration:
+      BoxDecoration(
+        color: HRMColorStyles.unselectedBlueColor,
+        borderRadius: BorderRadius.circular(8),
       ),
-    );
-  }
+      child: TabBar(
+          indicator: BoxDecoration(
+            color: HRMColorStyles.selectedBlueColor,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          tabs: [
+            TabWidget(
+              Icon(
+                Icons.home,
+                color: Colors.white,
+              ),
+              "Home",
+            ),
+            TabWidget(
+                Icon(
+                  Icons.people,
+                  color: Colors.white,
+                ),
+                "Employee"),
+            TabWidget(
+                Icon(
+                  Icons.calendar_today_rounded,
+                  color: Colors.white,
+                ),
+                "Leave-day"),
+            TabWidget(
+                Icon(
+                  Icons.person_pin,
+                  color: Colors.white,
+                ),
+                "Account"),
+          ]),
+    ),
+  );
+}
+
+Widget TabWidget(Icon icon, String label) {
+  return Tab(
+    iconMargin: EdgeInsets.zero,
+    height: 60,
+    icon: icon,
+    child: Text(
+      label,
+      style: HRMTextStyles.normalText.copyWith(fontSize: 10),
+      overflow: TextOverflow.ellipsis,
+      maxLines: 2,
+      textAlign: TextAlign.center,
+    ),
+  );
 }

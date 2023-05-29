@@ -13,17 +13,14 @@ import '../models/leave_request.dart';
 class AdminDataController extends GetxController {
   RxList<LeaveRequest> leaveRequests = <LeaveRequest>[].obs;
   RxList<PersonalInformation> employees = <PersonalInformation>[].obs;
+  RxList<PersonalInformation> workingemployees = <PersonalInformation>[].obs;
   RxList<TransferShiftRequest> transferRequests = <TransferShiftRequest>[].obs;
 
   static const allEmployeePath = "/V1/AllEmployee";
   static const allTransferShiftPath = "/V1/AllTransferShift";
 
-  Future<void> getAllLeaveRequest(
-      {DateTime? startTime, DateTime? endTime}) async {
+  Future<void> getAllLeaveRequest() async {
     final userController = Get.find<UserController>();
-    startTime ??= getFirstDayOfWeek(DateTime.now());
-    endTime ??= startTime.add(const Duration(days: 7));
-    DateFormat df = DateFormat("yyyyMMdd");
     if (userController.accountType == AccountType.ADMINISTRATOR) {
       // print(jsonEncode({
       //   "Token": userController.identifyString,
@@ -32,8 +29,6 @@ class AdminDataController extends GetxController {
       // }));
       var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/AllLeave", params: {
         "Token": userController.identifyString,
-        "FromDate": df.format(startTime),
-        "ToDate": df.format(endTime),
       });
       if (respond.statusCode == 200) {
         leaveRequests.clear();
@@ -64,20 +59,8 @@ class AdminDataController extends GetxController {
   Future<void> getAllTransferRequest(
       {DateTime? startTime, DateTime? endTime}) async {
     final userController = Get.find<UserController>();
-    startTime ??= getFirstDayOfWeek(DateTime.now());
-    endTime ??= startTime.add(const Duration(days: 7));
-    DateFormat df = DateFormat("yyyyMMdd");
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      print(jsonEncode({
-        "Token": userController.identifyString,
-        "FromDate": df.format(startTime),
-        "ToDate": df.format(endTime),
-      }));
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,allTransferShiftPath, params: {
-        "Token": userController.identifyString,
-        "FromDate": df.format(startTime),
-        "ToDate": df.format(endTime),
-      });
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,allTransferShiftPath,);
       if (respond.statusCode == 200) {
         transferRequests.clear();
         var data = respond.data["AllTransferShift"] ?? [];
@@ -87,6 +70,23 @@ class AdminDataController extends GetxController {
         }
         print("Transfer request get: ${transferRequests.length}");
       }
+    }
+  }
+
+  Future<void> getWorkingEmployeeToDayList() async {
+    final userController = Get.find<UserController>();
+    DateFormat df = DateFormat("yyyyMMdd");
+    if (userController.accountType == AccountType.ADMINISTRATOR) {
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/EmployeeWorking",
+          params: {"Date": df.format(DateTime.now())});
+      if (respond.statusCode == 200) {
+        workingemployees.clear();
+        var data = respond.data["EmployeeOnDate"] ?? [];
+        for (var req in data) {
+          workingemployees.add(PersonalInformation.fromJson(req));
+        }
+      }
+      print("work length: " + workingemployees.length.toString());
     }
   }
 }

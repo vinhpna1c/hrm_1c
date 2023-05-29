@@ -48,6 +48,7 @@ class HRMDrawer extends StatelessWidget {
                     backgroundRadius: 54,
                     paddingSpace: 8.0,
                     imageURL: _userController.userInformation!.URL!,
+                    displayActive: false,
                   ),
                 ),
                 Text(

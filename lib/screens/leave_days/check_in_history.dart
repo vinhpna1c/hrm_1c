@@ -82,17 +82,31 @@ class CheckInHistoryScreen extends StatelessWidget {
                 },
                 weekendTextStyle: TextStyle(
                   color: Color(0xFF0B5D76),
+                  fontFamily: "Kanit",
                 ),
-                selectedDayBorderColor: Color(0xFF194B5A),
-                selectedDayButtonColor: Color(0xFF194B5A),
-                headerTextStyle: TextStyle(
+                daysTextStyle: TextStyle(
                   color: Colors.black,
-                  fontSize: 20,
+                  fontSize: 16,
+                  fontFamily: "Kanit",
+                ),
+                selectedDayButtonColor: Colors.red,
+                selectedDayBorderColor: Colors.grey,
+                selectedDayTextStyle: TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: "Kanit",
+                ),
+                disableDayPressed: true,
+                headerTextStyle: TextStyle(
+                  color: Color(0xFF194B5A),
+                  fontSize: 22,
+                  fontFamily: "Kanit",
                 ),
                 iconColor: Colors.black,
                 weekdayTextStyle: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
+                  fontFamily: "Kanit",
                 ),
                 thisMonthDayBorderColor: Colors.grey,
                 customDayBuilder: (
@@ -124,6 +138,7 @@ class CheckInHistoryScreen extends StatelessWidget {
                         child: Text(day.day.toString(),
                           style: const TextStyle(
                             color: Colors.black,
+                            fontFamily: "Kanit",
                           ),
                           textAlign: TextAlign.center,
                         ),
@@ -148,6 +163,7 @@ class CheckInHistoryScreen extends StatelessWidget {
                             child: Text(day.day.toString(),
                               style: const TextStyle(
                                 color: Colors.black,
+                                fontFamily: "Kanit",
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -172,6 +188,7 @@ class CheckInHistoryScreen extends StatelessWidget {
                             child: Text(day.day.toString(),
                               style: const TextStyle(
                                 color: Colors.black,
+                                fontFamily: "Kanit",
                               ),
                               textAlign: TextAlign.center,
                             ),
@@ -202,7 +219,7 @@ class CheckInHistoryScreen extends StatelessWidget {
             children: <Widget>[
               Container(
                 width: double.infinity,
-                height: 150,
+                height: 130,
                 margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(
@@ -217,7 +234,6 @@ class CheckInHistoryScreen extends StatelessWidget {
                       Note(Color(0xFFDDC488), "Leave day"),
                       Note(Color(0xFFEE7942), "Absent day"),
                       Note(Colors.red, "Today"),
-                      Note(Color(0xFF194B5A), "Selected day"),
                     ],
                   )
               ),
@@ -225,11 +241,11 @@ class CheckInHistoryScreen extends StatelessWidget {
                 left: 50,
                 top: 12,
                 child: Container(
-                  padding: EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                  padding: EdgeInsets.only( left: 10, right: 10),
                   color: Colors.white,
                   child: Text(
                     'Note',
-                    style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold),
+                    style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: "Kanit",),
                   ),
                 ),
               ),
@@ -261,6 +277,7 @@ class CheckInHistoryScreen extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 12,
+            fontFamily: "Kanit",
           ),
         ),
       ],

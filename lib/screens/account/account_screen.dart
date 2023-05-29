@@ -39,6 +39,7 @@ class AccountScreen extends StatelessWidget {
                       backgroundRadius: 70,
                       paddingSpace: 8.0,
                       imageURL: personalInformation!.URL,
+                      displayActive: false,
                     ),
                     Text(
                       personalInformation.description!,
@@ -129,22 +130,22 @@ class AccountScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget RowInformation({String fieldName = "", String content = ""}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-      margin: const EdgeInsets.only(bottom: 4.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(fieldName, style: HRMTextStyles.h4Text),
-        Text(content,
-            style: HRMTextStyles.h4Text.copyWith(fontWeight: FontWeight.w100)),
-      ]),
-    );
-  }
+Widget RowInformation({String fieldName = "", String content = ""}) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+    margin: const EdgeInsets.only(bottom: 4.0),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text(fieldName, style: HRMTextStyles.h4Text),
+      Text(content,
+          style: HRMTextStyles.h4Text.copyWith(fontWeight: FontWeight.w100)),
+    ]),
+  );
 }
 
 class ArcClipper extends CustomClipper<Path> {

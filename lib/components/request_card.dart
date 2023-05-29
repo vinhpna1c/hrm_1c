@@ -19,7 +19,10 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isHalfDay = (leaveRequest.halfADay ?? "").isNotEmpty;
+    bool isFullDay = false;
+    if (leaveRequest.halfADay == "") {
+      isFullDay = true;
+    }
     var status = leaveRequest.status ?? "";
     final leaveCtrl = Get.find<LeaveDayController>();
     bool isPending = false;
@@ -67,6 +70,7 @@ class RequestCard extends StatelessWidget {
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
                         imageURL: leaveRequest.picture,
+                        displayActive: false,
                       ),
                     ),
                     Column(
@@ -125,7 +129,7 @@ class RequestCard extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: isHalfDay ? "Start: " : "Date",
+                      text: isFullDay ? "Start: " : "Date: ",
                       style: HRMTextStyles.h5Text.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
@@ -141,7 +145,7 @@ class RequestCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  isHalfDay
+                  isFullDay
                       ? RichText(
                           text: TextSpan(
                             text: "End: ",
@@ -241,17 +245,18 @@ class RequestCard extends StatelessWidget {
                         )
                       ],
                     )
-                  : TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: HRMColorStyles.darkBlueColor,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        "Details",
-                        style: HRMTextStyles.normalText,
-                      ),
-                    ),
+                  // : TextButton(
+                  //     style: TextButton.styleFrom(
+                  //       backgroundColor: HRMColorStyles.darkBlueColor,
+                  //       foregroundColor: Colors.white,
+                  //     ),
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       "Details",
+                  //       style: HRMTextStyles.normalText,
+                  //     ),
+                  //   ),
+              : SizedBox(),
             ],
           )
         ],

@@ -263,12 +263,12 @@ class HomeScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ...List.generate(
-                                    adminDataCtrl.employees.length,
+                                    adminDataCtrl.workingemployees.length,
                                     (index) => Container(
                                         margin: EdgeInsets.only(right: 4.0),
                                         child: EmployeeItem(
                                           employee:
-                                              adminDataCtrl.employees[index],
+                                              adminDataCtrl.workingemployees[index],
                                         )),
                                   )
                                 ],
