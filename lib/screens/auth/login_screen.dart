@@ -62,7 +62,12 @@ class LoginScreen extends StatelessWidget {
                 LoginButton(
                   text: "LOGIN",
                   onTapFunction: () async {
+                    showDialog(context: context, builder: (context){
+                      return Center(child: CircularProgressIndicator(),);
+                    });
                     int statusCode = await _authController.signIn();
+
+                    Navigator.of(context).pop();
 
                     if (statusCode == 200) {
                       Get.to(RootScreen());

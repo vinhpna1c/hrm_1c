@@ -48,6 +48,7 @@ class GeoController extends GetxController {
       throw Exception(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+
     _locationStream = Geolocator.getPositionStream().listen((position) {
       currentLocation.value = position;
       print("New position: " + position.toString());
@@ -58,7 +59,7 @@ class GeoController extends GetxController {
     return true;
   }
 
-  Future<void> GetCheckInLocation() async {
+  Future<void> getCheckInLocation() async {
     final userController = Get.find<UserController>();
     String username = userController.username;
     String password = userController.password;

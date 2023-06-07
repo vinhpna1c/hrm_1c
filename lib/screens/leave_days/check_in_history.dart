@@ -60,6 +60,7 @@ class CheckInHistoryScreen extends StatelessWidget {
                 onDayPressed: (DateTime date, List<Event> events) {
                   today.value = date;
                 },
+
                 weekendTextStyle: TextStyle(
                   color: Color(0xFF0B5D76),
                   fontFamily: "Kanit",

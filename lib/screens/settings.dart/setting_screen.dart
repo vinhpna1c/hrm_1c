@@ -10,6 +10,7 @@ import '../../controller/configuration_controller.dart';
 
 class SettingScreen extends StatelessWidget {
   SettingScreen({super.key});
+
   WebViewController? webViewController;
 
   @override
@@ -93,13 +94,7 @@ class SettingScreen extends StatelessWidget {
                             style: HRMTextStyles.lightText,
                           ),
                           Text(
-                            _configurationCtrl.checkInPosition.value.longitude
-                                        .toString() ==
-                                    "0.0"
-                                ? geoController.longitude.toString()
-                                : _configurationCtrl
-                                    .checkInPosition.value.longitude
-                                    .toString(),
+                            geoController.latitude.toString(),
                             style: HRMTextStyles.lightText,
                           )
                         ],
@@ -111,13 +106,7 @@ class SettingScreen extends StatelessWidget {
                             style: HRMTextStyles.lightText,
                           ),
                           Text(
-                            _configurationCtrl.checkInPosition.value.latitude
-                                        .toString() ==
-                                    "0.0"
-                                ? geoController.latitude.toString()
-                                : _configurationCtrl
-                                    .checkInPosition.value.latitude
-                                    .toString(),
+                            geoController.latitude.toString(),
                             style: HRMTextStyles.lightText,
                           )
                         ],

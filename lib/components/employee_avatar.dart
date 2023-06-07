@@ -71,6 +71,6 @@ class EmployeeAvatar extends StatelessWidget {
         ) : SizedBox(),
 
       ),
-    );
+    ));
   }
 }

@@ -18,6 +18,8 @@ import 'package:hrm_1c/controller/check_in_controller.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:intl/intl.dart';
 
+import '../../controller/configuration_controller.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -55,6 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime today = DateTime.now();
     bool isCheckedOut =
         checkInCtrl.timeKeeping.value!.number == null ? true : false;
+    // final configutationCtrl=Get.find<ConfigurationController>();
+    // print("Check in position "+configutationCtrl.checkInPosition.toJson());
 
     return Container(
       color: Colors.white,
