@@ -19,7 +19,10 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isHalfDay = (leaveRequest.halfADay ?? "").isNotEmpty;
+    bool isFullDay = false;
+    if (leaveRequest.halfADay == "") {
+      isFullDay = true;
+    }
     var status = leaveRequest.status ?? "";
     final leaveCtrl = Get.find<LeaveDayController>();
     bool isPending = false;
@@ -70,6 +73,7 @@ class RequestCard extends StatelessWidget {
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
                         imageURL: leaveRequest.picture,
+                        displayActive: false,
                       ),
                     ),
                     Column(
@@ -128,7 +132,7 @@ class RequestCard extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: isHalfDay ? "Start: " : "Date",
+                      text: isFullDay ? "Start:   " : "Date:   ",
                       style: HRMTextStyles.h5Text.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
@@ -138,16 +142,16 @@ class RequestCard extends StatelessWidget {
                                 ? df.format(leaveRequest.fromDate!)
                                 : "",
                             style: HRMTextStyles.h5Text.copyWith(
-                              fontWeight: FontWeight.w200,
+                              fontWeight: FontWeight.w400,
                               color: Colors.black,
                             )),
                       ],
                     ),
                   ),
-                  isHalfDay
+                  isFullDay
                       ? RichText(
                           text: TextSpan(
-                            text: "End: ",
+                            text: "End:     ",
                             style: HRMTextStyles.h5Text.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -157,7 +161,7 @@ class RequestCard extends StatelessWidget {
                                       ? df.format(leaveRequest.fromDate!)
                                       : "",
                                   style: HRMTextStyles.h5Text.copyWith(
-                                    fontWeight: FontWeight.w200,
+                                    fontWeight: FontWeight.w400,
                                     color: Colors.black,
                                   )),
                             ],
@@ -165,7 +169,7 @@ class RequestCard extends StatelessWidget {
                         )
                       : RichText(
                           text: TextSpan(
-                            text: "Section: ",
+                            text: "Section:   ",
                             style: HRMTextStyles.h5Text.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -175,7 +179,7 @@ class RequestCard extends StatelessWidget {
                                     ? "Morning"
                                     : "Afternoon",
                                 style: HRMTextStyles.h5Text.copyWith(
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: FontWeight.w400,
                                   color: Colors.black,
                                 ),
                               ),
@@ -184,7 +188,7 @@ class RequestCard extends StatelessWidget {
                         ),
                   RichText(
                     text: TextSpan(
-                      text: "Reason: ",
+                      text: "Reason:   ",
                       style: HRMTextStyles.h5Text.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
@@ -192,7 +196,7 @@ class RequestCard extends StatelessWidget {
                         TextSpan(
                           text: leaveRequest.reason ?? "",
                           style: HRMTextStyles.h5Text.copyWith(
-                            fontWeight: FontWeight.w200,
+                            fontWeight: FontWeight.w400,
                             color: Colors.black,
                           ),
                         ),
@@ -244,17 +248,18 @@ class RequestCard extends StatelessWidget {
                         )
                       ],
                     )
-                  : TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: HRMColorStyles.darkBlueColor,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        "Details",
-                        style: HRMTextStyles.normalText,
-                      ),
-                    ),
+                  // : TextButton(
+                  //     style: TextButton.styleFrom(
+                  //       backgroundColor: HRMColorStyles.darkBlueColor,
+                  //       foregroundColor: Colors.white,
+                  //     ),
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       "Details",
+                  //       style: HRMTextStyles.normalText,
+                  //     ),
+                  //   ),
+              : SizedBox(),
             ],
           )
         ],

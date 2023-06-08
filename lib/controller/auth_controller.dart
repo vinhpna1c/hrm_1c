@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/admin_data_controller.dart';
+import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/staff_data_controller.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
@@ -13,6 +14,7 @@ class AuthController extends GetxController {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _checkInController = Get.put(CheckInController());
+  final _geoController=Get.put(GeoController());
 
   final TextEditingController oldPassController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
@@ -37,10 +39,10 @@ class AuthController extends GetxController {
       userController.password = password;
       if (accountType.toLowerCase().contains("admin")) {
         userController.accountType = AccountType.ADMINISTRATOR;
-        initAdminData();
+        await initAdminData();
       } else {
         userController.accountType = AccountType.STAFF;
-        initStaffData();
+        await initStaffData();
       }
 
       await userController.getUserInformation();
@@ -56,6 +58,9 @@ class AuthController extends GetxController {
     await adminDataCtrl.getAllLeaveRequest();
     await adminDataCtrl.getAllEmployeeList();
     await adminDataCtrl.getAllTransferRequest();
+    await adminDataCtrl.getWorkingEmployeeToDayList();
+    //update check in postion
+    await _geoController.getCheckInLocation();
   }
 
   Future<void> initStaffData() async {

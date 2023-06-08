@@ -47,9 +47,11 @@ class HRMDrawer extends StatelessWidget {
                   child: EmployeeAvatar(
                     backgroundRadius: 54,
                     paddingSpace: 8.0,
+
                     imageURL: _userController.userInformation != null
                         ? _userController.userInformation!.URL!
                         : "",
+
                   ),
                 ),
                 Text(

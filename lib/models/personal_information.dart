@@ -17,6 +17,7 @@ class PersonalInformation {
   double? unpaidDay;
   double? sickLeave;
   String? URL;
+  String? position;
 
   String? contractType;
   List<DependentList>? dependentList;
@@ -38,11 +39,13 @@ class PersonalInformation {
       this.unpaidDay,
       this.sickLeave,
       this.URL,
+        this.position,
       this.contractType,
       this.dependentList,
       this.timeKeeping});
 
-  PersonalInformation.fromJson(Map<String, dynamic> json) {
+  PersonalInformation.  fromJson(Map<String, dynamic> json) {
+    // print(json);
     code = json['Code'];
     description = json['Description'];
     dateOfBirth = parseDateTimeFromStr(json['DateOfBirth'].toString());
@@ -54,10 +57,12 @@ class PersonalInformation {
     address = json['Address'];
     maritalStatus = json['MaritalStatus'];
     status = json['Status'];
-    paidDay = double.tryParse(json['PaidDay'].toString());
+
+    paidDay = double.tryParse(json['PaidDay'].toString().replaceAll(',', '.'));
     unpaidDay = double.tryParse(json['UnpaidDay'].toString());
     sickLeave = double.tryParse(json['SickLeave'].toString());
     URL = json['URL'];
+    position = json['Positon'];
 
     contractType = json['ContractType'];
     if (json['DependentList'] != null) {
@@ -88,6 +93,7 @@ class PersonalInformation {
     data['UnpaidDay'] = this.unpaidDay;
     data['SickLeave'] = this.sickLeave;
     data['URL'] = this.URL;
+    data['Positon'] = this.position;
 
     data['ContractType'] = this.contractType;
     if (this.dependentList != null) {

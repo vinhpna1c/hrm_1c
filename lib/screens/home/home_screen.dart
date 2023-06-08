@@ -1,4 +1,5 @@
-import 'dart:async';
+// import 'dart:async';
+// import 'dart:js_interop';
 
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,8 @@ import 'package:hrm_1c/components/login_button.dart';
 import 'package:hrm_1c/controller/check_in_controller.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:intl/intl.dart';
+
+import '../../controller/configuration_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -55,6 +58,8 @@ class _HomeScreenState extends State<HomeScreen> {
     DateTime today = DateTime.now();
     bool isCheckedOut =
         checkInCtrl.timeKeeping.value!.number == null ? true : false;
+    // final configutationCtrl=Get.find<ConfigurationController>();
+    // print("Check in position "+configutationCtrl.checkInPosition.toJson());
 
     return Container(
       color: Colors.white,
@@ -162,6 +167,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       TimerBuilder.periodic(
                                           Duration(milliseconds: 500),
                                           builder: (context) {
+                                            print(geoController
+                                                .currentLocation.value);
                                         if (geoController
                                                 .currentLocation.value ==
                                             null) {
@@ -178,8 +185,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         .currentLocation
                                                         .value!
                                                         .longitude,
-                                                    geoController.latitude,
-                                                    geoController.longitude)
+                                                    geoController
+                                                        .latitude.value,
+                                                    geoController
+                                                        .longitude.value)
                                                 .toStringAsFixed(0),
                                             style: HRMTextStyles.boldText
                                                 .copyWith(color: Colors.green),
@@ -222,9 +231,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                               .currentLocation.value!.latitude,
                                           geoController
                                               .currentLocation.value!.longitude,
-                                          geoController.latitude,
-                                          geoController.longitude) >
-                                      geoController.checkInRadius) {
+                                          geoController.latitude.value,
+                                          geoController.longitude.value) >
+                                      geoController.checkInRadius.value) {
                                     Get.snackbar("1C:HRM",
                                         "Your location is too far from the company");
                                   } else {
@@ -271,15 +280,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ...List.generate(
-                                    adminDataCtrl.employees.length,
-                                    (index) => Container(
+                                      adminDataCtrl.workingemployees.length,
+                                      (index) {
+                                    final workingEmployee =
+                                        adminDataCtrl.workingemployees[index];
+                                    //find employee in employee list
+                                   final employee= adminDataCtrl.employees.firstWhere((element) =>element.code== workingEmployee.code);
+
+                                    if ((employee.status ?? "" )
+                                        .toLowerCase()
+                                        .contains('inactive')) {
+
+                                      return const SizedBox();
+                                    }
+
+                                    return Container(
                                         margin:
                                             const EdgeInsets.only(right: 4.0),
                                         child: EmployeeItem(
-                                          employee:
-                                              adminDataCtrl.employees[index],
-                                        )),
-                                  )
+                                          employee: employee,
+                                        ));
+
+                                    // : Container();
+                                  })
                                 ],
                               ),
                             ),

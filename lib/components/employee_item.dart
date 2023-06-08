@@ -26,6 +26,9 @@ class EmployeeItem extends StatelessWidget {
             employee != null ? employee!.description ?? "" : "",
             maxLines: 2,
             textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 12,
+            ),
           )
         ],
       ),

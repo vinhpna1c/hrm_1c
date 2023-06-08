@@ -36,12 +36,12 @@ class _EmployeesScreenState extends State<EmployeesScreen> {
     final adminDataCtrl = Get.find<AdminDataController>();
     return SafeArea(
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          mini: true,
-          onPressed: () {},
-          backgroundColor: HRMColorStyles.unselectedBlueColor,
-          child: Icon(Icons.add),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   mini: true,
+        //   onPressed: () {},
+        //   backgroundColor: HRMColorStyles.unselectedBlueColor,
+        //   child: Icon(Icons.add),
+        // ),
         body: Container(
             color: Colors.white,
             padding:

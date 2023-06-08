@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 class AccountScreen extends StatelessWidget {
   final isShowAppBar;
+
   const AccountScreen({this.isShowAppBar = true, super.key});
 
   final _BUTTON_SPACE = 10;
@@ -20,6 +21,7 @@ class AccountScreen extends StatelessWidget {
     double leaveBtnWidth = (width - _BUTTON_SPACE * 2 - 16 * 2) / 3;
     final userController = Get.find<UserController>();
     var personalInformation = userController.userInformation;
+    print(personalInformation?.toJson());
     return SingleBodyScreen(
       showAppBar: isShowAppBar,
       body: Container(
@@ -39,6 +41,7 @@ class AccountScreen extends StatelessWidget {
                       backgroundRadius: 70,
                       paddingSpace: 8.0,
                       imageURL: personalInformation!.URL,
+                      displayActive: false,
                     ),
                     Text(
                       personalInformation.description!,
@@ -68,7 +71,7 @@ class AccountScreen extends StatelessWidget {
                             color: HRMColorStyles.darkBlueColor,
                           ),
                           content:
-                              "${formatDouble(userController.userInformation!.paidDay ?? 0.0)}/7",
+                              "${formatDouble(userController.userInformation!.paidDay ?? 0.0)} / 12",
                           leaveType: "Annual leave",
                         ),
                         LeaveWidget(
@@ -78,7 +81,7 @@ class AccountScreen extends StatelessWidget {
                             color: HRMColorStyles.darkBlueColor,
                           ),
                           content:
-                              "${formatDouble(userController.userInformation!.sickLeave ?? 0.0)}/30",
+                              "${formatDouble(userController.userInformation!.sickLeave ?? 0.0)} / 30",
                           leaveType: "Sick leave",
                         ),
                         LeaveWidget(
@@ -117,8 +120,8 @@ class AccountScreen extends StatelessWidget {
                       fieldName: "Status",
                       content: personalInformation.status!),
                   RowInformation(
-                      fieldName: "Contract",
-                      //content: personalInformation.contractType!
+                    fieldName: "Contract",
+                    //content: personalInformation.contractType!
                   ),
                   RowInformation(fieldName: "Salary", content: "************"),
                 ],
@@ -129,27 +132,37 @@ class AccountScreen extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget RowInformation({String fieldName = "", String content = ""}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
-      margin: const EdgeInsets.only(bottom: 4.0),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
+Widget RowInformation({String fieldName = "", String content = ""}) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
+    margin: const EdgeInsets.only(bottom: 4.0),
+    decoration: BoxDecoration(
+      color: Colors.white,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Text(fieldName, style: HRMTextStyles.h4Text),
+      Container(
+        width: Get.size.width * 0.6,
+        child: Text(
+          content,
+          // style: HRMTextStyles.h4Text.copyWith(fontWeight: FontWeight.w100),
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          softWrap: false,
+        ),
       ),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text(fieldName, style: HRMTextStyles.h4Text),
-        Text(content,
-            style: HRMTextStyles.h4Text.copyWith(fontWeight: FontWeight.w100)),
-      ]),
-    );
-  }
+    ]),
+  );
 }
 
 class ArcClipper extends CustomClipper<Path> {
   final double arcHeight;
+
   const ArcClipper({this.arcHeight = 0});
+
   @override
   Path getClip(Size size) {
     double height = size.height;

@@ -7,12 +7,12 @@ import 'package:hrm_1c/controller/user_controller.dart';
 import '../services/api/api_handler.dart';
 
 class GeoController extends GetxController {
-  // ignore: cast_from_null_always_fails
+
   Rx<Position?> currentLocation = Rx<Position?>(null);
 
-  double checkInRadius = 0.0;
-  double longitude = 0.0;
-  double latitude = 0.0;
+  RxDouble checkInRadius = 0.0.obs;
+  RxDouble longitude = 0.0.obs;
+  RxDouble latitude = 0.0.obs;
 
   late StreamSubscription<Position> _locationStream;
 
@@ -48,6 +48,7 @@ class GeoController extends GetxController {
       throw Exception(
           'Location permissions are permanently denied, we cannot request permissions.');
     }
+
     _locationStream = Geolocator.getPositionStream().listen((position) {
       currentLocation.value = position;
       print("New position: " + position.toString());
@@ -58,7 +59,7 @@ class GeoController extends GetxController {
     return true;
   }
 
-  Future<void> GetCheckInLocation() async {
+  Future<void> getCheckInLocation() async {
     final userController = Get.find<UserController>();
     String username = userController.username;
     String password = userController.password;
@@ -70,9 +71,9 @@ class GeoController extends GetxController {
     if (respond.statusCode == 200) {
       var data = respond.data["Configuration"] ?? [];
       for (var req in data) {
-        checkInRadius = double.parse(req['CheckInRadius']);
-        longitude = req['Longtitude'];
-        latitude = req['Latitude'];
+        checkInRadius.value = double.parse(req['CheckInRadius']);
+        longitude.value = double.parse(req['Longtitude'].toString());
+        latitude.value = double.parse(req['Latitude'].toString());
       }
     }
   }
