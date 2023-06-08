@@ -132,7 +132,7 @@ class RequestCard extends StatelessWidget {
                 children: [
                   RichText(
                     text: TextSpan(
-                      text: isFullDay ? "Start: " : "Date: ",
+                      text: isFullDay ? "Start:   " : "Date:   ",
                       style: HRMTextStyles.h5Text.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
@@ -142,7 +142,7 @@ class RequestCard extends StatelessWidget {
                                 ? df.format(leaveRequest.fromDate!)
                                 : "",
                             style: HRMTextStyles.h5Text.copyWith(
-                              fontWeight: FontWeight.w200,
+                              fontWeight: FontWeight.w400,
                               color: Colors.black,
                             )),
                       ],
@@ -151,7 +151,7 @@ class RequestCard extends StatelessWidget {
                   isFullDay
                       ? RichText(
                           text: TextSpan(
-                            text: "End: ",
+                            text: "End:     ",
                             style: HRMTextStyles.h5Text.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -161,7 +161,7 @@ class RequestCard extends StatelessWidget {
                                       ? df.format(leaveRequest.fromDate!)
                                       : "",
                                   style: HRMTextStyles.h5Text.copyWith(
-                                    fontWeight: FontWeight.w200,
+                                    fontWeight: FontWeight.w400,
                                     color: Colors.black,
                                   )),
                             ],
@@ -169,7 +169,7 @@ class RequestCard extends StatelessWidget {
                         )
                       : RichText(
                           text: TextSpan(
-                            text: "Section: ",
+                            text: "Section:   ",
                             style: HRMTextStyles.h5Text.copyWith(
                               color: Colors.black.withOpacity(0.6),
                             ),
@@ -179,7 +179,7 @@ class RequestCard extends StatelessWidget {
                                     ? "Morning"
                                     : "Afternoon",
                                 style: HRMTextStyles.h5Text.copyWith(
-                                  fontWeight: FontWeight.w200,
+                                  fontWeight: FontWeight.w400,
                                   color: Colors.black,
                                 ),
                               ),
@@ -188,7 +188,7 @@ class RequestCard extends StatelessWidget {
                         ),
                   RichText(
                     text: TextSpan(
-                      text: "Reason: ",
+                      text: "Reason:   ",
                       style: HRMTextStyles.h5Text.copyWith(
                         color: Colors.black.withOpacity(0.6),
                       ),
@@ -196,7 +196,7 @@ class RequestCard extends StatelessWidget {
                         TextSpan(
                           text: leaveRequest.reason ?? "",
                           style: HRMTextStyles.h5Text.copyWith(
-                            fontWeight: FontWeight.w200,
+                            fontWeight: FontWeight.w400,
                             color: Colors.black,
                           ),
                         ),

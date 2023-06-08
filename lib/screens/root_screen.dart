@@ -68,12 +68,12 @@ Widget NavigationBarWidget() {
       decoration:
       BoxDecoration(
         color: HRMColorStyles.unselectedBlueColor,
-        borderRadius: BorderRadius.circular(8),
+        // borderRadius: BorderRadius.circular(8),
       ),
       child: TabBar(
           indicator: BoxDecoration(
             color: HRMColorStyles.selectedBlueColor,
-            borderRadius: BorderRadius.circular(8),
+            // borderRadius: BorderRadius.circular(16),
           ),
           tabs: [
             TabWidget(

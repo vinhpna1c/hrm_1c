@@ -19,7 +19,7 @@ class SettingScreen extends StatelessWidget {
     final _configurationCtrl = Get.find<ConfigurationController>();
     final geoController = Get.find<GeoController>();
 
-    Rx<double> _currentSliderValue = geoController.checkInRadius.obs;
+    RxDouble _currentSliderValue = geoController.checkInRadius.value.obs;
     return SingleBodyScreen(
       body: SingleChildScrollView(
         child: Container(
@@ -84,36 +84,37 @@ class SettingScreen extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(left: 16.0),
-                child: Obx(
-                  () => Column(
+                child: Column(
                     children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Longtitude:",
-                            style: HRMTextStyles.lightText,
-                          ),
-                          Text(
-                            geoController.latitude.toString(),
-                            style: HRMTextStyles.lightText,
-                          )
-                        ],
-                      ),
                       Row(
                         children: [
                           Text(
                             "Latitude:",
                             style: HRMTextStyles.lightText,
                           ),
+                          Obx(()=>Text(
+                              geoController.latitude.value.toString(),
+                              style: HRMTextStyles.lightText,
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
+                        children: [
                           Text(
-                            geoController.latitude.toString(),
+                            "Longtitude:",
                             style: HRMTextStyles.lightText,
+                          ),
+                          Obx(
+                            ()=> Text(
+                              geoController.longitude.value.toString(),
+                              style: HRMTextStyles.lightText,
+                            ),
                           )
                         ],
                       )
                     ],
                   ),
-                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

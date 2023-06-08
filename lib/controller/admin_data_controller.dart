@@ -50,7 +50,10 @@ class AdminDataController extends GetxController {
         employees.clear();
         var data = respond.data["Information"] ?? [];
         for (var req in data) {
-          employees.add(PersonalInformation.fromJson(req));
+          print(req);
+          PersonalInformation employee=PersonalInformation.fromJson(req);
+          print(employee.toJson());
+          employees.add(employee);
         }
       }
     }

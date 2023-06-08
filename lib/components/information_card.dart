@@ -64,7 +64,7 @@ class InformationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(employeeInformation.description ?? ""),
-                  TextInformation(field: "Position: ", content: "IT Specialist"),
+                  TextInformation(field: "Position: ", content: employeeInformation.position ?? "Developer"),
                   TextInformation(
                     field: "Old: ",
                     content: (DateTime.now()

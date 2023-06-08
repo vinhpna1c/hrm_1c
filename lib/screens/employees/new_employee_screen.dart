@@ -22,6 +22,7 @@ class NewEmployeeScreen extends StatelessWidget {
     DateFormat df = new DateFormat('dd-MM-yyyy');
     return SingleBodyScreen(
       body: CustomScrollView(
+
         slivers: [
         SliverFillRemaining(
           hasScrollBody: false,
@@ -46,6 +47,7 @@ class NewEmployeeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.network(
