@@ -8,7 +8,7 @@ import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/check_in_controller.dart';
 import 'package:hrm_1c/models/personal_information.dart';
 
-enum AccountType { ADMINISTRATOR, STAFF }
+enum AccountType { ADMINISTRATOR, STAFF, MANAGER }
 
 class UserController extends GetxController {
   String identifyString = "87bd2ef0-b196-11ed-b0ed-00155dda4405";

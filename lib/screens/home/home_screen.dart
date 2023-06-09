@@ -287,9 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     //find employee in employee list
                                    final employee= adminDataCtrl.employees.firstWhere((element) =>element.code== workingEmployee.code);
 
-                                    if ((employee.status ?? "" )
-                                        .toLowerCase()
-                                        .contains('inactive')) {
+                                    if ((employee.status ?? "" ).toLowerCase().contains('inactive')) {
 
                                       return const SizedBox();
                                     }

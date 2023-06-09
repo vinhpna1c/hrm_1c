@@ -121,7 +121,7 @@ class AccountScreen extends StatelessWidget {
                       content: personalInformation.status!),
                   RowInformation(
                     fieldName: "Contract",
-                    //content: personalInformation.contractType!
+                    content: personalInformation.contractType!
                   ),
                   RowInformation(fieldName: "Salary", content: "************"),
                 ],
