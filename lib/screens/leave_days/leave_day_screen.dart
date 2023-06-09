@@ -122,7 +122,7 @@ class LeaveDayScreen extends StatelessWidget {
                                       ? RequestCard(
                                           leaveRequest: e,
                                           onPostFunction: () {
-                                            print("load dât");
+                                            print("load data");
                                             adminDataCtrl.getAllLeaveRequest();
                                           },
                                         )

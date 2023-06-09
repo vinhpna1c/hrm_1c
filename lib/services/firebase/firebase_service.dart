@@ -10,7 +10,7 @@ class FirebaseService {
     _app = await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    _db = FirebaseFirestore.instance;
+    // _db = FirebaseFirestore.instance;
   }
 
   static Future<Map<String, dynamic>> findOne(
