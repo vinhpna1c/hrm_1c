@@ -14,7 +14,7 @@ class AuthController extends GetxController {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final _checkInController = Get.put(CheckInController());
-  final _geoController=Get.put(GeoController());
+  final _geoController = Get.put(GeoController());
 
   final TextEditingController oldPassController = TextEditingController();
   final TextEditingController newPassController = TextEditingController();
@@ -28,7 +28,9 @@ class AuthController extends GetxController {
     String username = usernameController.text;
     String password = passwordController.text;
 
-    var respond = await ApiHandler.postRequest(username, password,
+    var respond = await ApiHandler.postRequest(
+      username,
+      password,
       authPath,
     );
     if (respond.statusCode == 200) {
@@ -66,6 +68,8 @@ class AuthController extends GetxController {
   Future<void> initStaffData() async {
     final staffDataCtrl = Get.put(StaffDataController());
     await staffDataCtrl.getContract();
+    //update check in postion
+    await _geoController.getCheckInLocation();
   }
 
   Future<bool> changePassword() async {
@@ -86,11 +90,13 @@ class AuthController extends GetxController {
       "NewPassword": newPassword
     }));
 
-    var respond = await ApiHandler.postRequest(userController.username, userController.password, changePasswordPath, body: {
-      "UserName": userController.username,
-      "OldPassword": oldPassword,
-      "NewPassword": newPassword
-    });
+    var respond = await ApiHandler.postRequest(
+        userController.username, userController.password, changePasswordPath,
+        body: {
+          "UserName": userController.username,
+          "OldPassword": oldPassword,
+          "NewPassword": newPassword
+        });
 
     if (respond.statusCode == 200) {
       var data = respond.data.toString();

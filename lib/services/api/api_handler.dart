@@ -16,16 +16,24 @@ class ApiHandler {
     );
   }
 
-  static Future<Response> getRequest(String username, String password ,String path,
+  static Dio getHandler() => _handler;
+
+  static Future<Response> getRequest(
+      String username, String password, String path,
       {Map<String, dynamic>? params}) async {
     return await _handler.get(
       baseURL + path,
       queryParameters: params,
-      options: Options(headers: <String, String>{'authorization': 'Basic '+base64Encode(utf8.encode(username!+':'+password!))}),
+      options: Options(headers: <String, String>{
+        'authorization':
+            'Basic ' + base64Encode(utf8.encode(username! + ':' + password!))
+      }),
     );
   }
 
-  static Future<Response> postRequest(String username, String password ,
+  static Future<Response> postRequest(
+    String username,
+    String password,
     String path, {
     Map<String, dynamic>? params,
     Map<String, dynamic>? body,
@@ -34,8 +42,10 @@ class ApiHandler {
       baseURL + path,
       data: jsonEncode(body),
       queryParameters: params,
-      options: Options(headers: <String, String>{'authorization': 'Basic '+base64Encode(utf8.encode(username!+':'+password!))}),
-
+      options: Options(headers: <String, String>{
+        'authorization':
+            'Basic ' + base64Encode(utf8.encode(username! + ':' + password!))
+      }),
     );
   }
 }

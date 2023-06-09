@@ -60,6 +60,9 @@ class _HomeScreenState extends State<HomeScreen> {
         checkInCtrl.timeKeeping.value!.number == null ? true : false;
     // final configutationCtrl=Get.find<ConfigurationController>();
     // print("Check in position "+configutationCtrl.checkInPosition.toJson());
+    print(geoController.longitude.value.toString() +
+        " - " +
+        geoController.latitude.value.toString());
 
     return Container(
       color: Colors.white,
@@ -167,8 +170,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       TimerBuilder.periodic(
                                           Duration(milliseconds: 500),
                                           builder: (context) {
-                                            print(geoController
-                                                .currentLocation.value);
+                                        print(geoController
+                                            .currentLocation.value);
                                         if (geoController
                                                 .currentLocation.value ==
                                             null) {
@@ -285,7 +288,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     final workingEmployee =
                                         adminDataCtrl.workingemployees[index];
                                     //find employee in employee list
-                                   final employee= adminDataCtrl.employees.firstWhere((element) =>element.code== workingEmployee.code);
+                                    final employee = adminDataCtrl.employees
+                                        .firstWhere((element) =>
+                                            element.code ==
+                                            workingEmployee.code);
 
                                     if ((employee.status ?? "" ).toLowerCase().contains('inactive')) {
 

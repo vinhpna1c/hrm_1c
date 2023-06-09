@@ -7,7 +7,6 @@ import 'package:hrm_1c/controller/user_controller.dart';
 import '../services/api/api_handler.dart';
 
 class GeoController extends GetxController {
-
   Rx<Position?> currentLocation = Rx<Position?>(null);
 
   RxDouble checkInRadius = 0.0.obs;
@@ -51,7 +50,7 @@ class GeoController extends GetxController {
 
     _locationStream = Geolocator.getPositionStream().listen((position) {
       currentLocation.value = position;
-      print("New position: " + position.toString());
+      // print("New position: " + position.toString());
     }, onDone: () {
       print("Close position stream");
     });

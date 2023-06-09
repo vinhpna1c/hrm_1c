@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/headers/hrm_drawer.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
+import 'package:hrm_1c/screens/home/home_screen.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 
 import 'package:hrm_1c/utils/styles.dart';
@@ -10,7 +11,8 @@ import 'package:intl/intl.dart';
 import '../../controller/user_controller.dart';
 
 class RequestLeaveScreen extends StatelessWidget {
-  const RequestLeaveScreen({super.key});
+  RequestLeaveScreen({super.key});
+  final RxBool isSendEmail = true.obs;
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +180,29 @@ class RequestLeaveScreen extends StatelessWidget {
                           filled: true,
                         ),
                         maxLines: 4,
+                      ),
+                      // ElevatedButton(
+                      //   onPressed: () {
+                      //     // userCtrl.sendEmail(
+                      //     //     mailContent: 'Test from flutter',
+                      //     //     mailSubject: 'TEST FROM FLUTTER');
+                      //   },
+                      //   child: Text("Send test email"),
+                      // ),
+                      Obx(
+                        () => Row(
+                          children: [
+                            Switch(
+                              value: isSendEmail.value,
+                              onChanged: (value) {
+                                isSendEmail.value = value;
+                              },
+                            ),
+                            Text("Send email with request",
+                                style: HRMTextStyles.h4Text
+                                    .copyWith(color: Colors.white))
+                          ],
+                        ),
                       )
                     ],
                   ),
@@ -189,26 +214,60 @@ class RequestLeaveScreen extends StatelessWidget {
                           onPressed: () async {
                             if (leaveDayCtrl.leaveType == Rx(null)) {
                               Get.snackbar("1C:HRM", "Leave type is required");
-                            } else if (leaveDayCtrl.startDate == Rx(null)) {
+                              return;
+                            }
+                            if (leaveDayCtrl.startDate.value == null) {
                               Get.snackbar("1C:HRM", "Start date is required");
-                            } else if (leaveDayCtrl.endDate == Rx(null)) {
+                              return;
+                            }
+                            if (leaveDayCtrl.endDate.value == null) {
                               Get.snackbar("1C:HRM", "End date is required");
-                            } else {
-                              var respond =
-                                  await leaveDayCtrl.requestLeaveDay();
-                              if (respond) {
-                                Get.snackbar(
-                                    "1C:HRM", "Your request has been saved!");
-                              } else {
-                                Get.snackbar(
-                                    "1C:HRM", "Error while sending request!");
+                              return;
+                            }
+                            if (leaveDayCtrl.leaveType.value ==
+                                "Annual Leave") {
+                              int requestDateDiff = leaveDayCtrl.endDate.value!
+                                  .difference(leaveDayCtrl.startDate.value!)
+                                  .inDays;
+                              if (requestDateDiff <= 0) {
+                                Get.snackbar("1C:HRM",
+                                    "Your request date is not valid! Please check again!");
+                                return;
+                              }
+                              if (requestDateDiff >
+                                  userCtrl.userInformation!.paidDay!) {
+                                Get.snackbar("1C:HRM",
+                                    "Your remaining paid day is not enough, please change to another leave type");
+                                return;
                               }
                             }
-                            if (leaveDayCtrl.leaveType.value == "Annual Leave" && userCtrl.userInformation!.paidDay! == 0) {
+
+                            var respond = await leaveDayCtrl.requestLeaveDay();
+                            if (respond) {
                               Get.snackbar(
-                                  "1C:HRM", "Your remaining paid day is 0, change to another leave type");
-                              leaveDayCtrl.leaveType.value = "Unpaid Leave";
+                                  "1C:HRM", "Your request has been saved!");
+                              if (isSendEmail.value) {
+                                userCtrl.sendEmail(
+                                    mailContent: userCtrl.getMailContent(
+                                      leaveType:
+                                          leaveDayCtrl.leaveType.value ?? "",
+                                      startDate: leaveDayCtrl.startDate.value,
+                                      endDate: leaveDayCtrl.endDate.value,
+                                      reason:
+                                          leaveDayCtrl.reasonController.text,
+                                    ),
+                                    mailSubject:
+                                        '[${leaveDayCtrl.leaveType.value ?? ""}] - ${userCtrl.userInformation!.description}');
+                              }
+                            } else {
+                              Get.snackbar(
+                                  "1C:HRM", "Error while sending request!");
                             }
+
+                            // Get.to(HomeScreen());
+                            leaveDayCtrl.leaveType.value = "Unpaid Leave";
+                            // update user information when send request
+                            userCtrl.getUserInformation();
                           },
                           style: TextButton.styleFrom(
                               backgroundColor: Colors.white),
