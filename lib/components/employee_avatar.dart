@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class EmployeeAvatar extends StatelessWidget {
-  final bool displayActive;
+  final int displayActive;
   final double backgroundRadius;
   final double paddingSpace;
   final String? imageURL;
   const EmployeeAvatar({
-    this.displayActive = true,
+    this.displayActive = 1,
     this.backgroundRadius = 64,
     this.paddingSpace = 4,
     this.imageURL,
@@ -57,7 +57,7 @@ class EmployeeAvatar extends StatelessWidget {
         backgroundColor: Color(0xfff3e0a6),
         radius: 30.0,
         backgroundImage: NetworkImage(imageURL ?? ""),
-        child: displayActive ? Align(
+        child: displayActive == 1 ? Align(
           alignment: Alignment.bottomRight,
           child: CircleAvatar(
             backgroundColor: Colors.white,
@@ -68,7 +68,18 @@ class EmployeeAvatar extends StatelessWidget {
               color: Colors.green,
             ),
           ),
-        ) : SizedBox(),
+        ): displayActive == 2 ? Align(
+          alignment: Alignment.bottomRight,
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 8.0,
+            child: Icon(
+              Icons.circle_rounded,
+              size: 12,
+              color: Colors.grey,
+            ),
+          ),
+        ): SizedBox(),
 
       ),
     ));

@@ -41,7 +41,7 @@ class AccountScreen extends StatelessWidget {
                       backgroundRadius: 70,
                       paddingSpace: 8.0,
                       imageURL: personalInformation!.URL,
-                      displayActive: false,
+                      displayActive: 3,
                     ),
                     Text(
                       personalInformation.description!,

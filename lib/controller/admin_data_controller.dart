@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/models/personal_information.dart';
+import 'package:hrm_1c/models/time_keeping.dart';
 import 'package:hrm_1c/models/transfer_shift_request.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
 import 'package:hrm_1c/utils/utils.dart';
@@ -15,7 +16,7 @@ class AdminDataController extends GetxController {
   RxList<PersonalInformation> employees = <PersonalInformation>[].obs;
   RxList<PersonalInformation> workingemployees = <PersonalInformation>[].obs;
   RxList<TransferShiftRequest> transferRequests = <TransferShiftRequest>[].obs;
-
+  RxList<TimeKeeping> allTimeKeeping = <TimeKeeping>[].obs;
   static const allEmployeePath = "/V1/AllEmployee";
   static const allTransferShiftPath = "/V1/AllTransferShift";
 
@@ -41,6 +42,27 @@ class AdminDataController extends GetxController {
     }
   }
 
+  Future<void> getAllTimeKeeping() async {
+    final userController = Get.find<UserController>();
+    if (userController.accountType == AccountType.ADMINISTRATOR) {
+      // print(jsonEncode({
+      //   "Token": userController.identifyString,
+      //   "FromDate": df.format(startTime),
+      //   "ToDate": df.format(endTime),
+      // }));
+      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/AllTimeKeeping", params: {
+        "Token": userController.identifyString,
+      });
+      if (respond.statusCode == 200) {
+        allTimeKeeping.clear();
+        var data = respond.data["AllTimeKeeping"] ?? [];
+        for (var req in data) {
+          allTimeKeeping.add(TimeKeeping.fromJson(req));
+        }
+        print("Leave request get: ${leaveRequests.length}");
+      }
+    }
+  }
   Future<void> getAllEmployeeList() async {
     final userController = Get.find<UserController>();
     if (userController.accountType == AccountType.ADMINISTRATOR) {

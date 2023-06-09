@@ -15,7 +15,8 @@ enum AccountType { ADMINISTRATOR, STAFF, MANAGER }
 
 class UserController extends GetxController {
   static const DEFAULT_TO_NAME = "Mr. Long";
-  static const DEFAULT_TO_MAIL = "vinhpna@1cinnovation.com";
+  //TODO: replace mail of Long Pham here before build apk
+  static const DEFAULT_TO_MAIL = "long.pham@1cinnovation.com";
   static const EMAILJS_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
   String identifyString = "";

@@ -73,7 +73,7 @@ class RequestCard extends StatelessWidget {
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
                         imageURL: leaveRequest.picture,
-                        displayActive: false,
+                        displayActive: 3,
                       ),
                     ),
                     Column(

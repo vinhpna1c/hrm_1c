@@ -71,7 +71,7 @@ class TransferCard extends StatelessWidget {
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
                         imageURL: request.picture,
-                        displayActive: false,
+                        displayActive: 3,
                       ),
                     ),
                     Column(

@@ -56,8 +56,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
-    bool isCheckedOut =
-        checkInCtrl.timeKeeping.value!.number == null ? true : false;
+    print("Is manager: "+isManager.toString());
+
+    bool isCheckedOut = false;
+    if(isManager){
+      checkInCtrl.timeKeeping.value!.number == null ? true : false;
+    }
+
+
     // final configutationCtrl=Get.find<ConfigurationController>();
     // print("Check in position "+configutationCtrl.checkInPosition.toJson());
     print(geoController.longitude.value.toString() +
@@ -285,27 +291,66 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ...List.generate(
                                       adminDataCtrl.workingemployees.length,
                                       (index) {
-                                    final workingEmployee =
-                                        adminDataCtrl.workingemployees[index];
-                                    //find employee in employee list
-                                    final employee = adminDataCtrl.employees
-                                        .firstWhere((element) =>
-                                            element.code ==
-                                            workingEmployee.code);
-
-                                    if ((employee.status ?? "" ).toLowerCase().contains('inactive')) {
-
-                                      return const SizedBox();
+                                    if (index <
+                                        adminDataCtrl.allTimeKeeping.length) {
+                                      print(
+                                          adminDataCtrl.allTimeKeeping[index]);
                                     }
 
                                     return Container(
                                         margin:
                                             const EdgeInsets.only(right: 4.0),
                                         child: EmployeeItem(
-                                          employee: employee,
+                                          displayActive: 2,
+                                          employee: adminDataCtrl
+                                              .workingemployees[index],
                                         ));
+                                  })
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
+                    isManager
+                        ? ExpandablePanel(
+                            controller:
+                                ExpandableController(initialExpanded: true),
+                            header: RowDivider("Checkin on today"),
+                            theme: const ExpandableThemeData(
+                              tapBodyToCollapse: false,
+                              expandIcon: Icons.chevron_right,
+                            ),
+                            collapsed: const SizedBox(),
+                            expanded: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  ...List.generate(
+                                      adminDataCtrl.allTimeKeeping.length,
+                                      (index) {
+                                    final checkinEmployee =
+                                        adminDataCtrl.allTimeKeeping[index];
+                                    final employee = adminDataCtrl.employees
+                                        .firstWhere((element) =>
+                                            element.code ==
+                                            checkinEmployee.code);
+                                    if (checkinEmployee.checkin!.day ==
+                                            DateTime.now().day &&
+                                        checkinEmployee.checkin!.month ==
+                                            DateTime.now().month &&
+                                        checkinEmployee.checkin!.year ==
+                                            DateTime.now().year) {
+                                      return Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 4.0),
+                                          child: EmployeeItem(
+                                            employee: employee,
+                                          ));
 
-                                    // : Container();
+                                      // : Container();
+                                    }
+                                    return const SizedBox();
                                   })
                                 ],
                               ),
@@ -331,6 +376,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                         : const SizedBox(),
+
                   ]),
                 ),
               ],
