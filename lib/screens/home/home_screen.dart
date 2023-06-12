@@ -311,52 +311,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                         : const SizedBox(),
-                    isManager
-                        ? ExpandablePanel(
-                            controller:
-                                ExpandableController(initialExpanded: true),
-                            header: RowDivider("Checkin on today"),
-                            theme: const ExpandableThemeData(
-                              tapBodyToCollapse: false,
-                              expandIcon: Icons.chevron_right,
-                            ),
-                            collapsed: const SizedBox(),
-                            expanded: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  ...List.generate(
-                                      adminDataCtrl.allTimeKeeping.length,
-                                      (index) {
-                                    final checkinEmployee =
-                                        adminDataCtrl.allTimeKeeping[index];
-                                    final employee = adminDataCtrl.employees
-                                        .firstWhere((element) =>
-                                            element.code ==
-                                            checkinEmployee.code);
-                                    if (checkinEmployee.checkin!.day ==
-                                            DateTime.now().day &&
-                                        checkinEmployee.checkin!.month ==
-                                            DateTime.now().month &&
-                                        checkinEmployee.checkin!.year ==
-                                            DateTime.now().year) {
-                                      return Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 4.0),
-                                          child: EmployeeItem(
-                                            employee: employee,
-                                          ));
 
-                                      // : Container();
-                                    }
-                                    return const SizedBox();
-                                  })
-                                ],
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
+
                     isManager
                         ? ExpandablePanel(
                             controller:
