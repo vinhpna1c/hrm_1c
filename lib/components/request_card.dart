@@ -73,7 +73,6 @@ class RequestCard extends StatelessWidget {
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
                         imageURL: leaveRequest.picture,
-                        displayActive: 3,
                       ),
                     ),
                     Column(
@@ -259,7 +258,7 @@ class RequestCard extends StatelessWidget {
                   //       style: HRMTextStyles.normalText,
                   //     ),
                   //   ),
-              : SizedBox(),
+                  : SizedBox(),
             ],
           )
         ],

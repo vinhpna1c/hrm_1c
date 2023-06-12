@@ -26,7 +26,7 @@ class AuthController extends GetxController {
   Future<int> signIn() async {
     final userController = Get.find<UserController>();
     String username = "longpt";
-    String password ="123456";
+    String password = "123456";
     // String username = usernameController.text;
     // String password = passwordController.text;
 
@@ -63,7 +63,7 @@ class AuthController extends GetxController {
     await adminDataCtrl.getAllEmployeeList();
     await adminDataCtrl.getAllTransferRequest();
     await adminDataCtrl.getWorkingEmployeeToDayList();
-    await adminDataCtrl.getAllTimeKeeping();
+    await adminDataCtrl.getAllTimeKeepingToday();
     //update check in postion
     await _geoController.getCheckInLocation();
   }
@@ -112,6 +112,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> signOut() async {
+    print("Delete all controller");
     await Get.deleteAll();
   }
 }

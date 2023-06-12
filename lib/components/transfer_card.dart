@@ -30,8 +30,11 @@ class TransferCard extends StatelessWidget {
       isPending = true;
     }
 
-    int dayDiff =
-        DateTime.now().difference(DateTime(request.date!.year,request.date!.month, request.date!.day,0,0,0,0,0) ?? DateTime.now()).inDays;
+    int dayDiff = DateTime.now()
+        .difference(DateTime(request.date!.year, request.date!.month,
+                request.date!.day, 0, 0, 0, 0, 0) ??
+            DateTime.now())
+        .inDays;
     String newShift = "";
     print(request.transferShift);
     newShift = request.transferShift != null
@@ -71,7 +74,6 @@ class TransferCard extends StatelessWidget {
                         backgroundRadius: 20,
                         paddingSpace: 2.0,
                         imageURL: request.picture,
-                        displayActive: 3,
                       ),
                     ),
                     Column(

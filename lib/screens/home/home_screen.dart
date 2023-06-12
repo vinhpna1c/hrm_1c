@@ -19,6 +19,7 @@ import 'package:hrm_1c/controller/check_in_controller.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:intl/intl.dart';
 
+import '../../components/employee_avatar.dart';
 import '../../controller/configuration_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -56,19 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
-    print("Is manager: "+isManager.toString());
-
-    bool isCheckedOut = false;
-    if(isManager){
-      checkInCtrl.timeKeeping.value!.number == null ? true : false;
-    }
-
-
+    bool isCheckedOut =
+        checkInCtrl.timeKeeping.value!.number == null ? true : false;
     // final configutationCtrl=Get.find<ConfigurationController>();
     // print("Check in position "+configutationCtrl.checkInPosition.toJson());
-    print(geoController.longitude.value.toString() +
-        " - " +
-        geoController.latitude.value.toString());
+    print("${geoController.longitude.value} - ${geoController.latitude.value}");
 
     return Container(
       color: Colors.white,
@@ -289,50 +282,79 @@ class _HomeScreenState extends State<HomeScreen> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   ...List.generate(
-                                      adminDataCtrl.workingemployees.length,
+                                      adminDataCtrl.workingEmployees.length,
                                       (index) {
-                                    if (index <
-                                        adminDataCtrl.allTimeKeeping.length) {
-                                      print(
-                                          adminDataCtrl.allTimeKeeping[index]);
-                                    }
+                                    final workingEmployee =
+                                        adminDataCtrl.workingEmployees[index];
 
+                                    //find employee in employee list
+                                    final employee = adminDataCtrl.employees
+                                        .firstWhereOrNull((element) =>
+                                            element.code ==
+                                            workingEmployee.code);
+                                    //check status of employee
+                                    if (employee == null) {
+                                      return const SizedBox();
+                                    }
+                                    DisplayStatus displayStatus =
+                                        DisplayStatus.NOT_CHECK_IN;
+                                    if ((employee.status ?? "")
+                                        .toLowerCase()
+                                        .contains('inactive')) {
+                                      return const SizedBox();
+                                    }
+                                    //check current check in status
+                                    final checkInInfor = adminDataCtrl
+                                        .checkInTodayTimeKeeping
+                                        .firstWhereOrNull((timeKeeping) =>
+                                            (timeKeeping.employee ?? '-') ==
+                                            (employee.code ?? ''));
+                                    if (checkInInfor != null) {
+                                      print(checkInInfor.checkin);
+                                      if (checkInInfor.checkin != null &&
+                                          checkInInfor.checkin!
+                                                  .difference(DateTime.now())
+                                                  .inDays ==
+                                              0) {
+                                        displayStatus = DisplayStatus.CHECK_IN;
+                                      }
+                                    }
+                                    print(
+                                        "Check in status ${employee.description}: $displayStatus");
                                     return Container(
                                         margin:
                                             const EdgeInsets.only(right: 4.0),
                                         child: EmployeeItem(
-                                          displayActive: 2,
-                                          employee: adminDataCtrl
-                                              .workingemployees[index],
+                                          employee: employee,
+                                          displayStatus: displayStatus,
                                         ));
+
+                                    // : Container();
                                   })
                                 ],
                               ),
                             ),
                           )
                         : const SizedBox(),
-
-
-                    isManager
-                        ? ExpandablePanel(
-                            controller:
-                                ExpandableController(initialExpanded: true),
-                            header: RowDivider("Leave requests"),
-                            theme: const ExpandableThemeData(
-                              tapBodyToCollapse: false,
-                              expandIcon: Icons.chevron_right,
-                            ),
-                            collapsed: const SizedBox(),
-                            expanded: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [],
-                              ),
-                            ),
-                          )
-                        : const SizedBox(),
-
+                    // isManager
+                    //     ? ExpandablePanel(
+                    //         controller:
+                    //             ExpandableController(initialExpanded: true),
+                    //         header: RowDivider("Leave requests"),
+                    //         theme: const ExpandableThemeData(
+                    //           tapBodyToCollapse: false,
+                    //           expandIcon: Icons.chevron_right,
+                    //         ),
+                    //         collapsed: const SizedBox(),
+                    //         expanded: SingleChildScrollView(
+                    //           scrollDirection: Axis.horizontal,
+                    //           child: Row(
+                    //             mainAxisAlignment: MainAxisAlignment.start,
+                    //             children: [],
+                    //           ),
+                    //         ),
+                    //       )
+                    //     : const SizedBox(),
                   ]),
                 ),
               ],

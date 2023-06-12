@@ -4,11 +4,11 @@ import 'package:hrm_1c/models/personal_information.dart';
 
 class EmployeeItem extends StatelessWidget {
   final PersonalInformation? employee;
-  final int? displayActive;
+  final DisplayStatus? displayStatus;
   const EmployeeItem({
     Key? key,
     this.employee,
-    this.displayActive,
+    this.displayStatus,
   }) : super(key: key);
 
   @override
@@ -21,7 +21,7 @@ class EmployeeItem extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           EmployeeAvatar(
-            displayActive: displayActive!,
+            displayStatus: displayStatus ?? DisplayStatus.NOT_VISIBLE,
             backgroundRadius: 32,
             imageURL: employee != null ? employee!.URL : null,
           ),

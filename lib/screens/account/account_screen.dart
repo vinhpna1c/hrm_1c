@@ -41,7 +41,7 @@ class AccountScreen extends StatelessWidget {
                       backgroundRadius: 70,
                       paddingSpace: 8.0,
                       imageURL: personalInformation!.URL,
-                      displayActive: 3,
+                      // displayStatus: 3,
                     ),
                     Text(
                       personalInformation.description!,
@@ -71,7 +71,7 @@ class AccountScreen extends StatelessWidget {
                             color: HRMColorStyles.darkBlueColor,
                           ),
                           content:
-                              "${formatDouble(userController.userInformation!.paidDay ?? 0.0)} / 12",
+                              "${formatDouble(12 - (userController.userInformation!.paidDay ?? 0.0))} / 12",
                           leaveType: "Annual leave",
                         ),
                         LeaveWidget(
@@ -81,7 +81,7 @@ class AccountScreen extends StatelessWidget {
                             color: HRMColorStyles.darkBlueColor,
                           ),
                           content:
-                              "${formatDouble(userController.userInformation!.sickLeave ?? 0.0)} / 30",
+                              "${formatDouble(30 - (userController.userInformation!.sickLeave ?? 0.0))} / 30",
                           leaveType: "Sick leave",
                         ),
                         LeaveWidget(
@@ -120,9 +120,8 @@ class AccountScreen extends StatelessWidget {
                       fieldName: "Status",
                       content: personalInformation.status!),
                   RowInformation(
-                    fieldName: "Contract",
-                    content: personalInformation.contractType!
-                  ),
+                      fieldName: "Contract",
+                      content: personalInformation.contractType!),
                   RowInformation(fieldName: "Salary", content: "************"),
                 ],
               ),

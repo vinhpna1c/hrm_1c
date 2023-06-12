@@ -14,9 +14,9 @@ import '../models/leave_request.dart';
 class AdminDataController extends GetxController {
   RxList<LeaveRequest> leaveRequests = <LeaveRequest>[].obs;
   RxList<PersonalInformation> employees = <PersonalInformation>[].obs;
-  RxList<PersonalInformation> workingemployees = <PersonalInformation>[].obs;
+  RxList<PersonalInformation> workingEmployees = <PersonalInformation>[].obs;
   RxList<TransferShiftRequest> transferRequests = <TransferShiftRequest>[].obs;
-  RxList<TimeKeeping> allTimeKeeping = <TimeKeeping>[].obs;
+  RxList<TimeKeeping> checkInTodayTimeKeeping = <TimeKeeping>[].obs;
   static const allEmployeePath = "/V1/AllEmployee";
   static const allTransferShiftPath = "/V1/AllTransferShift";
 
@@ -28,9 +28,11 @@ class AdminDataController extends GetxController {
       //   "FromDate": df.format(startTime),
       //   "ToDate": df.format(endTime),
       // }));
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/AllLeave", params: {
-        "Token": userController.identifyString,
-      });
+      var respond = await ApiHandler.getRequest(
+          userController.username, userController.password, "/V1/AllLeave",
+          params: {
+            "Token": userController.identifyString,
+          });
       if (respond.statusCode == 200) {
         leaveRequests.clear();
         var data = respond.data["AllLeave"] ?? [];
@@ -42,38 +44,39 @@ class AdminDataController extends GetxController {
     }
   }
 
-  Future<void> getAllTimeKeeping() async {
+  Future<void> getAllTimeKeepingToday() async {
     final userController = Get.find<UserController>();
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      // print(jsonEncode({
-      //   "Token": userController.identifyString,
-      //   "FromDate": df.format(startTime),
-      //   "ToDate": df.format(endTime),
       // }));
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/AllTimeKeeping", params: {
-        "Token": userController.identifyString,
-      });
+      print(DateFormat('yyyyMMdd').format(DateTime.now()));
+      var respond = await ApiHandler.getRequest(userController.username,
+          userController.password, "/V1/AllTimeKeeping",
+          params: {
+            "OnDate": DateFormat('yyyyMMdd').format(DateTime.now()),
+          });
       if (respond.statusCode == 200) {
-        allTimeKeeping.clear();
-        var data = respond.data["AllTimeKeeping"] ?? [];
+        checkInTodayTimeKeeping.clear();
+        var data = respond.data["TimeKeepingOnDate"] ?? [];
         for (var req in data) {
-          allTimeKeeping.add(TimeKeeping.fromJson(req));
+          checkInTodayTimeKeeping.add(TimeKeeping.fromJson(req));
         }
-        print("Leave request get: ${leaveRequests.length}");
+        print("Leave request get: ${checkInTodayTimeKeeping.length}");
       }
     }
   }
+
   Future<void> getAllEmployeeList() async {
     final userController = Get.find<UserController>();
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,allEmployeePath,
+      var respond = await ApiHandler.getRequest(
+          userController.username, userController.password, allEmployeePath,
           params: {"Token": userController.identifyString});
       if (respond.statusCode == 200) {
         employees.clear();
         var data = respond.data["Information"] ?? [];
         for (var req in data) {
           print(req);
-          PersonalInformation employee=PersonalInformation.fromJson(req);
+          PersonalInformation employee = PersonalInformation.fromJson(req);
           print(employee.toJson());
           employees.add(employee);
         }
@@ -85,7 +88,11 @@ class AdminDataController extends GetxController {
       {DateTime? startTime, DateTime? endTime}) async {
     final userController = Get.find<UserController>();
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,allTransferShiftPath,);
+      var respond = await ApiHandler.getRequest(
+        userController.username,
+        userController.password,
+        allTransferShiftPath,
+      );
       if (respond.statusCode == 200) {
         transferRequests.clear();
         var data = respond.data["AllTransferShift"] ?? [];
@@ -102,16 +109,17 @@ class AdminDataController extends GetxController {
     final userController = Get.find<UserController>();
     DateFormat df = DateFormat("yyyyMMdd");
     if (userController.accountType == AccountType.ADMINISTRATOR) {
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/EmployeeWorking",
+      var respond = await ApiHandler.getRequest(userController.username,
+          userController.password, "/V1/EmployeeWorking",
           params: {"Date": df.format(DateTime.now())});
       if (respond.statusCode == 200) {
-        workingemployees.clear();
+        workingEmployees.clear();
         var data = respond.data["EmployeeOnDate"] ?? [];
         for (var req in data) {
-          workingemployees.add(PersonalInformation.fromJson(req));
+          workingEmployees.add(PersonalInformation.fromJson(req));
         }
       }
-      print("work length: " + workingemployees.length.toString());
+      print("work length: " + workingEmployees.length.toString());
     }
   }
 }
