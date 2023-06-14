@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
     userController = Get.find<UserController>();
     geoController = Get.find<GeoController>();
 
-    checkInCtrl = Get.find<CheckInController>();
+    checkInCtrl = Get.put(CheckInController());
     adminDataCtrl = Get.find<AdminDataController>();
 
     isManager = userController.accountType == AccountType.ADMINISTRATOR;
@@ -57,8 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     DateTime today = DateTime.now();
-    bool isCheckedOut =
-        checkInCtrl.timeKeeping.value!.number == null ? true : false;
+    bool isCheckedOut =false;
+    final timeKeeping=checkInCtrl.timeKeeping.value;
+    if(timeKeeping!=null){
+     isCheckedOut= timeKeeping.checkout!=null;
+    }
+        // checkInCtrl.timeKeeping.value!.number == null ? true : false;
     // final configutationCtrl=Get.find<ConfigurationController>();
     // print("Check in position "+configutationCtrl.checkInPosition.toJson());
     print("${geoController.longitude.value} - ${geoController.latitude.value}");
@@ -222,7 +226,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return Padding(
                               padding: const EdgeInsets.only(top: 24),
                               child: LoginButton(
-                                enabled: isCheckedOut,
+                                enabled:checkInCtrl. timeKeeping.value==null? true: !(checkInCtrl.timeKeeping.value!.checkout!=null),
                                 text: checkInCtrl.timeKeeping.value!.number ==
                                         null
                                     ? "CHECK IN"
@@ -261,6 +265,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         }
                                       }
                                     }
+                                    userController.getUserInformation();
                                   }
                                 },
                               ),
@@ -350,7 +355,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //           scrollDirection: Axis.horizontal,
                     //           child: Row(
                     //             mainAxisAlignment: MainAxisAlignment.start,
-                    //             children: [],
+                    //             children: [ ],
                     //           ),
                     //         ),
                     //       )

@@ -25,10 +25,10 @@ class AuthController extends GetxController {
 
   Future<int> signIn() async {
     final userController = Get.find<UserController>();
-    String username = "longpt";
-    String password = "123456";
-    // String username = usernameController.text;
-    // String password = passwordController.text;
+    // String username = "longpt";
+    // String password = "123456";
+    String username = usernameController.text;
+    String password = passwordController.text;
 
     var respond = await ApiHandler.postRequest(
       username,

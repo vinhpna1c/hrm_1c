@@ -1,33 +1,36 @@
-import 'package:expandable/expandable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:hrm_1c/screens/root_screen.dart';
 import 'package:intl/intl.dart';
-
-import '../../components/employee_avatar.dart';
 import '../../models/personal_information.dart';
 import '../../utils/styles.dart';
+import '../../utils/utils.dart';
 import '../account/account_screen.dart';
-import '../leave_days/request_information_transfer_shift_screen.dart';
-import '../single_body_screen.dart';
+import 'package:get/get.dart';
 
 class NewEmployeeScreen extends StatelessWidget {
   final PersonalInformation employee;
+
   const NewEmployeeScreen({required this.employee, super.key});
 
   @override
   Widget build(BuildContext context) {
-    DateFormat df = new DateFormat('dd-MM-yyyy');
-    return SingleBodyScreen(
-      body: CustomScrollView(
-
-        slivers: [
+    final userController = Get.find<UserController>();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("1C:HRM"),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new),
+          onPressed: () => Get.back(),
+        ),
+        centerTitle: true,
+        backgroundColor: HRMColorStyles.darkBlueColor,
+      ),
+      body: CustomScrollView(slivers: [
         SliverFillRemaining(
           hasScrollBody: false,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 18.0, vertical: 18.0),
             margin: const EdgeInsets.only(bottom: 4.0),
             decoration: BoxDecoration(
               color: Colors.grey.shade100,
@@ -47,38 +50,83 @@ class NewEmployeeScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.network(
                         employee!.URL ?? "",
-                        height: 150.0,
-                        width: 100.0,
-                        fit: BoxFit.fill,
+                        height: 200.0,
+                        width: 140.0,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          employee.description!,
-                          style: TextStyle
-                            (
-                              fontSize: 20,
-                              color: Colors.black,
-                              fontFamily: "Kanit",
+                    Container(
+                      padding: const EdgeInsets.all(6.0),
+                      child: Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              employee.description!,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                color: Colors.black,
+                                fontFamily: "Kanit",
+                              ),
                             ),
+                            Text(
+                              employee.position ?? "",
+                              style: const TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                                fontFamily: "Kanit",
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 6),
+                              child: Text(
+                                "Annual Leave",
+                                style: TextStyle(
+                                    color: HRMColorStyles.darkBlueColor),
+                              ),
+                            ),
+                            (employee.contractType == "Full time")
+                                ? Text(
+                                    "${formatDouble(12 - (employee.paidDay! ?? 0.0))} / 12",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  )
+                                : Text(
+                                    "0.0 / 0.0",
+                                    style:
+                                        TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 6),
+                              child: Text(
+                                "Unpaid Leave",
+                                style: TextStyle(
+                                    color: HRMColorStyles.darkBlueColor),
+                              ),
+                            ),
+                            Text(
+                              "${formatDouble(employee.unpaidDay! ?? 0.0)}",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8, bottom: 6),
+                              child: Text(
+                                "Sick Leave",
+                                style: TextStyle(
+                                    color: HRMColorStyles.darkBlueColor),
+                              ),
+                            ),
+                            Text(
+                              "${formatDouble(30 - employee.sickLeave! ?? 0.0)} / 30",
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            )
+                          ],
                         ),
-                        Text(
-                          employee.position ?? "",
-                          style: TextStyle
-                            (
-                            fontSize: 14,
-                            color: Colors.grey,
-                            fontFamily: "Kanit",
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ],
                 ),
@@ -89,39 +137,36 @@ class NewEmployeeScreen extends StatelessWidget {
                     RowInformation(
                         fieldName: "Name", content: employee.description ?? ""),
                     RowInformation(
-                        fieldName: "Gender",
-                        content: employee.gender ?? ""),
+                        fieldName: "Gender", content: employee.gender ?? ""),
                     RowInformation(
                         fieldName: "Date of birth",
-                        content: DateFormat("dd-MM-yyyy").format(
-                            employee.dateOfBirth ?? DateTime.now())),
+                        content: DateFormat("dd-MM-yyyy")
+                            .format(employee.dateOfBirth ?? DateTime.now())),
                     RowInformation(
                         fieldName: "Email", content: employee.email ?? ""),
                     RowInformation(
                         fieldName: "Phone",
                         content: employee!.numberPhone ?? ""),
                     RowInformation(
-                        fieldName: "Address",
-                        content: employee!.address ?? ""),
+                        fieldName: "Address", content: employee!.address ?? ""),
                     RowInformation(
                         fieldName: "Nationality",
                         content: employee!.nationality ?? ""),
-                    RowInformation(
-                        fieldName: "Marital Status",
-                        content: employee!.maritalStatus ?? ""),
+                    // RowInformation(
+                    //     fieldName: "Marital Status",
+                    //     content: employee!.maritalStatus ?? ""),
                   ],
                 )
               ],
             ),
           ),
         )
-          ]
-      ),
+      ]),
     );
   }
 }
 
-Widget TextInformation({String field = "", String content = ""}) {
+Widget textInformation({String field = "", String content = ""}) {
   // return Row(
   //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
   //     children: [
@@ -144,29 +189,34 @@ Widget TextInformation({String field = "", String content = ""}) {
   return Stack(
     children: <Widget>[
       Container(
-          width: double.infinity,
-          margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            border: Border.all(
-                color: Color(0xFF194B5A), width: 1),
-            borderRadius: BorderRadius.circular(5),
-            shape: BoxShape.rectangle,
-          ),
-          child: Text(content,
-              style: HRMTextStyles.h4Text.copyWith(fontWeight: FontWeight.w100),
-            textAlign: TextAlign.right,
-          ),
+        width: double.infinity,
+        margin: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+        padding: const EdgeInsets.all(5),
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFF194B5A), width: 1),
+          borderRadius: BorderRadius.circular(5),
+          shape: BoxShape.rectangle,
+        ),
+        child: Text(
+          content,
+          style: HRMTextStyles.h4Text.copyWith(fontWeight: FontWeight.w100),
+          textAlign: TextAlign.right,
+        ),
       ),
       Positioned(
         left: 50,
         top: 12,
         child: Container(
-          padding: EdgeInsets.only( left: 10, right: 10),
+          padding: const EdgeInsets.only(left: 10, right: 10),
           color: Colors.grey.shade100,
           child: Text(
             field,
-            style: TextStyle(color: Colors.black, fontSize: 12, fontWeight: FontWeight.bold, fontFamily: "Kanit",),
+            style: const TextStyle(
+              color: Colors.black,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              fontFamily: "Kanit",
+            ),
           ),
         ),
       ),

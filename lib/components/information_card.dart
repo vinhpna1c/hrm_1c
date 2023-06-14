@@ -41,19 +41,19 @@ class InformationCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(8.0),
               child: Container(
                 height: 100,
-                width: 100,
+                width: 90,
                 child: imageURL == null
                     ? Image.asset(
                         "assets/images/person_holder.png",
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                       )
                     : Image.network(
                         imageURL,
-                        fit: BoxFit.contain,
+                        fit: BoxFit.cover,
                         errorBuilder: ((context, error, stackTrace) =>
                             Image.asset(
                               "assets/images/person_holder.png",
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             )),
                       ),
               ),

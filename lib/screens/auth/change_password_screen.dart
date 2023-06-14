@@ -17,20 +17,40 @@ class ChangePasswordScreen extends StatelessWidget {
 
     return SingleBodyScreen(
       body: Container(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(24.0),
         color: HRMColorStyles.blueShade800Color,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              PasswordTitle(title: "Old password"),
-              PasswordTextField(
-                  hintText: "Input old password",
-                  controller: authController.oldPassController),
-              PasswordTitle(title: "New password"),
-              PasswordTextField(
-                  hintText: "Input new password",
-                  controller: authController.newPassController),
+            Column(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+              Padding(
+
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PasswordTitle(title: "Old password"),
+                    PasswordTextField(
+                        hintText: "Input old password",
+                        controller: authController.oldPassController),
+                  ],
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(bottom: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    PasswordTitle(title: "New password"),
+                    PasswordTextField(
+                        hintText: "Input new password",
+                        controller: authController.newPassController),
+                  ],
+                ),
+              ),
+
               PasswordTitle(title: "Confirm password"),
               PasswordTextField(
                   hintText: "Input confirm password",
