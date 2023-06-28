@@ -341,25 +341,27 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           )
                         : const SizedBox(),
-                    // isManager
-                    //     ? ExpandablePanel(
-                    //         controller:
-                    //             ExpandableController(initialExpanded: true),
-                    //         header: RowDivider("Leave requests"),
-                    //         theme: const ExpandableThemeData(
-                    //           tapBodyToCollapse: false,
-                    //           expandIcon: Icons.chevron_right,
-                    //         ),
-                    //         collapsed: const SizedBox(),
-                    //         expanded: SingleChildScrollView(
-                    //           scrollDirection: Axis.horizontal,
-                    //           child: Row(
-                    //             mainAxisAlignment: MainAxisAlignment.start,
-                    //             children: [ ],
-                    //           ),
-                    //         ),
-                    //       )
-                    //     : const SizedBox(),
+                    isManager
+                        ? ExpandablePanel(
+                            controller:
+                                ExpandableController(initialExpanded: true),
+                            header: RowDivider("Leave requests"),
+                            theme: const ExpandableThemeData(
+                              tapBodyToCollapse: false,
+                              expandIcon: Icons.chevron_right,
+                            ),
+                            collapsed: const SizedBox(),
+                            expanded: SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+
+                                ],
+                              ),
+                            ),
+                          )
+                        : const SizedBox(),
                   ]),
                 ),
               ],

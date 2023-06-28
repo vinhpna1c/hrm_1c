@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_webview_pro/webview_flutter.dart';
+// import 'package:flutter_webvie/webview_flutter.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../controller/configuration_controller.dart';
 
@@ -166,7 +167,7 @@ class SettingScreen extends StatelessWidget {
                       javascriptMode: JavascriptMode.unrestricted,
                       onWebViewCreated: (controller) =>
                           webViewController = controller,
-                      geolocationEnabled: true,
+                      // geolocationEnabled: true,
                       onPageFinished: (url) {
                         String decodeURI = Uri.decodeFull(url).toString();
                         //check if find locarion
