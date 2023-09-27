@@ -7,6 +7,7 @@ import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/configuration_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/leave_day_controller.dart';
+import 'package:hrm_1c/controller/staff_data_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/auth/login_screen.dart';
 import 'package:hrm_1c/services/api/api_handler.dart';
@@ -36,6 +37,7 @@ void initController() {
   Get.put(TransferShiftController());
   Get.put(AdminDataController());
   Get.put(ConfigurationController());
+  Get.put(StaffDataController());
 }
 
 class MyApp extends StatelessWidget {
@@ -45,7 +47,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
+      title: '1C:HRM',
       theme: ThemeData(
         primarySwatch: Colors.blue,
         fontFamily: "Open Sans",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hrm_1c/components/headers/hrm_appbar.dart';
 import 'package:hrm_1c/components/headers/hrm_drawer.dart';
+import 'package:hrm_1c/controller/auth_controller.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/controller/user_controller.dart';
 import 'package:hrm_1c/screens/home/home_screen.dart';
@@ -29,11 +30,15 @@ class RootScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userController = Get.find<UserController>();
+    final authCtrl = Get.find<AuthController>();
 
     bool isManager = userController.accountType == AccountType.ADMINISTRATOR;
     if (!isManager) {
       Get.find<GeoController>().initLocationService();
+      initStaffData();
       screenWidgets = [HomeScreen()];
+    } else {
+      initAdminData();
     }
     //final adminController = Get.find<AdminDataController>();
 
@@ -50,10 +55,8 @@ class RootScreen extends StatelessWidget {
         ),
         // screenWidgets[_currentIndex.value],
 
-        bottomNavigationBar: isManager
-            ?
-        NavigationBarWidget()
-            : const SizedBox(),
+        bottomNavigationBar:
+            isManager ? NavigationBarWidget() : const SizedBox(),
       ),
     );
   }
@@ -64,8 +67,7 @@ Widget NavigationBarWidget() {
     color: Colors.white.withOpacity(0.0),
     //padding: const EdgeInsets.all(4.0),
     child: Container(
-      decoration:
-      BoxDecoration(
+      decoration: BoxDecoration(
         color: HRMColorStyles.unselectedBlueColor,
         // borderRadius: BorderRadius.circular(8),
       ),

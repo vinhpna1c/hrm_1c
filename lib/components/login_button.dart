@@ -3,33 +3,36 @@ import 'package:hrm_1c/utils/styles.dart';
 
 class LoginButton extends StatelessWidget {
   final String text;
-  final Function()? onTapFunction;
+  final Function? onTapFunction;
   final bool enabled;
+  final double width;
 
   const LoginButton({
     this.text = "",
     this.onTapFunction,
     this.enabled = true,
+    this.width = double.infinity,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap:(){
-        if(enabled==false){
+      onTap: () {
+        if (enabled == false) {
           return;
         }
-        if(onTapFunction!=null){
+        if (onTapFunction != null) {
           onTapFunction!.call();
         }
       },
       child: Container(
-        width: double.infinity,
+        width: width,
         height: 64,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-            color: enabled? HRMColorStyles.lightBlueColor:Colors.grey.shade500,
+            color:
+                enabled ? HRMColorStyles.lightBlueColor : Colors.grey.shade500,
             borderRadius: BorderRadius.circular(8.0),
             boxShadow: [
               BoxShadow(

@@ -60,6 +60,7 @@ class UserController extends GetxController {
     String toName = DEFAULT_TO_NAME,
     String to_email = DEFAULT_TO_MAIL,
   }) async {
+    final userCtrl = Get.find<UserController>();
     final api = ApiHandler.getHandler();
     final respond = await api.post(
       EMAILJS_URL,
@@ -72,6 +73,7 @@ class UserController extends GetxController {
           "to_name": toName,
           "mail_content": mailContent,
           "to_email": to_email,
+          "cc_email": userCtrl.userInformation?.email,
         },
       },
       options: Options(

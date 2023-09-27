@@ -19,12 +19,18 @@ class SingleBodyScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     print(title);
-    return Scaffold(
-      resizeToAvoidBottomInset: true,
-      drawer: showAppBar ? HRMDrawer() : null,
-      appBar: showAppBar ? HRMAppBar(title: title) : null,
-      body: body,
-      bottomNavigationBar: bottomNavigationBar,
+    return WillPopScope(
+      onWillPop: () async {
+        // prevent back button
+        return false;
+      },
+      child: Scaffold(
+        resizeToAvoidBottomInset: true,
+        drawer: showAppBar ? const HRMDrawer() : null,
+        appBar: showAppBar ? HRMAppBar(title: title) : null,
+        body: body,
+        bottomNavigationBar: bottomNavigationBar,
+      ),
     );
   }
 }

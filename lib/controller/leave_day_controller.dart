@@ -1,4 +1,4 @@
-import 'dart:convert';
+// ignore_for_file: camel_case_types, constant_identifier_names
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,8 +9,14 @@ import 'package:intl/intl.dart';
 import '../models/leave_request.dart';
 import '../utils/utils.dart';
 
+enum CheckInDateType {
+  WORK_DATE,
+  OFF_DATE,
+  ABSENT_DATE,
+  LEAVE_DATE,
+}
+
 class LeaveDayController extends GetxController {
-  // ignore: constant_identifier_names
   static const LEAVE_TYPES = [
     "Annual Leave",
     "Unpaid Leave",
@@ -51,28 +57,32 @@ class LeaveDayController extends GetxController {
   Future<void> getPersonalLeaveDay() async {
     final userController = Get.find<UserController>();
     DateFormat df = DateFormat("yyyyMMdd");
-      var respond = await ApiHandler.getRequest(userController.username, userController.password,"/V1/PersonalLeave", params: {
-        "Token": userController.identifyString,
-        "FromDate": df.format(DateTime(2023,1,1)),
-        "ToDate": df.format(DateTime(2023,12,31)),
-      });
-      if (respond.statusCode == 200) {
-        leaveDays.clear();
-        leaveRequests.clear();
-        var data = respond.data["PersonalLeave"] ?? [];
-        for (var req in data) {
-          if (req['Status'] == "Approve") {
-            DateTime startdate = parseDateTimeFromStr(req['FromDate']!.toString(),format: 'dd.MM.yyyy hh:mm:ss')!;
-            DateTime enddate = parseDateTimeFromStr(req['ToDate']!.toString(),format: 'dd.MM.yyyy hh:mm:ss')!;
-            while (startdate.isBefore(enddate.add(Duration(days: 1)))) {
-              leaveDays.add(startdate);
-              startdate  = startdate.add(Duration(days: 1));
-            }
+    var respond = await ApiHandler.getRequest(
+        userController.username, userController.password, "/V1/PersonalLeave",
+        params: {
+          "Token": userController.identifyString,
+          "FromDate": df.format(DateTime(2023, 1, 1)),
+          "ToDate": df.format(DateTime(2023, 12, 31)),
+        });
+    if (respond.statusCode == 200) {
+      leaveDays.clear();
+      leaveRequests.clear();
+      var data = respond.data["PersonalLeave"] ?? [];
+      for (var req in data) {
+        if (req['Status'] == "Approve") {
+          DateTime startdate = parseDateTimeFromStr(req['FromDate']!.toString(),
+              format: 'dd.MM.yyyy hh:mm:ss')!;
+          DateTime enddate = parseDateTimeFromStr(req['ToDate']!.toString(),
+              format: 'dd.MM.yyyy hh:mm:ss')!;
+          while (startdate.isBefore(enddate.add(Duration(days: 1)))) {
+            leaveDays.add(startdate);
+            startdate = startdate.add(Duration(days: 1));
           }
-          leaveRequests.add(LeaveRequest.fromJson(req));
         }
+        leaveRequests.add(LeaveRequest.fromJson(req));
       }
-      print(leaveDays.length);
+    }
+    print(leaveDays.length);
   }
 
   Future<bool> requestLeaveDay() async {
@@ -88,7 +98,9 @@ class LeaveDayController extends GetxController {
       "Reason": reasonController.text,
     };
 
-    var respond = await ApiHandler.postRequest(userController.username, userController.password, requestLeavePath, body: data);
+    var respond = await ApiHandler.postRequest(
+        userController.username, userController.password, requestLeavePath,
+        body: data);
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
       if (data.toLowerCase().contains("success")) {
@@ -100,7 +112,8 @@ class LeaveDayController extends GetxController {
 
   Future<bool> approveLeaveDay(String requestNumber) async {
     final userController = Get.find<UserController>();
-    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/ApproveLeaveDay",
+    var respond = await ApiHandler.postRequest(
+        userController.username, userController.password, "/V1/ApproveLeaveDay",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
@@ -113,7 +126,8 @@ class LeaveDayController extends GetxController {
 
   Future<bool> rejectLeaveDay(String requestNumber) async {
     final userController = Get.find<UserController>();
-    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/RejectLeaveDay",
+    var respond = await ApiHandler.postRequest(
+        userController.username, userController.password, "/V1/RejectLeaveDay",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
@@ -126,7 +140,8 @@ class LeaveDayController extends GetxController {
 
   Future<bool> approveTransferShift(String requestNumber) async {
     final userController = Get.find<UserController>();
-    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/ApproveTransferShift",
+    var respond = await ApiHandler.postRequest(userController.username,
+        userController.password, "/V1/ApproveTransferShift",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();
@@ -139,7 +154,8 @@ class LeaveDayController extends GetxController {
 
   Future<bool> rejectTransferShift(String requestNumber) async {
     final userController = Get.find<UserController>();
-    var respond = await ApiHandler.postRequest(userController.username, userController.password, "/V1/RejectTransferShift",
+    var respond = await ApiHandler.postRequest(userController.username,
+        userController.password, "/V1/RejectTransferShift",
         body: {"Number": requestNumber});
     if (respond.statusCode == 200) {
       var data = respond.data.toString();

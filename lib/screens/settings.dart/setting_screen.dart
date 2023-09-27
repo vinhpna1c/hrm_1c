@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:hrm_1c/controller/geo_controller.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
-import 'package:mongo_dart/mongo_dart.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../../controller/configuration_controller.dart';
@@ -86,36 +85,37 @@ class SettingScreen extends StatelessWidget {
               Container(
                 padding: EdgeInsets.only(left: 16.0),
                 child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            "Latitude:",
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          "Latitude:",
+                          style: HRMTextStyles.lightText,
+                        ),
+                        Obx(
+                          () => Text(
+                            geoController.latitude.value.toString(),
                             style: HRMTextStyles.lightText,
                           ),
-                          Obx(()=>Text(
-                              geoController.latitude.value.toString(),
-                              style: HRMTextStyles.lightText,
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            "Longtitude:",
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "Longtitude:",
+                          style: HRMTextStyles.lightText,
+                        ),
+                        Obx(
+                          () => Text(
+                            geoController.longitude.value.toString(),
                             style: HRMTextStyles.lightText,
                           ),
-                          Obx(
-                            ()=> Text(
-                              geoController.longitude.value.toString(),
-                              style: HRMTextStyles.lightText,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

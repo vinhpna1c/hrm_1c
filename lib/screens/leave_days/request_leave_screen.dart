@@ -226,10 +226,12 @@ class RequestLeaveScreen extends StatelessWidget {
                             }
                             if (leaveDayCtrl.leaveType.value ==
                                 "Annual Leave") {
-                              int requestDateDiff = leaveDayCtrl.endDate.value!
-                                  .difference(leaveDayCtrl.startDate.value!)
-                                  .inDays;
-                              if (requestDateDiff <= 0) {
+                              int requestDateDiff = leaveDayCtrl
+                                      .endDate.value!.millisecondsSinceEpoch -
+                                  leaveDayCtrl
+                                      .startDate.value!.millisecondsSinceEpoch;
+                              print("Time diff: " + requestDateDiff.toString());
+                              if (requestDateDiff < 0) {
                                 Get.snackbar("1C:HRM",
                                     "Your request date is not valid! Please check again!");
                                 return;
@@ -263,9 +265,6 @@ class RequestLeaveScreen extends StatelessWidget {
                               Get.snackbar(
                                   "1C:HRM", "Error while sending request!");
                             }
-
-                            // Get.to(HomeScreen());
-                            leaveDayCtrl.leaveType.value = "Unpaid Leave";
                             // update user information when send request
                             userCtrl.getUserInformation();
                           },

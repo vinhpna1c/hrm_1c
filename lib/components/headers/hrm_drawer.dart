@@ -10,6 +10,7 @@ import 'package:hrm_1c/screens/leave_days/request_leave_screen.dart';
 import 'package:hrm_1c/screens/leave_days/request_status.dart';
 import 'package:hrm_1c/screens/leave_days/request_transfer_shift_screen.dart';
 import 'package:hrm_1c/screens/root_screen.dart';
+import 'package:hrm_1c/screens/settings.dart/biometric_setting_screen.dart';
 import 'package:hrm_1c/screens/settings.dart/setting_screen.dart';
 import 'package:hrm_1c/screens/single_body_screen.dart';
 import 'package:hrm_1c/utils/styles.dart';
@@ -47,11 +48,9 @@ class HRMDrawer extends StatelessWidget {
                   child: EmployeeAvatar(
                     backgroundRadius: 54,
                     paddingSpace: 8.0,
-
                     imageURL: _userController.userInformation != null
                         ? _userController.userInformation!.URL!
                         : "",
-
                   ),
                 ),
                 Text(
@@ -79,7 +78,7 @@ class HRMDrawer extends StatelessWidget {
                     label: "Home",
                     onTap: () {
                       Get.back();
-                      Get.to(RootScreen());
+                      Get.to(() => RootScreen());
                     }),
                 _userController.accountType == AccountType.STAFF
                     ? NavigationTile(
@@ -138,6 +137,12 @@ class HRMDrawer extends StatelessWidget {
                       Get.back();
                       var key = UniqueKey();
                       Get.to(const ChangePasswordScreen());
+                    }),
+                NavigationTile(
+                    label: "Biometric Setting",
+                    onTap: () {
+                      Get.back();
+                      Get.to(BiometricSettingScreen());
                     }),
               ],
             ),
